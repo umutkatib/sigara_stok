@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".winston_stocks.WinstonStocksActivity">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="138dp"
+        android:layout_marginTop="29dp"
+        android:text="WINSTON"
+        android:textColor="#2196F3"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout8"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+        <TextView
+            android:id="@+id/tv_winston_slender_uzun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="0"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/slender_uzun_azalt_btn" />
+
+        <Button
+            android:id="@+id/slender_uzun_azalt_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:text="-"
+            app:layout_constraintEnd_toStartOf="@+id/tv_winston_slender_uzun"
+            app:layout_constraintTop_toBottomOf="@+id/slender_kisa_azalt_btn" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:text="SLENDER BLUE KISA"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:text="SLENDER BLUE UZUN"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <Button
+            android:id="@+id/slender_kisa_azalt_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:text="-"
+            app:layout_constraintEnd_toStartOf="@+id/tv_winston_slender_kisa"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/slender_kisa_arttir_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
+            android:width="10sp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:padding="0dp"
+            android:paddingHorizontal="0dp"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:text="+"
+            app:barrierAllowsGoneWidgets="false"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_winston_slender_kisa"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/slender_uzun_arttir_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="30dp"
+            android:width="10sp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:padding="0dp"
+            android:paddingHorizontal="0dp"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:text="+"
+            app:barrierAllowsGoneWidgets="false"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_winston_slender_uzun"
+            app:layout_constraintTop_toBottomOf="@+id/slender_kisa_arttir_btn" />
+
+        <TextView
+            android:id="@+id/tv_winston_slender_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/slender_kisa_azalt_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout9"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8">
+
+        <TextView
+            android:id="@+id/tv_winston_blue_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/blue_kisa_azalt_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_winston_blue_uzun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="0"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/blue_uzun_azalt_btn" />
+
+        <Button
+            android:id="@+id/blue_kisa_arttir_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
+            android:width="10sp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:padding="0dp"
+            android:paddingHorizontal="0dp"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:text="+"
+            app:barrierAllowsGoneWidgets="false"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_winston_blue_kisa"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/blue_uzun_arttır_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="30dp"
+            android:width="10sp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:padding="0dp"
+            android:paddingHorizontal="0dp"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:text="+"
+            app:barrierAllowsGoneWidgets="false"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_winston_blue_uzun"
+            app:layout_constraintTop_toBottomOf="@+id/blue_kisa_arttir_btn" />
+
+        <Button
+            android:id="@+id/blue_kisa_azalt_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:text="-"
+            app:layout_constraintEnd_toStartOf="@+id/tv_winston_blue_kisa"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/blue_uzun_azalt_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:text="-"
+            app:layout_constraintEnd_toStartOf="@+id/tv_winston_blue_uzun"
+            app:layout_constraintTop_toBottomOf="@+id/blue_kisa_azalt_btn" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:text="BLUE KISA"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:text="BLUE UZUN"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout11"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout10">
+
+        <TextView
+            android:id="@+id/tv_winston_slim_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/slim_blue_azalt_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/slim_blue_azalt_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:text="-"
+            app:layout_constraintEnd_toStartOf="@+id/tv_winston_slim_blue"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/slim_blue_arttir_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
+            android:width="10sp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:padding="0dp"
+            android:paddingHorizontal="0dp"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:text="+"
+            app:barrierAllowsGoneWidgets="false"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_winston_slim_blue"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:text="SLIM BLUE"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout12"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
+
+        <TextView
+            android:id="@+id/tv_winston_slim_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="15dp"
+            android:text="0"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/slim_grey_azalt_btn" />
+
+        <Button
+            android:id="@+id/slim_grey_arttir_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
+            android:width="10sp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:padding="0dp"
+            android:paddingHorizontal="0dp"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:text="+"
+            app:barrierAllowsGoneWidgets="false"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_winston_slim_grey"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/slim_grey_azalt_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:text="-"
+            app:layout_constraintEnd_toStartOf="@+id/tv_winston_slim_grey"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:text="SLIM GREY"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout10"
+        android:layout_width="409dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout9">
+
+        <TextView
+            android:id="@+id/tv_winston_red_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/red_kisa_azalt_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_winston_red_uzun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="15dp"
+            android:text="0"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/red_uzun_azalt_btn" />
+
+        <Button
+            android:id="@+id/red_uzun_arttir_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
+            android:width="10sp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:padding="0dp"
+            android:paddingHorizontal="0dp"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:text="+"
+            app:barrierAllowsGoneWidgets="false"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_winston_red_uzun"
+            app:layout_constraintTop_toBottomOf="@+id/red_kisa_arttir_btn" />
+
+        <Button
+            android:id="@+id/red_kisa_arttir_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
+            android:width="10sp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:padding="0dp"
+            android:paddingHorizontal="0dp"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:text="+"
+            app:barrierAllowsGoneWidgets="false"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_winston_red_kisa"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/red_kisa_azalt_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:text="-"
+            app:layout_constraintEnd_toStartOf="@+id/tv_winston_red_kisa"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/red_uzun_azalt_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#2196F3"
+            android:minWidth="70dip"
+            android:text="-"
+            app:layout_constraintEnd_toStartOf="@+id/tv_winston_red_uzun"
+            app:layout_constraintTop_toBottomOf="@+id/red_kisa_azalt_btn" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:text="RED KISA"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:text="RED UZUN"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="409dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout12">
+
+        <Button
+            android:id="@+id/reset_all_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="135dp"
+            android:layout_marginTop="35dp"
+            android:backgroundTint="#FF0000"
+            android:text="STOK SIFIRLA"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

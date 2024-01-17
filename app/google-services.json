@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "831245137166",
+    "firebase_url": "https://my-business-9d380-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "my-business-9d380",
+    "storage_bucket": "my-business-9d380.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831245137166:android:52c8667ad4f7a47133135f",
+        "android_client_info": {
+          "package_name": "com.example.sigara_stok"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAnd4EwWGDmKSGyMawJsKF9XyAR_3gmA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
