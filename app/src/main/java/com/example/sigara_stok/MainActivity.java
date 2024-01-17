@@ -21,10 +21,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button marlboro, tekel, winston, cikisYap;
+    Button marlboro, tekel, winston, hd, west, cikisYap;
     TextView userName;
 
     FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         winston = findViewById(R.id.btn_winston);
         cikisYap = findViewById(R.id.btn_cikis_yap);
         userName = findViewById(R.id.userName);
+        hd = findViewById(R.id.btn_hd);
+        west = findViewById(R.id.btn_west);
 
         marlboro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +59,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         winston.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, WinstonActivity.class);
+                startActivity(i);
+            }
+        });
+
+        hd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, WinstonActivity.class);
+                startActivity(i);
+            }
+        });
+
+        west.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, WinstonActivity.class);
