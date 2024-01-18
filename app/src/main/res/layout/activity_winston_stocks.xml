@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
         <TextView
-            android:id="@+id/tv_winston_slender_uzun"
+            android:id="@+id/tv_tekel_2001_mavi_uzun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -38,10 +38,10 @@
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/slender_uzun_azalt_btn" />
+            app:layout_constraintStart_toEndOf="@+id/tekel_2000_kirmizi_kisa_azalt_btn" />
 
         <Button
-            android:id="@+id/slender_uzun_azalt_btn"
+            android:id="@+id/tekel_2000_kirmizi_kisa_azalt_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
@@ -49,7 +49,8 @@
             android:backgroundTint="#2196F3"
             android:minWidth="70dip"
             android:text="-"
-            app:layout_constraintEnd_toStartOf="@+id/tv_winston_slender_uzun"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_tekel_2001_mavi_uzun"
             app:layout_constraintTop_toBottomOf="@+id/slender_kisa_azalt_btn" />
 
         <TextView
@@ -59,6 +60,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:text="SLENDER BLUE KISA"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,6 +72,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
             android:text="SLENDER BLUE UZUN"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -82,11 +85,12 @@
             android:backgroundTint="#2196F3"
             android:minWidth="70dip"
             android:text="-"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_winston_slender_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/slender_kisa_arttir_btn"
+            android:id="@+id/tekel_2000_kirmizi_uzun_arttir_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -94,15 +98,8 @@
             android:width="10sp"
             android:backgroundTint="#2196F3"
             android:minWidth="70dip"
-            android:padding="0dp"
-            android:paddingHorizontal="0dp"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
-            android:paddingTop="0dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
-            android:paddingBottom="0dp"
             android:text="+"
+            android:textSize="20sp"
             app:barrierAllowsGoneWidgets="false"
             app:layout_constrainedWidth="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -128,11 +125,12 @@
             android:paddingRight="0dp"
             android:paddingBottom="0dp"
             android:text="+"
+            android:textSize="20sp"
             app:barrierAllowsGoneWidgets="false"
             app:layout_constrainedWidth="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_winston_slender_uzun"
-            app:layout_constraintTop_toBottomOf="@+id/slender_kisa_arttir_btn" />
+            app:layout_constraintStart_toEndOf="@+id/tv_tekel_2001_mavi_uzun"
+            app:layout_constraintTop_toBottomOf="@+id/tekel_2000_kirmizi_uzun_arttir_btn" />
 
         <TextView
             android:id="@+id/tv_winston_slender_kisa"
@@ -198,6 +196,7 @@
             android:paddingRight="0dp"
             android:paddingBottom="0dp"
             android:text="+"
+            android:textSize="20sp"
             app:barrierAllowsGoneWidgets="false"
             app:layout_constrainedWidth="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -209,7 +208,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="30dp"
             android:width="10sp"
             android:backgroundTint="#2196F3"
@@ -223,6 +222,7 @@
             android:paddingRight="0dp"
             android:paddingBottom="0dp"
             android:text="+"
+            android:textSize="20sp"
             app:barrierAllowsGoneWidgets="false"
             app:layout_constrainedWidth="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -237,6 +237,7 @@
             android:backgroundTint="#2196F3"
             android:minWidth="70dip"
             android:text="-"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_winston_blue_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -244,11 +245,12 @@
             android:id="@+id/blue_uzun_azalt_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="#2196F3"
             android:minWidth="70dip"
             android:text="-"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_winston_blue_uzun"
             app:layout_constraintTop_toBottomOf="@+id/blue_kisa_azalt_btn" />
 
@@ -259,6 +261,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:text="BLUE KISA"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -270,6 +273,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
             android:text="BLUE UZUN"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13" />
@@ -304,6 +308,7 @@
             android:backgroundTint="#2196F3"
             android:minWidth="70dip"
             android:text="-"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_winston_slim_blue"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -325,6 +330,7 @@
             android:paddingRight="0dp"
             android:paddingBottom="0dp"
             android:text="+"
+            android:textSize="20sp"
             app:barrierAllowsGoneWidgets="false"
             app:layout_constrainedWidth="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -338,6 +344,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:text="SLIM BLUE"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -382,6 +389,7 @@
             android:paddingRight="0dp"
             android:paddingBottom="0dp"
             android:text="+"
+            android:textSize="20sp"
             app:barrierAllowsGoneWidgets="false"
             app:layout_constrainedWidth="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -396,6 +404,7 @@
             android:backgroundTint="#2196F3"
             android:minWidth="70dip"
             android:text="-"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_winston_slim_grey"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -408,7 +417,8 @@
             android:text="SLIM GREY"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="15sp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -437,7 +447,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:text="0"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -449,6 +459,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="30dp"
             android:width="10sp"
             android:backgroundTint="#2196F3"
@@ -462,6 +473,7 @@
             android:paddingRight="0dp"
             android:paddingBottom="0dp"
             android:text="+"
+            android:textSize="20sp"
             app:barrierAllowsGoneWidgets="false"
             app:layout_constrainedWidth="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -486,6 +498,7 @@
             android:paddingRight="0dp"
             android:paddingBottom="0dp"
             android:text="+"
+            android:textSize="20sp"
             app:barrierAllowsGoneWidgets="false"
             app:layout_constrainedWidth="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -500,6 +513,7 @@
             android:backgroundTint="#2196F3"
             android:minWidth="70dip"
             android:text="-"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_winston_red_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -507,10 +521,12 @@
             android:id="@+id/red_uzun_azalt_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="#2196F3"
             android:minWidth="70dip"
             android:text="-"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_winston_red_uzun"
             app:layout_constraintTop_toBottomOf="@+id/red_kisa_azalt_btn" />
 
@@ -521,6 +537,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:text="RED KISA"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -532,6 +549,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
             android:text="RED UZUN"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView17" />

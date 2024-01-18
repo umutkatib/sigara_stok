@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,14 +17,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,8 +54,8 @@ public class WinstonStocksActivity extends AppCompatActivity {
         Button resetAllButton = findViewById(R.id.reset_all_btn);
 
         Button slender_kisa_azalt_btn = findViewById(R.id.slender_kisa_azalt_btn);
-        Button slender_kisa_arttir_btn = findViewById(R.id.slender_kisa_arttir_btn);
-        Button slender_uzun_azalt_btn = findViewById(R.id.slender_uzun_azalt_btn);
+        Button slender_kisa_arttir_btn = findViewById(R.id.tekel_2000_kirmizi_uzun_arttir_btn);
+        Button slender_uzun_azalt_btn = findViewById(R.id.tekel_2000_kirmizi_kisa_azalt_btn);
         Button slender_uzun_arttir_btn = findViewById(R.id.slender_uzun_arttir_btn);
 
         Button blue_kisa_azalt_btn = findViewById(R.id.blue_kisa_azalt_btn);
@@ -78,7 +74,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
         Button slim_grey_arttir_btn = findViewById(R.id.slim_grey_arttir_btn);
 
         tv_winston_slender_kisa = findViewById(R.id.tv_winston_slender_kisa);
-        tv_winston_slender_uzun = findViewById(R.id.tv_winston_slender_uzun);
+        tv_winston_slender_uzun = findViewById(R.id.tv_tekel_2001_mavi_uzun);
 
         tv_winston_blue_kisa = findViewById(R.id.tv_winston_blue_kisa);
         tv_winston_blue_uzun = findViewById(R.id.tv_winston_blue_uzun);
@@ -93,10 +89,6 @@ public class WinstonStocksActivity extends AppCompatActivity {
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
-
-
-
-
 
 
         resetAllButton.setOnClickListener(new View.OnClickListener() {
@@ -325,7 +317,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             // Koleksiyon adını belirleyin
-            String userCollectionName = "user_" + uid;
+            String userCollectionName = "market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
 
             // Yeni belge eklemek için haritaları oluşturun

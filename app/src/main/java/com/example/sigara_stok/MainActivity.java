@@ -12,9 +12,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sigara_stok.R;
+import com.example.sigara_stok.activities.HdActivity;
 import com.example.sigara_stok.activities.LoginActivity;
 import com.example.sigara_stok.activities.MarlboroActivity;
 import com.example.sigara_stok.activities.TekelActivity;
+import com.example.sigara_stok.activities.WestActivity;
 import com.example.sigara_stok.activities.WinstonActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
         tekel = findViewById(R.id.btn_tekel);
         winston = findViewById(R.id.btn_winston);
         cikisYap = findViewById(R.id.btn_cikis_yap);
-        userName = findViewById(R.id.userName);
         hd = findViewById(R.id.btn_hd);
         west = findViewById(R.id.btn_west);
+        userName = findViewById(R.id.userName);
 
         marlboro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         hd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, WinstonActivity.class);
+                Intent i = new Intent(MainActivity.this, HdActivity.class);
                 startActivity(i);
             }
         });
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         west.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, WinstonActivity.class);
+                Intent i = new Intent(MainActivity.this, WestActivity.class);
                 startActivity(i);
             }
         });

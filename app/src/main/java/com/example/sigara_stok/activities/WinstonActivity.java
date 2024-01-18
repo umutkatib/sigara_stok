@@ -7,16 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.sigara_stok.MainActivity;
 import com.example.sigara_stok.R;
-import com.example.sigara_stok.tekel_stocks.RothmansStocksActivity;
+import com.example.sigara_stok.winston_stocks.CamelStocksActivity;
 import com.example.sigara_stok.winston_stocks.LDStocksActivity;
 import com.example.sigara_stok.winston_stocks.MonteCarloStocksActivity;
 import com.example.sigara_stok.winston_stocks.WinstonStocksActivity;
 
 public class WinstonActivity extends AppCompatActivity {
 
-    Button winston_intent_btn, rothmans_intent, montecarlo_intent_btn, ld_intent_btn;
+    Button winston_intent_btn, camel_intent_btn, montecarlo_intent_btn, ld_intent_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,7 @@ public class WinstonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_winston);
 
         winston_intent_btn = findViewById(R.id.winston_intent_btn);
-        rothmans_intent = findViewById(R.id.rothmans_intent);
+        camel_intent_btn = findViewById(R.id.camel_intent_btn);
         montecarlo_intent_btn = findViewById(R.id.montecarlo_intent_btn);
         ld_intent_btn = findViewById(R.id.ld_intent_btn);
 
@@ -36,10 +35,10 @@ public class WinstonActivity extends AppCompatActivity {
             }
         });
 
-        rothmans_intent.setOnClickListener(new View.OnClickListener() {
+        camel_intent_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(WinstonActivity.this, RothmansStocksActivity.class);
+                Intent i = new Intent(WinstonActivity.this, CamelStocksActivity.class);
                 startActivity(i);
             }
         });

@@ -13,10 +13,10 @@
         android:theme="@style/Theme.Sigara_stok"
         tools:targetApi="31">
         <activity
-            android:name=".activities.WestActivity"
+            android:name=".activities.HdActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.HdActivity"
+            android:name=".activities.WestActivity"
             android:exported="false" />
         <activity
             android:name=".ui.NavDrawerActivity"
