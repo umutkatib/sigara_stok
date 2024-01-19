@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             String userEmail = currentUser.getEmail();
             String[] parts = userEmail.split("@");
             String userName2 = parts[0];
+            userName2.toUpperCase();
             userName.setText(userName2);
         }
     }

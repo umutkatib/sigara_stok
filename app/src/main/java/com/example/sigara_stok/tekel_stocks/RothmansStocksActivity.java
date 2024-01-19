@@ -30,14 +30,18 @@ public class RothmansStocksActivity extends AppCompatActivity {
 
     private int countRothmansBlueKisa = 0, countRothmansBlueUzun = 0;
     private int countRothmansDrangeBlackKisa = 0, countRothmansDrangeBlackUzun = 0;
+    private int countRothmansDrangeBlueKisa = 0, countRothmansDrangeBlueUzun = 0;
     private TextView tv_rothmans_kisa, tv_rothmans_uzun;
     private TextView tv_drange_black_kisa, tv_drange_black_uzun;
+    TextView tv_rothmans_drange_blue_kisa, tv_rothmans_drange_blue_arttir;
+
 
     private FirebaseFirestore db;
+    FirebaseAuth auth;
 
-    String documentNameRothamnsBlueKisa = "rothmans_kisa_blue", documentNameRothamnsBlueUzun = "rothmans_uzun_blue";
-    String documentNameRothmansDrangeBlackKisa = "rothmans_drange_kisa_black", documentNameRothmansDrangeBlackUzun = "rothmans_drange_uzun_black";
-
+    String documentNameRothamnsBlueKisa = "BAT_Rothmans_Kisa_Blue", documentNameRothamnsBlueUzun = "BAT_Rothmans_Uzun_Blue";
+    String documentNameRothmansDrangeBlackKisa = "BAT_Rothmans_Drange_Kisa_Black", documentNameRothmansDrangeBlackUzun = "BAT_Rothmans_Drange_Uzun_Black";
+    String documentNameRothmansDrangeBlueKisa = "BAT_Rothmans_Drange_Kisa_Blue", documentNameRothmansDrangeBlueUzun = "BAT_Rothmans_Drange_Uzun_Blue";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,11 @@ public class RothmansStocksActivity extends AppCompatActivity {
         Button drange_black_uzun_azalt_btn = findViewById(R.id.drange_black_uzun_azalt_btn);
         Button drange_black_uzun_arttir_btn = findViewById(R.id.drange_black_uzun_arttir_btn);
 
+        Button rothmans_drange_blue_kisa_azalt_btn = findViewById(R.id.rothmans_drange_blue_kisa_azalt_btn);
+        Button rothmans_drange_black_kisa_arttir_btn = findViewById(R.id.rothmans_drange_black_kisa_arttir_btn);
+        Button rothmans_drange_blue_uzun_azalt_btn = findViewById(R.id.rothmans_drange_blue_uzun_azalt_btn);
+        Button rothmans_drange_blue_uzun_arttir_btn = findViewById(R.id.rothmans_drange_blue_uzun_arttir_btn);
+
 
         tv_rothmans_kisa = findViewById(R.id.tv_rothmans_kisa);
         tv_rothmans_uzun = findViewById(R.id.tv_rothmans_uzun);
@@ -63,6 +72,10 @@ public class RothmansStocksActivity extends AppCompatActivity {
         tv_drange_black_kisa = findViewById(R.id.tv_drange_black_kisa);
         tv_drange_black_uzun = findViewById(R.id.tv_drange_black_uzun);
 
+        tv_rothmans_drange_blue_kisa = findViewById(R.id.tv_rothmans_drange_blue_kisa);
+        tv_rothmans_drange_blue_arttir = findViewById(R.id.tv_rothmans_drange_blue_arttir);
+
+        auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         // Sayfa açıldığında veriyi çekip göster
@@ -142,8 +155,42 @@ public class RothmansStocksActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+        ///////////////////////
+
+        rothmans_drange_blue_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementCount(documentNameRothmansDrangeBlueKisa);
+            }
+        });
+
+
+        rothmans_drange_black_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementCount(documentNameRothmansDrangeBlueKisa);
+            }
+        });
+
+        ///////////////////////
+
+        rothmans_drange_blue_uzun_azalt_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementCount(documentNameRothmansDrangeBlueUzun);
+            }
+        });
+
+
+        rothmans_drange_blue_uzun_arttir_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementCount(documentNameRothmansDrangeBlueUzun);
+            }
+        });
+
+    }
 
     private void resetAllCounts() {
         // Tüm yerel ve Firestore count değerlerini sıfırla
@@ -156,12 +203,17 @@ public class RothmansStocksActivity extends AppCompatActivity {
         countRothmansBlueUzun = 0;
         countRothmansDrangeBlackKisa = 0;
         countRothmansDrangeBlackUzun = 0;
+        countRothmansDrangeBlueKisa = 0;
+        countRothmansDrangeBlueUzun = 0;
+
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameRothamnsBlueKisa, countRothmansBlueKisa);
         updateTextView(documentNameRothamnsBlueUzun, countRothmansBlueUzun);
         updateTextView(documentNameRothmansDrangeBlackKisa, countRothmansDrangeBlackKisa);
         updateTextView(documentNameRothmansDrangeBlackUzun, countRothmansDrangeBlackUzun);
+        updateTextView(documentNameRothmansDrangeBlueKisa, countRothmansDrangeBlueKisa);
+        updateTextView(documentNameRothmansDrangeBlueUzun, countRothmansDrangeBlueUzun);
     }
 
     private void resetFirestoreCounts() {
@@ -170,6 +222,8 @@ public class RothmansStocksActivity extends AppCompatActivity {
         updateFirestore(documentNameRothamnsBlueUzun, 0);
         updateFirestore(documentNameRothmansDrangeBlackKisa, 0);
         updateFirestore(documentNameRothmansDrangeBlackUzun, 0);
+        updateFirestore(documentNameRothmansDrangeBlueKisa, 0);
+        updateFirestore(documentNameRothmansDrangeBlueUzun, 0);
     }
 
     private void showConfirmationDialog() {
@@ -206,76 +260,43 @@ public class RothmansStocksActivity extends AppCompatActivity {
         }
     }
 
+
     private void updateFirestore(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (user != null) {
             String uid = user.getUid();
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            FirebaseUser currentUser = auth.getCurrentUser();
+            String userEmail = currentUser.getEmail();
+            String[] parts = userEmail.split("@");
+            String userName = parts[0];
 
-            // Koleksiyon adını belirleyin
-            String userCollectionName = "market_" + uid;
+            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
 
-            // Yeni belge eklemek için haritaları oluşturun
+            // Belgeyi ekleyin
             Map<String, Object> userData = new HashMap<>();
-            userData.put("stock", 0);
+            userData.put("stock", count);
 
             userCollectionRef.document(documentName)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    // Belge mevcut, güncelle
-                                    userCollectionRef.document(documentName)
-                                            .update("stock", count)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla güncellendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi güncellenirken hata oluştu", e);
-                                                }
-                                            });
-                                } else {
-                                    // Belge mevcut değil, yeni belge ekle
-                                    userCollectionRef.document(documentName)
-                                            .set(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla eklendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi eklenirken hata oluştu", e);
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.d("TAG555", "Belge varlık durumu kontrolü başarısız oldu.", task.getException());
-                            }
-                        }
+                    .set(userData)
+                    .addOnSuccessListener(aVoid -> {
+                        // Yerel count değerini ve TextView'i güncelle
+                        setCount(documentName, count);
+                        updateTextView(documentName, count);
+                        Log.d("TAG333", documentName + " belgesi başarıyla oluşturuldu ve güncellendi.");
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.w("TAG444", documentName + " belgesi oluşturulurken hata oluştu", e);
+                        Toast.makeText(getApplicationContext(), "Belge oluşturma hatası", Toast.LENGTH_SHORT).show();
                     });
         } else {
             Toast.makeText(getApplicationContext(), "Stok Güncelleme Başarısız..", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 
     private void readFirestore() {
@@ -285,32 +306,36 @@ public class RothmansStocksActivity extends AppCompatActivity {
 
         readFirestoreForDocument(documentNameRothmansDrangeBlackKisa);
         readFirestoreForDocument(documentNameRothmansDrangeBlackUzun);
+
+        readFirestoreForDocument(documentNameRothmansDrangeBlueKisa);
+        readFirestoreForDocument(documentNameRothmansDrangeBlueUzun);
     }
 
     private void readFirestoreForDocument(String documentName) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+
+
         // Koleksiyon adını belirleyin
-        String userCollectionName = "market_" + uid;
-        CollectionReference userCollectionRef = db.collection(userCollectionName);
+        String userCollectionName = userName + "_market_" + uid;
 
         db.collection(userCollectionName).document(documentName)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
+                .addSnapshotListener(this, (documentSnapshot, error) -> {
+                    if (documentSnapshot != null && documentSnapshot.exists() && !documentName.isEmpty()) {
                         int stockValue = documentSnapshot.getLong("stock").intValue();
                         // Sayfa açıldığında mevcut değeri göster
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
                     }
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getApplicationContext(), "Hata!", Toast.LENGTH_SHORT).show();
                 });
     }
+
 
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
@@ -322,6 +347,10 @@ public class RothmansStocksActivity extends AppCompatActivity {
             tv_drange_black_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameRothmansDrangeBlackUzun)) {
             tv_drange_black_uzun.setText(String.valueOf(count));
+        }else if (documentName.equals(documentNameRothmansDrangeBlueKisa)) {
+            tv_rothmans_drange_blue_kisa.setText(String.valueOf(count));
+        } else if (documentName.equals(documentNameRothmansDrangeBlueUzun)) {
+            tv_rothmans_drange_blue_arttir.setText(String.valueOf(count));
         }
     }
 
@@ -335,6 +364,10 @@ public class RothmansStocksActivity extends AppCompatActivity {
             return countRothmansDrangeBlackKisa;
         } else if(documentName.equals(documentNameRothmansDrangeBlackUzun)) {
             return countRothmansDrangeBlackUzun;
+        } else if(documentName.equals(documentNameRothmansDrangeBlueKisa)) {
+            return countRothmansDrangeBlueKisa;
+        } else if(documentName.equals(documentNameRothmansDrangeBlueUzun)) {
+            return countRothmansDrangeBlueUzun;
         }
         return 0;
     }
@@ -349,6 +382,10 @@ public class RothmansStocksActivity extends AppCompatActivity {
             countRothmansDrangeBlackKisa = count;
         } else if (documentName.equals(documentNameRothmansDrangeBlackUzun)) {
             countRothmansDrangeBlackUzun = count;
+        } else if (documentName.equals(documentNameRothmansDrangeBlueKisa)) {
+            countRothmansDrangeBlueKisa = count;
+        } else if (documentName.equals(documentNameRothmansDrangeBlueUzun)) {
+            countRothmansDrangeBlueUzun = count;
         }
     }
 }

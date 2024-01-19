@@ -39,11 +39,13 @@ public class KentStocksActivity extends AppCompatActivity {
     private TextView tv_kent_blue_kisa, tv_kent_switch_kisa;
 
     private FirebaseFirestore db;
+    FirebaseAuth auth;
 
-    String documentNameKentDrangeBlueKisa = "kent_drange_blue_kisa", documentNameKentDrangeBlueUzun = "kent_drange_blue_uzun";
-    String documentNameKentDrangeGreyKisa = "kent_drange_grey_kisa", documentNameKentDrangeGreyUzun = "kent_drange_grey_uzun";
-    String documentNameKentDarkBlueKisa = "kent_dark_blue_kisa", documentNameKentDarkBlueUzun = "kent_dark_blue_uzun";
-    String documentNameKentBlueKisa = "kent_blue_kisa", documentNameKentSwitchKisa = "kent_switch_kisa";
+
+    String documentNameKentDrangeBlueKisa = "BAT_Kent_Drange_Blue_Kisa", documentNameKentDrangeBlueUzun = "BAT_Kent_Drange_Blue_Uzun";
+    String documentNameKentDrangeGreyKisa = "BAT_Kent_Drange_Grey_Kisa", documentNameKentDrangeGreyUzun = "BAT_Kent_Drange_Grey_Uzun";
+    String documentNameKentDarkBlueKisa = "BAT_Kent_Dark_Blue_Kisa", documentNameKentDarkBlueUzun = "BAT_Kent_Dark_Blue_Uzun";
+    String documentNameKentBlueKisa = "BAT_Kent_Blue_Kisa", documentNameKentSwitchKisa = "BAT_Kent_Switch_Kisa";
 
 
 
@@ -87,6 +89,7 @@ public class KentStocksActivity extends AppCompatActivity {
         tv_kent_switch_kisa = findViewById(R.id.tv_kent_switch_kisa);
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
@@ -316,8 +319,13 @@ public class KentStocksActivity extends AppCompatActivity {
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+            FirebaseUser currentUser = auth.getCurrentUser();
+            String userEmail = currentUser.getEmail();
+            String[] parts = userEmail.split("@");
+            String userName = parts[0];
+
             // Koleksiyon adını belirleyin
-            String userCollectionName = "market_" + uid;
+            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
 
             // Yeni belge eklemek için haritaları oluşturun
@@ -398,12 +406,16 @@ public class KentStocksActivity extends AppCompatActivity {
 
     private void readFirestoreForDocument(String documentName) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+
+
         // Koleksiyon adını belirleyin
-        String userCollectionName = "market_" + uid;
-        CollectionReference userCollectionRef = db.collection(userCollectionName);
+        String userCollectionName = userName + "_market_" + uid;
 
         db.collection(userCollectionName).document(documentName)
                 .get()

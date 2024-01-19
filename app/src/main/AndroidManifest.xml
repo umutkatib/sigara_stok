@@ -13,6 +13,11 @@
         android:theme="@style/Theme.Sigara_stok"
         tools:targetApi="31">
         <activity
+            android:name=".winston_stocks.CamelStocksActivity"
+            android:exported="false"
+            android:label="@string/title_activity_camel_stocks"
+            android:theme="@style/Theme.Sigara_stok" />
+        <activity
             android:name=".activities.HdActivity"
             android:exported="false" />
         <activity
@@ -65,11 +70,6 @@
         <activity
             android:name=".winston_stocks.MonteCarloStocksActivity"
             android:exported="false" />
-        <activity
-            android:name=".winston_stocks.CamelStocksActivity"
-            android:exported="false"
-            android:label="@string/title_activity_camel_stocks"
-            android:theme="@style/Theme.Sigara_stok" />
         <activity
             android:name=".winston_stocks.WinstonStocksActivity"
             android:exported="false" />

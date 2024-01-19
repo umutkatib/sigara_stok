@@ -39,11 +39,12 @@ public class TekelStocksActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
 
-    String documentNameTekel2000MaviKisa = "tekel_2000_mavi_kisa", documentNameTekel2000MaviUzun = "tekel_2000_mavi_uzun";
-    String documentNameTekel2000KirmiziKisa = "tekel_2000_kirmizi_kisa", documentNameTekel2000KirmiziUzun = "tekel_2000_kirmizi_uzun";
-    String documentNameTekel2001MaviKisa = "tekel_2001_mavi_kisa", documentNameTekel2001MaviUzun = "tekel_2001_mavi_uzun";
-    String documentNameTekel2001KirmiziKisa = "tekel_2001_kirmizi_kisa", documentNameTekel2001KirmiziUzun = "tekel_2001_kirmizi_uzun";
+    String documentNameTekel2000MaviKisa = "BAT_Tekel_2000_Mavi_Kisa", documentNameTekel2000MaviUzun = "BAT_Tekel_2000_Mavi_Uzun";
+    String documentNameTekel2000KirmiziKisa = "BAT_Tekel_2000_kirmizi_Kisa", documentNameTekel2000KirmiziUzun = "BAT_Tekel_2000_kirmizi_Uzun";
+    String documentNameTekel2001MaviKisa = "BAT_Tekel_2001_Mavi_Kisa", documentNameTekel2001MaviUzun = "BAT_Tekel_2001_Mavi_Uzun";
+    String documentNameTekel2001KirmiziKisa = "BAT_Tekel_2001_kirmizi_Kisa", documentNameTekel2001KirmiziUzun = "BAT_Tekel_2001_kirmizi_Uzun";
 
+    FirebaseAuth auth;
 
 
     @Override
@@ -85,6 +86,8 @@ public class TekelStocksActivity extends AppCompatActivity {
         tv_2001_kirmizi_kisa = findViewById(R.id.tv_2001_kirmizi_kisa);
         tv_2001_kirmizi_uzun = findViewById(R.id.tv_2001_kirmizi_uzun);
 
+
+        auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         // Sayfa açıldığında veriyi çekip göster
@@ -315,8 +318,14 @@ public class TekelStocksActivity extends AppCompatActivity {
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+            FirebaseUser currentUser = auth.getCurrentUser();
+            String userEmail = currentUser.getEmail();
+            String[] parts = userEmail.split("@");
+            String userName = parts[0];
+
+
             // Koleksiyon adını belirleyin
-            String userCollectionName = "market_" + uid;
+            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
 
             // Yeni belge eklemek için haritaları oluşturun
@@ -397,12 +406,16 @@ public class TekelStocksActivity extends AppCompatActivity {
 
     private void readFirestoreForDocument(String documentName) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+
+
         // Koleksiyon adını belirleyin
-        String userCollectionName = "market_" + uid;
-        CollectionReference userCollectionRef = db.collection(userCollectionName);
+        String userCollectionName = userName + "_market_" + uid;
 
         db.collection(userCollectionName).document(documentName)
                 .get()

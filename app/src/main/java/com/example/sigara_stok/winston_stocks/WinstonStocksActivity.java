@@ -38,11 +38,12 @@ public class WinstonStocksActivity extends AppCompatActivity {
     private TextView tv_winston_slim_blue, tv_winston_slim_grey;
 
     private FirebaseFirestore db;
+    FirebaseAuth auth;
 
-    String documentNameSlenderKisa = "slender_blue_kisa", documentNameSlenderUzun = "slender_blue_uzun";
-    String getDocumentNameBlueKisa = "blue_kisa", getDocumentNameBlueUzun = "blue_uzun";
-    String getDocumentNameRedKisa = "red_kisa", getDocumentNameRedUzun = "red_uzun";
-    String getDocumentNameSlimBlue = "slim_blue", getDocumentNameSlimGrey = "slim_grey";
+    String documentNameSlenderKisa = "JTI_Slender_Blue_Kisa", documentNameSlenderUzun = "JTI_Slender_Blue_Uzun";
+    String getDocumentNameBlueKisa = "JTI_Blue_Kisa", getDocumentNameBlueUzun = "JTI_Blue_Uzun";
+    String getDocumentNameRedKisa = "JTI_Red_Kisa", getDocumentNameRedUzun = "JTI_Red_Uzun";
+    String getDocumentNameSlimBlue = "JTI_Slims_Blue", getDocumentNameSlimGrey = "JTI_Slims_Grey";
 
 
 
@@ -86,6 +87,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
         tv_winston_slim_grey = findViewById(R.id.tv_winston_slim_grey);
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
@@ -314,10 +316,12 @@ public class WinstonStocksActivity extends AppCompatActivity {
         if (user != null) {
             String uid = user.getUid();
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            FirebaseUser currentUser = auth.getCurrentUser();
+            String userEmail = currentUser.getEmail();
+            String[] parts = userEmail.split("@");
+            String userName = parts[0];
 
-            // Koleksiyon adını belirleyin
-            String userCollectionName = "market_" + uid;
+            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
 
             // Yeni belge eklemek için haritaları oluşturun
@@ -398,12 +402,16 @@ public class WinstonStocksActivity extends AppCompatActivity {
 
     private void readFirestoreForDocument(String documentName) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+
+
         // Koleksiyon adını belirleyin
-        String userCollectionName = "user_" + uid;
-        CollectionReference userCollectionRef = db.collection(userCollectionName);
+        String userCollectionName = userName + "_market_" + uid;
 
         db.collection(userCollectionName).document(documentName)
                 .get()
