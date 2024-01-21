@@ -6,11 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".winston_stocks.LDStocksActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".winston_stocks.LDStocksActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/textView78"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="150dp"
         android:layout_marginTop="16dp"
         android:text="LD"
         android:textColor="#1E88E5"
@@ -45,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:text="Blue Uzun"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -59,7 +70,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/ld_blue_kisa_arttir"
             app:layout_constraintTop_toTopOf="parent" />
@@ -71,7 +82,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="15dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ld_blue_uzun_arttir" />
@@ -80,7 +91,8 @@
             android:id="@+id/ld_blue_kisa_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="+"
@@ -93,7 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="+"
@@ -111,7 +124,8 @@
             android:text="-"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_blue_kisa"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:height="50sp" />
 
         <Button
             android:id="@+id/ld_blue_uzun_azalt"
@@ -119,6 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="-"
@@ -152,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:text="Red Uzun"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -164,6 +179,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="-"
@@ -177,6 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="-"
@@ -191,7 +208,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/ld_red_kisa_arttir"
             app:layout_constraintTop_toTopOf="parent" />
@@ -203,7 +220,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="15dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ld_red_uzun_arttir" />
@@ -212,7 +229,8 @@
             android:id="@+id/ld_red_kisa_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="+"
@@ -225,7 +243,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="+"
@@ -262,7 +281,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/ld_slim_arttir"
             app:layout_constraintTop_toTopOf="parent" />
@@ -272,6 +291,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="-"
@@ -283,7 +303,8 @@
             android:id="@+id/ld_slim_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="+"
@@ -312,5 +333,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

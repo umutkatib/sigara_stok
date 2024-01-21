@@ -1,4 +1,4 @@
-package com.example.sigara_stok.activities;
+package com.example.sigara_stok.west_stocks;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -26,64 +26,34 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HdActivity extends AppCompatActivity {
+public class WestStocksActivity extends AppCompatActivity {
+
 
     private int countHDBlueKisa = 0, countHDBlueUzun = 0, countHDSlimBlue = 0;
-    private int countHDWhiteLine = 0, countTorosBlueKisa = 0, countTorosBlueUzun = 0, countTorosRedKisa = 0, countTorosRedUzun = 0;
-    private TextView tv_hd_blue_kisa, tv_hd_blue_uzun;
-    private TextView tv_hd_slim_blue, tv_hd_white_line;
-    private TextView tv_toros_kisa_blue, tv_toros_uzun_blue;
-    private TextView tv_toros_kisa_red, tv_toros_uzun_red;
+    private int countHDWhiteLine = 0;
+    private TextView tv_navy, tv_grey;
 
     private FirebaseFirestore db;
     FirebaseAuth auth;
 
 
-    String documentNameMCDarkBlueKisa = "HD_Blue_Kisa", documentNameMCDarkBlueUzun = "HD_Blue_Uzun";
-    String documentNameMCDarkRedKisa = "HD_Slim_Blue", documentNameMCDarkRedUzun = "HD_White_Line";
-    String documentNameTorosBlueKisa = "HD_Toros_Blue_Kisa", documentNameTorosBlueUzun = "HD_Toros_Blue_Uzun";
-    String documentNameTorosRedKisa = "HD_Toros_Red_Kisa", documentNameTorosRedUzun = "HD_Toros_Red_Uzun";
-
-
+    String documentNameMCDarkBlueKisa = "WEST_Navy", documentNameMCDarkBlueUzun = "WEST_Grey";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hd);
+        setContentView(R.layout.activity_west);
 
-        Button reset_all_hd = findViewById(R.id.reset_all_hd);
+        Button reset_all_west = findViewById(R.id.reset_all_west);
 
-        Button hd_kisa_azalt = findViewById(R.id.hd_kisa_azalt);
-        Button hd_kisa_arttir = findViewById(R.id.hd_kisa_arttir);
-        Button hd_uzun_azalt = findViewById(R.id.hd_uzun_azalt);
-        Button hd_uzun_arttir = findViewById(R.id.hd_uzun_arttir);
-        Button slim_blue_azalt = findViewById(R.id.slim_blue_azalt);
-        Button slim_blue_arttir = findViewById(R.id.slim_blue_arttir);
+        Button west_navy_azalt = findViewById(R.id.west_navy_azalt);
+        Button west_navy_arttir = findViewById(R.id.west_navy_arttir);
+        Button west_grey_azalt = findViewById(R.id.west_grey_azalt);
+        Button west_grey_arttir = findViewById(R.id.west_grey_arttir);
 
-        Button white_line_azalt = findViewById(R.id.white_line_azalt);
-        Button white_line_arttir = findViewById(R.id.white_line_arttir);
-
-        Button toros_blue_kisa_azalt = findViewById(R.id.toros_blue_kisa_azalt);
-        Button toros_blue_kisa_arttir = findViewById(R.id.toros_blue_kisa_arttir);
-        Button toros_blue_uzun_azalt = findViewById(R.id.toros_blue_uzun_azalt);
-        Button toros_blue_uzun_arttir = findViewById(R.id.toros_blue_uzun_arttir);
-        Button toros_red_kisa_azalt = findViewById(R.id.toros_red_kisa_azalt);
-        Button toros_red_kisa_arttir = findViewById(R.id.toros_red_kisa_arttir);
-        Button toros_red_uzun_azalt = findViewById(R.id.toros_red_uzun_azalt);
-        Button toros_red_uzun_arttir = findViewById(R.id.toros_red_uzun_arttir);
-
-        tv_hd_blue_kisa = findViewById(R.id.tv_hd_blue_kisa);
-        tv_hd_blue_uzun = findViewById(R.id.tv_hd_blue_uzun);
-        tv_hd_slim_blue = findViewById(R.id.tv_hd_slim_blue);
-
-
-        tv_hd_white_line = findViewById(R.id.tv_hd_white_line);
-
-        tv_toros_kisa_blue = findViewById(R.id.tv_totros_blue_kisa);
-        tv_toros_uzun_blue = findViewById(R.id.tv_totros_blue_uzun);
-        tv_toros_kisa_red = findViewById(R.id.tv_totros_red_kisa);
-        tv_toros_uzun_red = findViewById(R.id.tv_totros_red_uzun);
+        tv_navy = findViewById(R.id.tv_navy);
+        tv_grey = findViewById(R.id.tv_grey);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -91,7 +61,7 @@ public class HdActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
-        reset_all_hd.setOnClickListener(new View.OnClickListener() {
+        reset_all_west.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
@@ -101,14 +71,14 @@ public class HdActivity extends AppCompatActivity {
 
         ////////////////////
 
-        hd_kisa_arttir.setOnClickListener(new View.OnClickListener() {
+        west_navy_arttir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 incrementCount(documentNameMCDarkBlueKisa);
             }
         });
 
-        hd_kisa_azalt.setOnClickListener(new View.OnClickListener() {
+        west_navy_azalt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decrementCount(documentNameMCDarkBlueKisa);
@@ -117,124 +87,20 @@ public class HdActivity extends AppCompatActivity {
 
         //////////////////////
 
-        hd_uzun_arttir.setOnClickListener(new View.OnClickListener() {
+        west_grey_arttir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 incrementCount(documentNameMCDarkBlueUzun);
             }
         });
 
-        hd_uzun_azalt.setOnClickListener(new View.OnClickListener() {
+        west_grey_azalt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decrementCount(documentNameMCDarkBlueUzun);
             }
         });
 
-        //////////////////////
-
-        slim_blue_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMCDarkRedKisa);
-            }
-        });
-
-        slim_blue_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMCDarkRedKisa);
-            }
-        });
-
-        //////////////////////
-
-
-        white_line_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMCDarkRedUzun);
-            }
-        });
-
-
-        white_line_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMCDarkRedUzun);
-            }
-        });
-
-        //////////////////////
-
-
-        toros_blue_kisa_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTorosBlueKisa);
-            }
-        });
-
-
-        toros_blue_kisa_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTorosBlueKisa);
-            }
-        });
-
-        //////////////////////
-
-
-        toros_blue_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTorosBlueUzun);
-            }
-        });
-
-
-        toros_blue_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTorosBlueUzun);
-            }
-        });
-
-        //////////////////////
-
-
-        toros_red_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTorosRedUzun);
-            }
-        });
-
-        toros_red_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTorosRedUzun);
-            }
-        });
-
-        //////////////////////
-
-
-        toros_red_kisa_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTorosRedKisa);
-            }
-        });
-
-
-        toros_red_kisa_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTorosRedKisa);
-            }
-        });
 
     }
 
@@ -250,34 +116,16 @@ public class HdActivity extends AppCompatActivity {
         countHDBlueUzun = 0;
         countHDSlimBlue = 0;
         countHDWhiteLine = 0;
-        countTorosBlueKisa = 0;
-        countTorosBlueUzun = 0;
-        countTorosRedKisa = 0;
-        countTorosRedUzun = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameMCDarkBlueKisa, countHDBlueKisa);
         updateTextView(documentNameMCDarkBlueUzun, countHDBlueUzun);
-        updateTextView(documentNameMCDarkRedKisa, countHDSlimBlue);
-        updateTextView(documentNameMCDarkRedUzun, countHDWhiteLine);
-
-        updateTextView(documentNameTorosBlueKisa, countTorosBlueKisa);
-        updateTextView(documentNameTorosBlueUzun, countTorosBlueUzun);
-        updateTextView(documentNameTorosRedKisa, countTorosRedKisa);
-        updateTextView(documentNameTorosRedUzun, countTorosRedUzun);
     }
 
     private void resetFirestoreCounts() {
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         updateFirestore(documentNameMCDarkBlueKisa, 0);
         updateFirestore(documentNameMCDarkBlueUzun, 0);
-        updateFirestore(documentNameMCDarkRedKisa, 0);
-        updateFirestore(documentNameMCDarkRedUzun, 0);
-
-        updateFirestore(documentNameTorosBlueKisa, 0);
-        updateFirestore(documentNameTorosBlueUzun, 0);
-        updateFirestore(documentNameTorosRedKisa, 0);
-        updateFirestore(documentNameTorosRedUzun, 0);
     }
 
     private void showConfirmationDialog() {
@@ -396,15 +244,6 @@ public class HdActivity extends AppCompatActivity {
         readFirestoreForDocument(documentNameMCDarkBlueKisa);
         readFirestoreForDocument(documentNameMCDarkBlueUzun);
 
-        readFirestoreForDocument(documentNameMCDarkRedKisa);
-        readFirestoreForDocument(documentNameMCDarkRedUzun);
-
-        readFirestoreForDocument(documentNameTorosBlueKisa);
-        readFirestoreForDocument(documentNameTorosBlueUzun);
-
-        readFirestoreForDocument(documentNameTorosRedKisa);
-        readFirestoreForDocument(documentNameTorosRedUzun);
-
     }
 
     private void readFirestoreForDocument(String documentName) {
@@ -439,21 +278,9 @@ public class HdActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameMCDarkBlueKisa)) {
-            tv_hd_blue_kisa.setText(String.valueOf(count));
+            tv_navy.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
-            tv_hd_blue_uzun.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameMCDarkRedKisa)) {
-            tv_hd_slim_blue.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameMCDarkRedUzun)) {
-            tv_hd_white_line.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameTorosBlueKisa)) {
-            tv_toros_kisa_blue.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameTorosBlueUzun)) {
-            tv_toros_uzun_blue.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameTorosRedKisa)) {
-            tv_toros_kisa_red.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameTorosRedUzun)) {
-            tv_toros_uzun_red.setText(String.valueOf(count));
+            tv_grey.setText(String.valueOf(count));
         }
     }
 
@@ -463,18 +290,6 @@ public class HdActivity extends AppCompatActivity {
             return countHDBlueKisa;
         } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
             return countHDBlueUzun;
-        } else if(documentName.equals(documentNameMCDarkRedKisa)) {
-            return countHDSlimBlue;
-        } else if(documentName.equals(documentNameMCDarkRedUzun)) {
-            return countHDWhiteLine;
-        } else if (documentName.equals(documentNameTorosBlueKisa)) {
-            return countTorosBlueKisa;
-        } else if(documentName.equals(documentNameTorosBlueUzun)) {
-            return countTorosBlueUzun;
-        } else if(documentName.equals(documentNameTorosRedKisa)) {
-            return countTorosRedKisa;
-        } else if(documentName.equals(documentNameTorosRedUzun)) {
-            return countTorosRedUzun;
         }
         return 0;
     }
@@ -485,18 +300,6 @@ public class HdActivity extends AppCompatActivity {
             countHDBlueKisa = count;
         } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
             countHDBlueUzun = count;
-        } else if (documentName.equals(documentNameMCDarkRedKisa)) {
-            countHDSlimBlue = count;
-        } else if (documentName.equals(documentNameMCDarkRedUzun)) {
-            countHDWhiteLine = count;
-        } else if (documentName.equals(documentNameTorosBlueKisa)) {
-            countTorosBlueKisa = count;
-        } else if (documentName.equals(documentNameTorosBlueUzun)) {
-            countTorosBlueUzun = count;
-        } else if (documentName.equals(documentNameTorosRedKisa)) {
-            countTorosRedKisa = count;
-        } else if (documentName.equals(documentNameTorosRedUzun)) {
-            countTorosRedUzun = count;
         }
     }
 }

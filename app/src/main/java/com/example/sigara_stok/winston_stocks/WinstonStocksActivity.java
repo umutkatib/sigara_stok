@@ -31,11 +31,11 @@ public class WinstonStocksActivity extends AppCompatActivity {
     private int countSlenderKisa = 0, countSlenderUzun = 0;
     private int countBlueKisa = 0, countBlueUzun = 0;
     private int countRedKisa = 0, countRedUzun = 0;
-    private int countSlimBlue = 0, countSlimGrey = 0;
+    private int countSlimBlue = 0, countSlimGrey = 0, countSlenderGrey = 0, countGrey = 0, countDarkBlueKisa = 0, countDarkBlueUzun = 0;
     private TextView tv_winston_slender_kisa, tv_winston_slender_uzun;
     private TextView tv_winston_blue_kisa, tv_winston_blue_uzun;
-    private TextView tv_winston_red_kisa, tv_winston_red_uzun;
-    private TextView tv_winston_slim_blue, tv_winston_slim_grey;
+    private TextView tv_winston_red_kisa, tv_winston_red_uzun, tv_dark_blue_uzun, tv_dark_blue_kisa;
+    private TextView tv_winston_slim_blue, tv_winston_slim_grey, tv_winston_slender_grey_kisa, tv_winston_grey;
 
     private FirebaseFirestore db;
     FirebaseAuth auth;
@@ -44,6 +44,9 @@ public class WinstonStocksActivity extends AppCompatActivity {
     String getDocumentNameBlueKisa = "JTI_Blue_Kisa", getDocumentNameBlueUzun = "JTI_Blue_Uzun";
     String getDocumentNameRedKisa = "JTI_Red_Kisa", getDocumentNameRedUzun = "JTI_Red_Uzun";
     String getDocumentNameSlimBlue = "JTI_Slims_Blue", getDocumentNameSlimGrey = "JTI_Slims_Grey";
+    String getDocumentNameSlenderGreyKisa = "JTI_Slender_Grey", getDocumentNameWinsonGrey= "JTI_Winston_Grey";
+    String getDocumentNameDarkBlueKisa = "JTI_Winston_Dark_Blue_Kisa", getDocumentNameDarkBlueUzun= "JTI_Winston_Dark_Blue_Uzun";
+
 
 
 
@@ -58,11 +61,15 @@ public class WinstonStocksActivity extends AppCompatActivity {
         Button slender_kisa_arttir_btn = findViewById(R.id.tekel_2000_kirmizi_uzun_arttir_btn);
         Button slender_uzun_azalt_btn = findViewById(R.id.tekel_2000_kirmizi_kisa_azalt_btn);
         Button slender_uzun_arttir_btn = findViewById(R.id.slender_uzun_arttir_btn);
+        Button slender_grey_kisa_azalt_btn = findViewById(R.id.slender_grey_kisa_azalt_btn);
+        Button slender_grey_kisa_arttir_btn = findViewById(R.id.slender_grey_kisa_arttir_btn);
 
         Button blue_kisa_azalt_btn = findViewById(R.id.blue_kisa_azalt_btn);
         Button blue_kisa_arttir_btn = findViewById(R.id.blue_kisa_arttir_btn);
         Button blue_uzun_azalt_btn = findViewById(R.id.blue_uzun_azalt_btn);
         Button blue_uzun_arttır_btn = findViewById(R.id.blue_uzun_arttır_btn);
+        Button wins_grey_azalt = findViewById(R.id.wins_grey_azalt);
+        Button wins_grey_arttir = findViewById(R.id.wins_grey_arttir);
 
         Button red_kisa_azalt_btn = findViewById(R.id.red_kisa_azalt_btn);
         Button red_kisa_arttir_btn = findViewById(R.id.red_kisa_arttir_btn);
@@ -74,11 +81,21 @@ public class WinstonStocksActivity extends AppCompatActivity {
         Button slim_grey_azalt_btn = findViewById(R.id.slim_grey_azalt_btn);
         Button slim_grey_arttir_btn = findViewById(R.id.slim_grey_arttir_btn);
 
+        Button dark_blue_kisa_azalt_btn = findViewById(R.id.dark_blue_kisa_azalt_btn);
+        Button dark_blue_kisa_arttir_btn = findViewById(R.id.dark_blue_kisa_arttir_btn);
+        Button dark_blue_uzun_azalt_btn = findViewById(R.id.dark_blue_uzun_azalt_btn);
+        Button dark_blue_uzun_arttir_btn = findViewById(R.id.dark_blue_uzun_arttir_btn);
+
         tv_winston_slender_kisa = findViewById(R.id.tv_winston_slender_kisa);
-        tv_winston_slender_uzun = findViewById(R.id.tv_tekel_2001_mavi_uzun);
+        tv_winston_slender_uzun = findViewById(R.id.tv_winston_slender_uzun);
+        tv_winston_slender_grey_kisa = findViewById(R.id.tv_winston_slender_grey_kisa);
+        tv_winston_grey = findViewById(R.id.tv_winston_grey);
 
         tv_winston_blue_kisa = findViewById(R.id.tv_winston_blue_kisa);
         tv_winston_blue_uzun = findViewById(R.id.tv_winston_blue_uzun);
+
+        tv_dark_blue_kisa = findViewById(R.id.tv_dark_blue_kisa);
+        tv_dark_blue_uzun = findViewById(R.id.tv_dark_blue_uzun);
 
         tv_winston_red_kisa = findViewById(R.id.tv_winston_red_kisa);
         tv_winston_red_uzun = findViewById(R.id.tv_winston_red_uzun);
@@ -133,6 +150,20 @@ public class WinstonStocksActivity extends AppCompatActivity {
             }
         });
 
+        slender_grey_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementCount(getDocumentNameSlenderGreyKisa);
+            }
+        });
+
+        slender_grey_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementCount(getDocumentNameSlenderGreyKisa);
+            }
+        });
+
         //////////////////////
 
         blue_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +195,25 @@ public class WinstonStocksActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 incrementCount(getDocumentNameBlueUzun);
+            }
+        });
+
+
+        //////////////////////
+
+
+        wins_grey_azalt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementCount(getDocumentNameWinsonGrey);
+            }
+        });
+
+
+        wins_grey_arttir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementCount(getDocumentNameWinsonGrey);
             }
         });
 
@@ -235,6 +285,41 @@ public class WinstonStocksActivity extends AppCompatActivity {
             }
         });
 
+
+        //////////////////////
+
+        dark_blue_uzun_azalt_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementCount(getDocumentNameDarkBlueUzun);
+            }
+        });
+
+
+        dark_blue_uzun_arttir_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementCount(getDocumentNameDarkBlueUzun);
+            }
+        });
+
+        //////////////////////
+
+        dark_blue_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementCount(getDocumentNameDarkBlueKisa);
+            }
+        });
+
+
+        dark_blue_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementCount(getDocumentNameDarkBlueKisa);
+            }
+        });
+
     }
 
 
@@ -253,6 +338,10 @@ public class WinstonStocksActivity extends AppCompatActivity {
         countRedUzun = 0;
         countSlimBlue = 0;
         countSlimGrey = 0;
+        countSlenderGrey = 0;
+        countGrey = 0;
+        countDarkBlueKisa = 0;
+        countDarkBlueUzun = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameSlenderKisa, countSlenderKisa);
@@ -263,6 +352,10 @@ public class WinstonStocksActivity extends AppCompatActivity {
         updateTextView(getDocumentNameRedUzun, countRedUzun);
         updateTextView(getDocumentNameSlimBlue, countSlimBlue);
         updateTextView(getDocumentNameSlimGrey, countSlimGrey);
+        updateTextView(getDocumentNameSlenderGreyKisa, countSlenderGrey);
+        updateTextView(getDocumentNameWinsonGrey, countGrey);
+        updateTextView(getDocumentNameDarkBlueKisa, countDarkBlueKisa);
+        updateTextView(getDocumentNameDarkBlueUzun, countDarkBlueUzun);
     }
 
     private void resetFirestoreCounts() {
@@ -275,6 +368,10 @@ public class WinstonStocksActivity extends AppCompatActivity {
         updateFirestore(getDocumentNameRedUzun, 0);
         updateFirestore(getDocumentNameSlimBlue, 0);
         updateFirestore(getDocumentNameSlimGrey, 0);
+        updateFirestore(getDocumentNameSlenderGreyKisa, 0);
+        updateFirestore(getDocumentNameWinsonGrey, 0);
+        updateFirestore(getDocumentNameDarkBlueKisa, 0);
+        updateFirestore(getDocumentNameDarkBlueUzun, 0);
     }
 
     private void showConfirmationDialog() {
@@ -336,7 +433,6 @@ public class WinstonStocksActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
-                                    // Belge mevcut, güncelle
                                     userCollectionRef.document(documentName)
                                             .update("stock", count)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -345,7 +441,6 @@ public class WinstonStocksActivity extends AppCompatActivity {
                                                     setCount(documentName, count);
                                                     // TextView'i güncelle
                                                     updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla güncellendi.");
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
@@ -364,7 +459,6 @@ public class WinstonStocksActivity extends AppCompatActivity {
                                                     setCount(documentName, count);
                                                     // TextView'i güncelle
                                                     updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla eklendi.");
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
@@ -398,6 +492,12 @@ public class WinstonStocksActivity extends AppCompatActivity {
 
         readFirestoreForDocument(getDocumentNameSlimBlue);
         readFirestoreForDocument(getDocumentNameSlimGrey);
+
+        readFirestoreForDocument(getDocumentNameSlenderGreyKisa);
+        readFirestoreForDocument(getDocumentNameWinsonGrey);
+
+        readFirestoreForDocument(getDocumentNameDarkBlueKisa);
+        readFirestoreForDocument(getDocumentNameDarkBlueUzun);
     }
 
     private void readFirestoreForDocument(String documentName) {
@@ -409,8 +509,6 @@ public class WinstonStocksActivity extends AppCompatActivity {
         String[] parts = userEmail.split("@");
         String userName = parts[0];
 
-
-        // Koleksiyon adını belirleyin
         String userCollectionName = userName + "_market_" + uid;
 
         db.collection(userCollectionName).document(documentName)
@@ -447,6 +545,14 @@ public class WinstonStocksActivity extends AppCompatActivity {
             tv_winston_slim_blue.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameSlimGrey)) {
             tv_winston_slim_grey.setText(String.valueOf(count));
+        } else if (documentName.equals(getDocumentNameSlenderGreyKisa)) {
+            tv_winston_slender_grey_kisa.setText(String.valueOf(count));
+        } else if (documentName.equals(getDocumentNameWinsonGrey)) {
+            tv_winston_grey.setText(String.valueOf(count));
+        } else if (documentName.equals(getDocumentNameDarkBlueKisa)) {
+            tv_dark_blue_kisa.setText(String.valueOf(count));
+        } else if (documentName.equals(getDocumentNameDarkBlueUzun)) {
+            tv_dark_blue_uzun.setText(String.valueOf(count));
         }
 
     }
@@ -469,6 +575,14 @@ public class WinstonStocksActivity extends AppCompatActivity {
             return countSlimBlue;
         } else if(documentName.equals(getDocumentNameSlimGrey)) {
             return countSlimGrey;
+        } else if(documentName.equals(getDocumentNameSlenderGreyKisa)) {
+            return countSlenderGrey;
+        } else if(documentName.equals(getDocumentNameWinsonGrey)) {
+            return countGrey;
+        } else if(documentName.equals(getDocumentNameDarkBlueKisa)) {
+            return countDarkBlueKisa;
+        } else if(documentName.equals(getDocumentNameDarkBlueUzun)) {
+            return countDarkBlueUzun;
         }
         return 0;
     }
@@ -491,6 +605,14 @@ public class WinstonStocksActivity extends AppCompatActivity {
             countSlimBlue = count;
         } else if (documentName.equals(getDocumentNameSlimGrey)) {
             countSlimGrey = count;
+        } else if (documentName.equals(getDocumentNameSlenderGreyKisa)) {
+            countSlenderGrey = count;
+        } else if (documentName.equals(getDocumentNameWinsonGrey)) {
+            countGrey = count;
+        } else if (documentName.equals(getDocumentNameDarkBlueKisa)) {
+            countDarkBlueKisa = count;
+        } else if (documentName.equals(getDocumentNameDarkBlueUzun)) {
+            countDarkBlueUzun = count;
         }
     }
 }

@@ -18,6 +18,7 @@ import com.example.sigara_stok.activities.MarlboroActivity;
 import com.example.sigara_stok.activities.TekelActivity;
 import com.example.sigara_stok.activities.WestActivity;
 import com.example.sigara_stok.activities.WinstonActivity;
+import com.example.sigara_stok.west_stocks.WestStocksActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         marlboro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, MarlboroActivity.class);
+                Intent i = new Intent(getApplicationContext(), MarlboroActivity.class);
                 startActivity(i);
             }
         });
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         tekel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TekelActivity.class);
+                Intent i = new Intent(getApplicationContext(), TekelActivity.class);
                 startActivity(i);
             }
         });
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         winston.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, WinstonActivity.class);
+                Intent i = new Intent(getApplicationContext(), WinstonActivity.class);
                 startActivity(i);
             }
         });
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         hd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, HdActivity.class);
+                Intent i = new Intent(getApplicationContext(), HdActivity.class);
                 startActivity(i);
             }
         });
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         west.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, WestActivity.class);
+                Intent i = new Intent(getApplicationContext(), WestActivity.class);
                 startActivity(i);
             }
         });
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 auth.signOut();
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
             }
         });

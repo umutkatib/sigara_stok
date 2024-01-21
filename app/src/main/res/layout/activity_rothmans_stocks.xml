@@ -6,18 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".tekel_stocks.RothmansStocksActivity">
 
-    <TextView
-        android:id="@+id/textView27"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="32dp"
-        android:text="ROTHMANS"
-        android:textColor="#000000"
-        android:textSize="50sp"
-        android:textStyle="bold"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".tekel_stocks.RothmansStocksActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:layout_marginTop="32dp"
+                android:text="ROTHMANS"
+                android:textColor="#000000"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout25"
@@ -35,7 +46,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:text="Rothmans Kısa"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,9 +56,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:text="Rothmans Uzun"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView28" />
@@ -56,7 +67,7 @@
             android:id="@+id/tv_rothmans_kisa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:text="0"
             android:textSize="20sp"
@@ -69,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:text="0"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -81,6 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="-"
@@ -94,6 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="-"
@@ -105,20 +118,22 @@
             android:id="@+id/rothmans_kisa_arttir_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="8dp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:height="50sp" />
 
         <Button
             android:id="@+id/rothmans_uzun_arttir_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="8dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="+"
@@ -143,7 +158,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:text="D-Range Black Kısa"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -153,9 +168,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:text="D-Range Black Uzun"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView38" />
@@ -164,7 +179,7 @@
             android:id="@+id/tv_drange_black_kisa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:text="0"
             android:textSize="20sp"
@@ -177,7 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:text="0"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -189,6 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="-"
@@ -202,6 +218,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="-"
@@ -213,7 +230,8 @@
             android:id="@+id/drange_black_kisa_arttir_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="8dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="+"
@@ -226,7 +244,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="8dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="+"
@@ -239,15 +258,15 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginTop="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout51">
 
         <Button
             android:id="@+id/btn_reset_all_rothmans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
+            android:layout_marginStart="115dp"
             android:layout_marginTop="40dp"
             android:backgroundTint="#FF0000"
             android:text="Stok Sıfırla"
@@ -257,6 +276,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout51"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -271,7 +291,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:text="D-Range Blue Kısa"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -281,9 +301,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:text="D-Range Blue Uzun"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView43" />
@@ -292,7 +312,7 @@
             android:id="@+id/tv_rothmans_drange_blue_kisa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:text="0"
             android:textSize="20sp"
@@ -305,7 +325,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:text="0"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -316,7 +336,8 @@
             android:id="@+id/rothmans_drange_black_kisa_arttir_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="8dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="+"
@@ -329,6 +350,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="-"
@@ -342,6 +364,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="10dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="-"
@@ -354,7 +377,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="8dp"
+            android:height="50sp"
             android:backgroundTint="#000000"
             android:minWidth="70dip"
             android:text="+"
@@ -362,4 +386,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rothmans_drange_black_kisa_arttir_btn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,17 +31,18 @@ public class CamelStocksActivity extends AppCompatActivity {
 
 
 
-    private int countCamelYellowKisa = 0, countCamelYellowUzun = 0, countCamelYellowSoftKisa = 0;
-    private int  countCamelWhite = 0, countCamelBrown = 0, countCamelBlack = 0, countCamelDeepBlue = 0;
-    private int countCamelSlenderBlue = 0, countCamelSlenderGrey = 0;
+    private int countCamelYellowKisa, countCamelYellowUzun, countCamelYellowSoftKisa;
+    private int  countCamelWhite, countCamelBrown, countCamelBlack, countCamelDeepBlue;
+    private int countCamelSlenderBlue, countCamelSlenderGrey;
     private TextView tv_yellow_kisa, tv_yellow_uzun;
     private TextView tv_yellow_soft_kisa, tv_white;
     private TextView tv_black, tv_deep_blue;
     private TextView tv_brown, tv_slender_blue, tv_slender_grey;
+    private TextView tvTotalStock;
+
 
     private FirebaseFirestore db;
     FirebaseAuth auth;
-
 
     String documentNameCamelYellowKisa = "JTI_Camel_Yellow_Kisa", documentNameCamelYellowUzun = "JTI_Camel_Yellow_Uzun";
     String documentNameCamelYellowSoftKisa = "JTI_Camel_Yellow_Soft_Kisa", documentNameCamelWhite = "JTI_Camel_White";
@@ -87,12 +89,17 @@ public class CamelStocksActivity extends AppCompatActivity {
         tv_brown = findViewById(R.id.tv_brown);
         tv_slender_blue = findViewById(R.id.tv_slender_blue);
         tv_slender_grey = findViewById(R.id.tv_slender_grey);
+        tvTotalStock = findViewById(R.id.tvTotalStock);
+
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
+
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
+        //updateTotalStockTextView();
+
 
         reset_all_camel_all_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,6 +260,24 @@ public class CamelStocksActivity extends AppCompatActivity {
     }
 
 
+
+    private int updateTotalStockTextView() {
+
+        Integer totalStock = getCount(documentNameCamelSlenderGrey)
+                + getCount(documentNameCamelSlenderBlue)
+                + getCount(documentNameCamelWhite)
+                + getCount(documentNameCamelBlack)
+                + getCount(documentNameCamelYellowKisa)
+                + getCount(documentNameCamelDeepBlue)
+                + getCount(documentNameCamelBrown)
+                + getCount(documentNameCamelYellowSoftKisa)
+                + getCount(documentNameCamelYellowUzun) + 1;
+
+        tvTotalStock.setText(String.valueOf(totalStock));
+        return totalStock;
+    }
+
+
     private void resetAllCounts() {
         // Tüm yerel ve Firestore count değerlerini sıfırla
         resetLocalCounts();
@@ -320,14 +345,17 @@ public class CamelStocksActivity extends AppCompatActivity {
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
         updateFirestore(documentName, getCount(documentName) + 1);
+        //updateTotalStockTextView();
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
         if (getCount(documentName) > 0) {
             updateFirestore(documentName, getCount(documentName) - 1);
+            //updateTotalStockTextView();
         }
     }
+
 
     private void updateFirestore(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -348,6 +376,7 @@ public class CamelStocksActivity extends AppCompatActivity {
             // Yeni belge eklemek için haritaları oluşturun
             Map<String, Object> userData = new HashMap<>();
             userData.put("stock", 0);
+
 
             userCollectionRef.document(documentName)
                     .get()
@@ -376,6 +405,7 @@ public class CamelStocksActivity extends AppCompatActivity {
                                                 }
                                             });
                                 } else {
+
                                     // Belge mevcut değil, yeni belge ekle
                                     userCollectionRef.document(documentName)
                                             .set(userData)
@@ -419,6 +449,10 @@ public class CamelStocksActivity extends AppCompatActivity {
 
         readFirestoreForDocument(documentNameCamelDeepBlue);
         readFirestoreForDocument(documentNameCamelSlenderBlue);
+
+        readFirestoreForDocument(documentNameCamelSlenderGrey);
+
+
     }
 
     private void readFirestoreForDocument(String documentName) {
@@ -430,7 +464,6 @@ public class CamelStocksActivity extends AppCompatActivity {
         String[] parts = userEmail.split("@");
         String userName = parts[0];
 
-
         // Koleksiyon adını belirleyin
         String userCollectionName = userName + "_market_" + uid;
 
@@ -438,10 +471,13 @@ public class CamelStocksActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        int stockValue = documentSnapshot.getLong("stock").intValue();
-                        // Sayfa açıldığında mevcut değeri göster
+                        Long stockLong = documentSnapshot.getLong("stock");
+                        int stockValue = (stockLong != null) ? stockLong.intValue() : 0;
+
+                        // Sayfa açıldığında mevcut değerlerini göster
                         updateTextView(documentName, stockValue);
-                        // Ayrıca, yerel count değerini güncelle
+
+                        // Ayrıca, yerel count değerlerini güncelle
                         setCount(documentName, stockValue);
                     }
                 })
@@ -449,6 +485,7 @@ public class CamelStocksActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Hata!", Toast.LENGTH_SHORT).show();
                 });
     }
+
 
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle

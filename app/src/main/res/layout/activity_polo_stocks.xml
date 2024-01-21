@@ -4,127 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".stocks.marbloro_stocks.LarkStocksActivity">
+    tools:context=".west_stocks.PoloStocksActivity">
 
     <TextView
-        android:id="@+id/textView95"
+        android:id="@+id/textView91"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="35dp"
-        android:text="LARK"
-        android:textColor="#F4511E"
-        android:textSize="30sp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="30dp"
+        android:text="POLO"
+        android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout45"
+        android:id="@+id/constraintLayout44"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView95">
+        app:layout_constraintTop_toBottomOf="@+id/textView91">
 
         <TextView
-            android:id="@+id/textView96"
+            android:id="@+id/textView92"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
-            android:text="Lark Kısa"
+            android:text="Polo Blue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView97"
+            android:id="@+id/textView94"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="55dp"
-            android:text="Lark Uzun"
+            android:layout_marginTop="60dp"
+            android:text="Polo Grey"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView96" />
+            app:layout_constraintTop_toBottomOf="@+id/textView92" />
 
         <TextView
-            android:id="@+id/tv_lark_uzun"
+            android:id="@+id/tv_polo_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:text="0"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/polo_blue_arttir"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_polo_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:text="0"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/lark_uzun_arttir" />
-
-        <TextView
-            android:id="@+id/tv_lark_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/lark_kisa_arttir"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/polo_grey_arttir" />
 
         <Button
-            android:id="@+id/lark_kisa_azalt"
+            android:id="@+id/polo_blue_azalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#F4511E"
+            android:backgroundTint="#8E24AA"
             android:minWidth="65dip"
             android:text="-"
-            app:layout_constraintEnd_toStartOf="@+id/tv_lark_kisa"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_polo_blue"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/lark_uzun_azalt"
+            android:id="@+id/polo_grey_azalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#F4511E"
+            android:backgroundTint="#8E24AA"
             android:minWidth="65dip"
             android:text="-"
-            app:layout_constraintEnd_toStartOf="@+id/tv_lark_uzun"
-            app:layout_constraintTop_toBottomOf="@+id/lark_kisa_azalt" />
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_polo_grey"
+            app:layout_constraintTop_toBottomOf="@+id/polo_blue_azalt" />
 
         <Button
-            android:id="@+id/lark_kisa_arttir"
+            android:id="@+id/polo_blue_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#F4511E"
+            android:backgroundTint="#8E24AA"
             android:minWidth="65dip"
             android:text="+"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/lark_uzun_arttir"
+            android:id="@+id/polo_grey_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
-            android:height="50sp"
-            android:backgroundTint="#F4511E"
+            android:backgroundTint="#8E24AA"
             android:minWidth="65dip"
             android:text="+"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lark_kisa_arttir" />
+            app:layout_constraintTop_toBottomOf="@+id/polo_blue_arttir"
+            android:height="50sp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -133,10 +136,10 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout45">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout44">
 
         <Button
-            android:id="@+id/reset_all_lark"
+            android:id="@+id/reset_all_polo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="115dp"

@@ -6,11 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".activities.MarlboroActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".stocks.marbloro_stocks.MarlboroStocksActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="124dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="30dp"
         android:lines="1"
         android:text="MARLBORO"
@@ -20,29 +31,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout3"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout3"
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="70dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-        <Button
-            android:id="@+id/winston_intent_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="32dp"
-            android:width="300sp"
-            android:height="65sp"
-            android:backgroundTint="#FF0000"
-            android:text="MARLBORO"
-            android:textSize="30sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/marlboro_intent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:width="210sp"
+                    android:height="65sp"
+                    android:backgroundTint="#FF0000"
+                    android:text="MARLBORO"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
@@ -53,16 +63,16 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
         <Button
-            android:id="@+id/camel_intent_btn"
+            android:id="@+id/parliament_intent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="28dp"
-            android:width="300sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
+            android:width="210sp"
             android:height="65sp"
             android:backgroundTint="#FF0000"
             android:text="PARLIAMENT"
-            android:textSize="30sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -77,16 +87,16 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
         <Button
-            android:id="@+id/montecarlo_intent_btn"
+            android:id="@+id/muratti_intent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="28dp"
-            android:width="300sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
+            android:width="210sp"
             android:height="65sp"
             android:backgroundTint="#FF0000"
             android:text="MURATTI"
-            android:textSize="30sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -101,16 +111,16 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
 
         <Button
-            android:id="@+id/ld_intent_btn"
+            android:id="@+id/lark_intent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="32dp"
-            android:width="300sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="35dp"
+            android:width="210sp"
             android:height="65sp"
             android:backgroundTint="#FF0000"
             android:text="LARK"
-            android:textSize="30sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -128,13 +138,13 @@
             android:id="@+id/chesterfield_intent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="32dp"
-            android:width="300sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="35dp"
+            android:width="210sp"
             android:height="65sp"
             android:backgroundTint="#FF0000"
-            android:text="CHESTERFIELD"
-            android:textSize="30sp"
+            android:text="CHESTER"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -151,15 +161,19 @@
             android:id="@+id/lm_intent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="28dp"
-            android:width="300sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="35dp"
+            android:width="210sp"
             android:height="65sp"
             android:backgroundTint="#FF0000"
             android:text="LM"
-            android:textSize="30sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
