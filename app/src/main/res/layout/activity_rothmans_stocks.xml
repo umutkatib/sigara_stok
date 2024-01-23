@@ -70,7 +70,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/rothmans_kisa_arttir_btn"
             app:layout_constraintTop_toTopOf="parent" />
@@ -82,7 +82,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="15dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rothmans_uzun_arttir_btn" />
@@ -182,7 +182,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/drange_black_kisa_arttir_btn"
             app:layout_constraintTop_toTopOf="parent" />
@@ -194,7 +194,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="15dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/drange_black_uzun_arttir_btn" />
@@ -315,7 +315,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/rothmans_drange_black_kisa_arttir_btn"
             app:layout_constraintTop_toTopOf="parent" />
@@ -327,7 +327,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="15dp"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rothmans_drange_blue_uzun_arttir_btn" />

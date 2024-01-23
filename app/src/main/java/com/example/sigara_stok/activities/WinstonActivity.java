@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.sigara_stok.R;
+import com.example.sigara_stok.tekel_stocks.KentStocksActivity;
+import com.example.sigara_stok.tekel_stocks.RothmansStocksActivity;
+import com.example.sigara_stok.tekel_stocks.TekelStocksActivity;
+import com.example.sigara_stok.tekel_stocks.ViceroyStocksActivity;
 import com.example.sigara_stok.winston_stocks.CamelStocksActivity;
 import com.example.sigara_stok.winston_stocks.LDStocksActivity;
 import com.example.sigara_stok.winston_stocks.MonteCarloStocksActivity;
@@ -22,40 +26,18 @@ public class WinstonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winston);
 
-        winston_intent_btn = findViewById(R.id.winston_intent_btn);
-        camel_intent_btn = findViewById(R.id.camel_intent_btn);
-        montecarlo_intent_btn = findViewById(R.id.montecarlo_intent_btn);
-        ld_intent_btn = findViewById(R.id.ld_intent_btn);
+        setWinstonButtons(R.id.winston_intent_btn, WinstonStocksActivity.class);
+        setWinstonButtons(R.id.camel_intent_btn, CamelStocksActivity.class);
+        setWinstonButtons(R.id.montecarlo_intent_btn, MonteCarloStocksActivity.class);
+        setWinstonButtons(R.id.ld_intent_btn, LDStocksActivity.class);
+    }
 
-        winston_intent_btn.setOnClickListener(new View.OnClickListener() {
+    private void setWinstonButtons(int buttonId, final Class<?> cls) {
+        Button button = findViewById(buttonId);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(WinstonActivity.this, WinstonStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        camel_intent_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(WinstonActivity.this, CamelStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        montecarlo_intent_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(WinstonActivity.this, MonteCarloStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        ld_intent_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(WinstonActivity.this, LDStocksActivity.class);
-                startActivity(i);
+                startActivity(new Intent(WinstonActivity.this, cls));
             }
         });
     }

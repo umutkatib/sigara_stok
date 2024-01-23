@@ -15,6 +15,7 @@ import com.example.sigara_stok.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -27,12 +28,11 @@ public class ViceroyStocksActivity extends AppCompatActivity {
     private int countViceroyRedKisa = 0, countViceroyRedUzun = 0;
     private TextView tv_navy_kisa, tv_navy_uzun;
     private TextView tv_red_kisa, tv_red_uzun;
-
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
     FirebaseAuth auth;
 
-    String documentNameRothamnsBlueKisa = "BAT_Viceroy_Kisa_Navy", documentNameRothamnsBlueUzun = "BAT_Viceroy_Uzun_Navy";
-    String documentNameRothmansDrangeBlackKisa = "BAT_Viceroy_Kisa_Red", documentNameRothmansDrangeBlackUzun = "BAT_Viceroy_Uzun_Red";
+    final static String documentNameViceroyNavyKisa = "BAT_Viceroy_Kisa_Navy", documentNameViceroyNavyUzun = "BAT_Viceroy_Uzun_Navy";
+    final static String documentNameViceroyRedKisa = "BAT_Viceroy_Kisa_Red", documentNameViceroyRedUzun = "BAT_Viceroy_Uzun_Red";
 
 
     @Override
@@ -46,11 +46,15 @@ public class ViceroyStocksActivity extends AppCompatActivity {
         Button viceroy_nav_kisa_arttir = findViewById(R.id.viceroy_nav_kisa_arttir);
         Button viceroy_nav_uzun_azalt = findViewById(R.id.viceroy_nav_uzun_azalt);
         Button viceroy_nav_uzun_arttir = findViewById(R.id.viceroy_nav_uzun_arttir);
-
         Button viceroy_red_kisa_azalt = findViewById(R.id.viceroy_red_kisa_azalt);
         Button viceroy_red_kisa_arttir = findViewById(R.id.viceroy_red_kisa_arttir);
         Button viceroy_red_uzun_azalt = findViewById(R.id.viceroy_red_uzun_azalt);
         Button viceroy_red_uzun_arttir = findViewById(R.id.viceroy_red_uzun_arttir);
+
+        setViceroyButtonClickListeners(viceroy_nav_kisa_azalt, viceroy_nav_kisa_arttir, documentNameViceroyNavyKisa);
+        setViceroyButtonClickListeners(viceroy_nav_uzun_azalt, viceroy_nav_uzun_arttir, documentNameViceroyNavyUzun);
+        setViceroyButtonClickListeners(viceroy_red_kisa_azalt, viceroy_red_kisa_arttir, documentNameViceroyRedKisa);
+        setViceroyButtonClickListeners(viceroy_red_uzun_azalt, viceroy_red_uzun_arttir, documentNameViceroyRedUzun);
 
 
         tv_navy_kisa = findViewById(R.id.tv_navy_kisa);
@@ -71,101 +75,41 @@ public class ViceroyStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
-
-
-        ////////////////////
-
-        viceroy_nav_kisa_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothamnsBlueKisa);
-            }
-        });
-
-        viceroy_nav_kisa_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothamnsBlueKisa);
-            }
-        });
-
-        //////////////////////
-
-        viceroy_nav_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothamnsBlueUzun);
-            }
-        });
-
-        viceroy_nav_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothamnsBlueUzun);
-            }
-        });
-
-        //////////////////////
-
-        viceroy_red_kisa_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothmansDrangeBlackKisa);
-            }
-        });
-
-        viceroy_red_kisa_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothmansDrangeBlackKisa);
-            }
-        });
-
-        //////////////////////
-
-
-        viceroy_red_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothmansDrangeBlackUzun);
-            }
-        });
-
-
-        viceroy_red_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothmansDrangeBlackUzun);
-            }
-        });
-
     }
 
-    private void resetAllCounts() {
-        // Tüm yerel ve Firestore count değerlerini sıfırla
-        resetLocalCounts();
-        resetFirestoreCounts();
+    private void setViceroyButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
+        incrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementCount(documentName);
+            }
+        });
+
+        decrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementCount(documentName);
+            }
+        });
     }
 
-    private void resetLocalCounts() {
+    private void resetCounts() {
         countViceroyNavyKisa = 0;
         countViceroyNavyUzun = 0;
         countViceroyRedKisa = 0;
         countViceroyRedUzun = 0;
 
         // Tüm TextView'ları sıfırla
-        updateTextView(documentNameRothamnsBlueKisa, countViceroyNavyKisa);
-        updateTextView(documentNameRothamnsBlueUzun, countViceroyNavyUzun);
-        updateTextView(documentNameRothmansDrangeBlackKisa, countViceroyRedKisa);
-        updateTextView(documentNameRothmansDrangeBlackUzun, countViceroyRedUzun);
-    }
+        updateTextView(documentNameViceroyNavyKisa, countViceroyNavyKisa);
+        updateTextView(documentNameViceroyNavyUzun, countViceroyNavyUzun);
+        updateTextView(documentNameViceroyRedKisa, countViceroyRedKisa);
+        updateTextView(documentNameViceroyRedUzun, countViceroyRedUzun);
 
-    private void resetFirestoreCounts() {
         // Firestore'daki tüm belgelerin stock değerini sıfırla
-        updateFirestore(documentNameRothamnsBlueKisa, 0);
-        updateFirestore(documentNameRothamnsBlueUzun, 0);
-        updateFirestore(documentNameRothmansDrangeBlackKisa, 0);
-        updateFirestore(documentNameRothmansDrangeBlackUzun, 0);
+        firestoreCount(documentNameViceroyNavyKisa, 0);
+        firestoreCount(documentNameViceroyNavyUzun, 0);
+        firestoreCount(documentNameViceroyRedKisa, 0);
+        firestoreCount(documentNameViceroyRedUzun, 0);
     }
 
     private void showConfirmationDialog() {
@@ -176,7 +120,7 @@ public class ViceroyStocksActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Kullanıcı evet derse tüm verileri sıfırla
-                resetAllCounts();
+                resetCounts();
                 Toast.makeText(getApplicationContext(), "Tüm stok verisi sıfırlandı.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -192,62 +136,89 @@ public class ViceroyStocksActivity extends AppCompatActivity {
 
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
-        updateFirestore(documentName, getCount(documentName) + 1);
+        firestoreCount(documentName, getCount(documentName) + 1);
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
         if (getCount(documentName) > 0) {
-            updateFirestore(documentName, getCount(documentName) - 1);
+            firestoreCount(documentName, getCount(documentName) - 1);
         }
     }
 
 
-    private void updateFirestore(String documentName, int count) {
+    private void firestoreCount(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         if (user != null) {
             String uid = user.getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userCollectionName = getUserCollectionName(uid);
 
-            FirebaseUser currentUser = auth.getCurrentUser();
-            String userEmail = currentUser.getEmail();
-            String[] parts = userEmail.split("@");
-            String userName = parts[0];
-
-            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
+            DocumentReference documentReference = userCollectionRef.document(documentName);
 
-            // Belgeyi ekleyin
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("stock", count);
-
-            userCollectionRef.document(documentName)
-                    .set(userData)
-                    .addOnSuccessListener(aVoid -> {
-                        // Yerel count değerini ve TextView'i güncelle
-                        setCount(documentName, count);
-                        updateTextView(documentName, count);
-                        Log.d("TAG333", documentName + " belgesi başarıyla oluşturuldu ve güncellendi.");
+            documentReference.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Document exists, update count
+                            updateFirestore(documentReference, count);
+                        } else {
+                            // Document doesn't exist, create new document
+                            createFirestoreDocument(documentReference, count);
+                        }
                     })
                     .addOnFailureListener(e -> {
-                        Log.w("TAG444", documentName + " belgesi oluşturulurken hata oluştu", e);
-                        Toast.makeText(getApplicationContext(), "Belge oluşturma hatası", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Stok Güncelleme Başarısız..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void updateFirestore(DocumentReference documentReference, int count) {
+        documentReference.update("stock", count)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully updated.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document update failed.", e);
+                });
+    }
 
+
+    private void createFirestoreDocument(DocumentReference documentReference, int count) {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("stock", count);
+
+        documentReference.set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully created.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document creation failed.", e);
+                });
+    }
+
+    private String getUserCollectionName(String uid) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+        return userName + "_market_" + uid;
+    }
 
 
     private void readFirestore() {
         // Her iki belgeyi de oku
-        readFirestoreForDocument(documentNameRothamnsBlueKisa);
-        readFirestoreForDocument(documentNameRothamnsBlueUzun);
+        readFirestoreForDocument(documentNameViceroyNavyKisa);
+        readFirestoreForDocument(documentNameViceroyNavyUzun);
 
-        readFirestoreForDocument(documentNameRothmansDrangeBlackKisa);
-        readFirestoreForDocument(documentNameRothmansDrangeBlackUzun);
+        readFirestoreForDocument(documentNameViceroyRedKisa);
+        readFirestoreForDocument(documentNameViceroyRedUzun);
     }
 
     private void readFirestoreForDocument(String documentName) {
@@ -278,26 +249,26 @@ public class ViceroyStocksActivity extends AppCompatActivity {
 
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
-        if (documentName.equals(documentNameRothamnsBlueKisa)) {
+        if (documentName.equals(documentNameViceroyNavyKisa)) {
             tv_navy_kisa.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameRothamnsBlueUzun)) {
+        } else if (documentName.equals(documentNameViceroyNavyUzun)) {
             tv_navy_uzun.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameRothmansDrangeBlackKisa)) {
+        } else if (documentName.equals(documentNameViceroyRedKisa)) {
             tv_red_kisa.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameRothmansDrangeBlackUzun)) {
+        } else if (documentName.equals(documentNameViceroyRedUzun)) {
             tv_red_uzun.setText(String.valueOf(count));
         }
     }
 
     private int getCount(String documentName) {
         // Belirli bir belgeye ait yerel count değerini döndür
-        if (documentName.equals(documentNameRothamnsBlueKisa)) {
+        if (documentName.equals(documentNameViceroyNavyKisa)) {
             return countViceroyNavyKisa;
-        } else if (documentName.equals(documentNameRothamnsBlueUzun)) {
+        } else if (documentName.equals(documentNameViceroyNavyUzun)) {
             return countViceroyNavyUzun;
-        } else if(documentName.equals(documentNameRothmansDrangeBlackKisa)) {
+        } else if(documentName.equals(documentNameViceroyRedKisa)) {
             return countViceroyRedKisa;
-        } else if(documentName.equals(documentNameRothmansDrangeBlackUzun)) {
+        } else if(documentName.equals(documentNameViceroyRedUzun)) {
             return countViceroyRedUzun;
         }
         return 0;
@@ -305,13 +276,13 @@ public class ViceroyStocksActivity extends AppCompatActivity {
 
     private void setCount(String documentName, int count) {
         // Belirli bir belgeye ait yerel count değerini güncelle
-        if (documentName.equals(documentNameRothamnsBlueKisa)) {
+        if (documentName.equals(documentNameViceroyNavyKisa)) {
             countViceroyNavyKisa = count;
-        } else if (documentName.equals(documentNameRothamnsBlueUzun)) {
+        } else if (documentName.equals(documentNameViceroyNavyUzun)) {
             countViceroyNavyUzun = count;
-        } else if (documentName.equals(documentNameRothmansDrangeBlackKisa)) {
+        } else if (documentName.equals(documentNameViceroyRedKisa)) {
             countViceroyRedKisa = count;
-        } else if (documentName.equals(documentNameRothmansDrangeBlackUzun)) {
+        } else if (documentName.equals(documentNameViceroyRedUzun)) {
             countViceroyRedUzun = count;
         }
     }

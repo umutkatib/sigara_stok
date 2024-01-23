@@ -72,7 +72,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/mavi_2000_kisa_arttir_btn"
             app:layout_constraintTop_toTopOf="parent" />
@@ -84,7 +84,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="20dp"
             android:text="0"
-            android:textSize="20dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/mavi_2000_uzun_arttir_btn" />
@@ -258,7 +258,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/kirmizi_2000_kisa_arttir_btn"
             app:layout_constraintTop_toTopOf="parent" />
@@ -270,7 +270,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="20dp"
             android:text="0"
-            android:textSize="20dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/kirmizi_2000_uzun_arttir_btn" />
@@ -316,7 +316,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/mavi_2001_kisa_arttir_btn"
             app:layout_constraintTop_toTopOf="parent" />
@@ -328,7 +328,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="20dp"
             android:text="0"
-            android:textSize="20dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/mavi_2001_uzun_arttir_btn" />
@@ -404,7 +404,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:text="0"
-            android:textSize="20dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_kisa_arttir_btn"
             app:layout_constraintTop_toTopOf="parent" />
@@ -440,7 +440,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="20dp"
             android:text="0"
-            android:textSize="20dp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_uzun_arttir_btn" />

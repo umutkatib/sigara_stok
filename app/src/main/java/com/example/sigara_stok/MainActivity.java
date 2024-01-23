@@ -18,17 +18,18 @@ import com.example.sigara_stok.activities.MarlboroActivity;
 import com.example.sigara_stok.activities.TekelActivity;
 import com.example.sigara_stok.activities.WestActivity;
 import com.example.sigara_stok.activities.WinstonActivity;
+import com.example.sigara_stok.tekel_stocks.KentStocksActivity;
+import com.example.sigara_stok.tekel_stocks.RothmansStocksActivity;
+import com.example.sigara_stok.tekel_stocks.TekelStocksActivity;
+import com.example.sigara_stok.tekel_stocks.ViceroyStocksActivity;
 import com.example.sigara_stok.west_stocks.WestStocksActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-
-    Button marlboro, tekel, winston, hd, west, cikisYap;
+    Button cikisYap;
     TextView userName;
-
     FirebaseAuth auth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,53 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        marlboro = findViewById(R.id.btn_marlbora);
-        tekel = findViewById(R.id.btn_tekel);
-        winston = findViewById(R.id.btn_winston);
         cikisYap = findViewById(R.id.btn_cikis_yap);
-        hd = findViewById(R.id.btn_hd);
-        west = findViewById(R.id.btn_west);
         userName = findViewById(R.id.userName);
 
-        marlboro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), MarlboroActivity.class);
-                startActivity(i);
-            }
-        });
-
-        tekel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), TekelActivity.class);
-                startActivity(i);
-            }
-        });
-
-        winston.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), WinstonActivity.class);
-                startActivity(i);
-            }
-        });
-
-        hd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), HdActivity.class);
-                startActivity(i);
-            }
-        });
-
-        west.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), WestActivity.class);
-                startActivity(i);
-            }
-        });
+        setMainButtons(R.id.btn_marlbora, MarlboroActivity.class);
+        setMainButtons(R.id.btn_tekel, TekelActivity.class);
+        setMainButtons(R.id.btn_winston, WinstonActivity.class);
+        setMainButtons(R.id.btn_hd, HdActivity.class);
+        setMainButtons(R.id.btn_west, WestActivity.class);
 
         cikisYap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,9 +65,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void setMainButtons(int buttonId, final Class<?> cls) {
+        Button button = findViewById(buttonId);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, cls));
+            }
+        });
+    }
+
     private void showConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Çıkış Onayı");
+        builder.setTitle("ÇIKIŞ ONAYI");
         builder.setMessage("Çıkmak istediğinizden emin misiniz?");
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
@@ -118,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Kullanıcı hayır derse hiçbir şey yapma
                 dialog.dismiss();
             }
         });

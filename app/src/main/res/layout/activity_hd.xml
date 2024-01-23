@@ -277,7 +277,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout54"
                 android:layout_width="409dp"
-                android:layout_height="298dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="40dp"
                 app:layout_constraintStart_toStartOf="parent"

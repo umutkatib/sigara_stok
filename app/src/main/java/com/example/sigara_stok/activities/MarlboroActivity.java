@@ -14,6 +14,10 @@ import com.example.sigara_stok.stocks.marbloro_stocks.LarkStocksActivity;
 import com.example.sigara_stok.stocks.marbloro_stocks.MarlboroStocksActivity;
 import com.example.sigara_stok.stocks.marbloro_stocks.MurattiStocksActivity;
 import com.example.sigara_stok.stocks.marbloro_stocks.ParliamentStocksActivity;
+import com.example.sigara_stok.tekel_stocks.KentStocksActivity;
+import com.example.sigara_stok.tekel_stocks.RothmansStocksActivity;
+import com.example.sigara_stok.tekel_stocks.TekelStocksActivity;
+import com.example.sigara_stok.tekel_stocks.ViceroyStocksActivity;
 
 public class MarlboroActivity extends AppCompatActivity {
 
@@ -24,59 +28,19 @@ public class MarlboroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marlboro);
 
-
-        marlboro = findViewById(R.id.marlboro_intent);
-        parliament = findViewById(R.id.parliament_intent);
-        muratti = findViewById(R.id.muratti_intent);
-        lark = findViewById(R.id.lark_intent);
-        lm = findViewById(R.id.lm_intent);
-        chesterfield = findViewById(R.id.chesterfield_intent);
-
-        marlboro.setOnClickListener(new View.OnClickListener() {
+        setMarlboroButtons(R.id.marlboro_intent, MarlboroStocksActivity.class);
+        setMarlboroButtons(R.id.parliament_intent, ParliamentStocksActivity.class);
+        setMarlboroButtons(R.id.muratti_intent, MurattiStocksActivity.class);
+        setMarlboroButtons(R.id.lark_intent, LarkStocksActivity.class);
+        setMarlboroButtons(R.id.lm_intent, LMStocksActivity.class);
+        setMarlboroButtons(R.id.chesterfield_intent, ChesterfieldStocksActivity.class);
+    }
+    private void setMarlboroButtons(int buttonId, final Class<?> cls) {
+        Button button = findViewById(buttonId);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), MarlboroStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        parliament.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), ParliamentStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        muratti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), MurattiStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        lark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), LarkStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        lm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), LMStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        chesterfield.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), ChesterfieldStocksActivity.class);
-                startActivity(i);
+                startActivity(new Intent(MarlboroActivity.this, cls));
             }
         });
     }

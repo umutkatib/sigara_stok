@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -27,17 +28,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChesterfieldStocksActivity extends AppCompatActivity {
-
-
     private int countNavyKisa = 0, countNavyUzun = 0;
     private TextView tv_chester_navy_kisa,tv_chester_navy_uzun;
-
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
     FirebaseAuth auth;
 
-
     String documentNamePMChesterfieldKisa = "PM_Chesterfield_Navy_Kisa", documentNamePMChesterfieldUzun = "PM_Chesterfield_Navy_Uzun";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +46,9 @@ public class ChesterfieldStocksActivity extends AppCompatActivity {
         Button navy_kisa_arttir = findViewById(R.id.navy_kisa_arttir);
         Button navy_uzun_azalt = findViewById(R.id.navy_uzun_azalt);
         Button navy_uzun_arttir = findViewById(R.id.navy_uzun_arttir);
+
+        setChesterfieldButtonClickListeners(navy_kisa_azalt, navy_kisa_arttir, documentNamePMChesterfieldKisa);
+        setChesterfieldButtonClickListeners(navy_uzun_azalt, navy_uzun_arttir, documentNamePMChesterfieldUzun);
 
         tv_chester_navy_kisa = findViewById(R.id.tv_chester_navy_kisa);
         tv_chester_navy_uzun = findViewById(R.id.tv_chester_navy_uzun);
@@ -66,41 +65,22 @@ public class ChesterfieldStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+    }
 
-
-        ////////////////////
-
-        navy_kisa_arttir.setOnClickListener(new View.OnClickListener() {
+    private void setChesterfieldButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
+        incrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                incrementCount(documentNamePMChesterfieldKisa);
+                incrementCount(documentName);
             }
         });
 
-        navy_kisa_azalt.setOnClickListener(new View.OnClickListener() {
+        decrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decrementCount(documentNamePMChesterfieldKisa);
+                decrementCount(documentName);
             }
         });
-
-        //////////////////////
-
-        navy_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNamePMChesterfieldUzun);
-            }
-        });
-
-        navy_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNamePMChesterfieldUzun);
-            }
-        });
-
-
     }
 
 
@@ -121,8 +101,8 @@ public class ChesterfieldStocksActivity extends AppCompatActivity {
 
     private void resetFirestoreCounts() {
         // Firestore'daki tüm belgelerin stock değerini sıfırla
-        updateFirestore(documentNamePMChesterfieldKisa, 0);
-        updateFirestore(documentNamePMChesterfieldUzun, 0);
+        firestoreCount(documentNamePMChesterfieldKisa, 0);
+        firestoreCount(documentNamePMChesterfieldUzun, 0);
     }
 
     private void showConfirmationDialog() {
@@ -149,90 +129,78 @@ public class ChesterfieldStocksActivity extends AppCompatActivity {
 
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
-        updateFirestore(documentName, getCount(documentName) + 1);
+        firestoreCount(documentName, getCount(documentName) + 1);
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
         if (getCount(documentName) > 0) {
-            updateFirestore(documentName, getCount(documentName) - 1);
+            firestoreCount(documentName, getCount(documentName) - 1);
         }
     }
 
-    private void updateFirestore(String documentName, int count) {
+    private void firestoreCount(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String uid = user.getUid();
-
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userCollectionName = getUserCollectionName(uid);
 
-            FirebaseUser currentUser = auth.getCurrentUser();
-            String userEmail = currentUser.getEmail();
-            String[] parts = userEmail.split("@");
-            String userName = parts[0];
-
-            // Koleksiyon adını belirleyin
-            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
+            DocumentReference documentReference = userCollectionRef.document(documentName);
 
-            // Yeni belge eklemek için haritaları oluşturun
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("stock", 0);
-
-            userCollectionRef.document(documentName)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    // Belge mevcut, güncelle
-                                    userCollectionRef.document(documentName)
-                                            .update("stock", count)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla güncellendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi güncellenirken hata oluştu", e);
-                                                }
-                                            });
-                                } else {
-                                    // Belge mevcut değil, yeni belge ekle
-                                    userCollectionRef.document(documentName)
-                                            .set(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla eklendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi eklenirken hata oluştu", e);
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.d("TAG555", "Belge varlık durumu kontrolü başarısız oldu.", task.getException());
-                            }
+            documentReference.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Document exists, update count
+                            updateFirestore(documentReference, count);
+                        } else {
+                            // Document doesn't exist, create new document
+                            createFirestoreDocument(documentReference, count);
                         }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Stok Güncelleme Başarısız..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateFirestore(DocumentReference documentReference, int count) {
+        documentReference.update("stock", count)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully updated.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document update failed.", e);
+                });
+    }
+
+
+    private void createFirestoreDocument(DocumentReference documentReference, int count) {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("stock", count);
+
+        documentReference.set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully created.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document creation failed.", e);
+                });
+    }
+
+    private String getUserCollectionName(String uid) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+        return userName + "_market_" + uid;
     }
 
 
@@ -246,14 +214,9 @@ public class ChesterfieldStocksActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        String userEmail = currentUser.getEmail();
-        String[] parts = userEmail.split("@");
-        String userName = parts[0];
-
 
         // Koleksiyon adını belirleyin
-        String userCollectionName = userName + "_market_" + uid;
+        String userCollectionName = getUserCollectionName(uid);
 
         db.collection(userCollectionName).document(documentName)
                 .get()

@@ -1,9 +1,8 @@
 package com.example.sigara_stok.stocks.marbloro_stocks;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,34 +10,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.sigara_stok.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class LarkStocksActivity extends AppCompatActivity {
-
-
-
     private int countLarkKisa = 0, countLarkUzun = 0;
     private TextView tv_countLarkKisa, tv_countLarkUzun;
 
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
     FirebaseAuth auth;
 
-
-    String documentNameMCDarkBlueKisa = "PM_Lark_Kisa", documentNameMCDarkBlueUzun = "PM_Lark_Uzun";
-
+    final static String documentNameLarkKisa = "PM_Lark_Kisa", documentNameLarkUzun = "PM_Lark_Uzun";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +34,13 @@ public class LarkStocksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lark_stocks);
 
         Button reset_all_lark = findViewById(R.id.reset_all_lark);
-
         Button lark_kisa_azalt = findViewById(R.id.lark_kisa_azalt);
         Button lark_kisa_arttir = findViewById(R.id.lark_kisa_arttir);
         Button lark_uzun_azalt = findViewById(R.id.lark_uzun_azalt);
         Button lark_uzun_arttir = findViewById(R.id.lark_uzun_arttir);
+
+        setLarkButtonClickListeners(lark_kisa_azalt, lark_kisa_arttir, documentNameLarkKisa);
+        setLarkButtonClickListeners(lark_uzun_azalt, lark_uzun_arttir, documentNameLarkUzun);
 
         tv_countLarkKisa = findViewById(R.id.tv_lark_kisa);
         tv_countLarkUzun = findViewById(R.id.tv_lark_uzun);
@@ -67,63 +57,36 @@ public class LarkStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+    }
 
-
-        ////////////////////
-
-        lark_kisa_arttir.setOnClickListener(new View.OnClickListener() {
+    private void setLarkButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
+        incrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                incrementCount(documentNameMCDarkBlueKisa);
+                incrementCount(documentName);
             }
         });
 
-        lark_kisa_azalt.setOnClickListener(new View.OnClickListener() {
+        decrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decrementCount(documentNameMCDarkBlueKisa);
+                decrementCount(documentName);
             }
         });
-
-        //////////////////////
-
-        lark_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMCDarkBlueUzun);
-            }
-        });
-
-        lark_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMCDarkBlueUzun);
-            }
-        });
-
-
     }
 
 
-    private void resetAllCounts() {
-        // Tüm yerel ve Firestore count değerlerini sıfırla
-        resetLocalCounts();
-        resetFirestoreCounts();
-    }
-
-    private void resetLocalCounts() {
+    private void resetCounts() {
         countLarkKisa = 0;
         countLarkUzun = 0;
 
         // Tüm TextView'ları sıfırla
-        updateTextView(documentNameMCDarkBlueKisa, countLarkKisa);
-        updateTextView(documentNameMCDarkBlueUzun, countLarkUzun);
-    }
+        updateTextView(documentNameLarkKisa, countLarkKisa);
+        updateTextView(documentNameLarkUzun, countLarkUzun);
 
-    private void resetFirestoreCounts() {
         // Firestore'daki tüm belgelerin stock değerini sıfırla
-        updateFirestore(documentNameMCDarkBlueKisa, 0);
-        updateFirestore(documentNameMCDarkBlueUzun, 0);
+        firestoreCount(documentNameLarkKisa, 0);
+        firestoreCount(documentNameLarkUzun, 0);
     }
 
     private void showConfirmationDialog() {
@@ -134,7 +97,7 @@ public class LarkStocksActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Kullanıcı evet derse tüm verileri sıfırla
-                resetAllCounts();
+                resetCounts();
                 Toast.makeText(getApplicationContext(), "Tüm stok verisi sıfırlandı.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -150,97 +113,84 @@ public class LarkStocksActivity extends AppCompatActivity {
 
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
-        updateFirestore(documentName, getCount(documentName) + 1);
+        firestoreCount(documentName, getCount(documentName) + 1);
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
         if (getCount(documentName) > 0) {
-            updateFirestore(documentName, getCount(documentName) - 1);
+            firestoreCount(documentName, getCount(documentName) - 1);
         }
     }
 
-    private void updateFirestore(String documentName, int count) {
+    private void firestoreCount(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String uid = user.getUid();
-
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userCollectionName = getUserCollectionName(uid);
 
-            FirebaseUser currentUser = auth.getCurrentUser();
-            String userEmail = currentUser.getEmail();
-            String[] parts = userEmail.split("@");
-            String userName = parts[0];
-
-            // Koleksiyon adını belirleyin
-            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
+            DocumentReference documentReference = userCollectionRef.document(documentName);
 
-            // Yeni belge eklemek için haritaları oluşturun
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("stock", 0);
-
-            userCollectionRef.document(documentName)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    // Belge mevcut, güncelle
-                                    userCollectionRef.document(documentName)
-                                            .update("stock", count)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla güncellendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi güncellenirken hata oluştu", e);
-                                                }
-                                            });
-                                } else {
-                                    // Belge mevcut değil, yeni belge ekle
-                                    userCollectionRef.document(documentName)
-                                            .set(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla eklendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi eklenirken hata oluştu", e);
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.d("TAG555", "Belge varlık durumu kontrolü başarısız oldu.", task.getException());
-                            }
+            documentReference.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Document exists, update count
+                            updateFirestore(documentReference, count);
+                        } else {
+                            // Document doesn't exist, create new document
+                            createFirestoreDocument(documentReference, count);
                         }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Stok Güncelleme Başarısız..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void updateFirestore(DocumentReference documentReference, int count) {
+        documentReference.update("stock", count)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully updated.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document update failed.", e);
+                });
+    }
+
+
+    private void createFirestoreDocument(DocumentReference documentReference, int count) {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("stock", count);
+
+        documentReference.set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully created.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document creation failed.", e);
+                });
+    }
+
+    private String getUserCollectionName(String uid) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+        return userName + "_market_" + uid;
+    }
 
     private void readFirestore() {
         // Her iki belgeyi de oku
-        readFirestoreForDocument(documentNameMCDarkBlueKisa);
-        readFirestoreForDocument(documentNameMCDarkBlueUzun);
+        readFirestoreForDocument(documentNameLarkKisa);
+        readFirestoreForDocument(documentNameLarkUzun);
 
     }
 
@@ -248,14 +198,9 @@ public class LarkStocksActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        String userEmail = currentUser.getEmail();
-        String[] parts = userEmail.split("@");
-        String userName = parts[0];
-
 
         // Koleksiyon adını belirleyin
-        String userCollectionName = userName + "_market_" + uid;
+        String userCollectionName = getUserCollectionName(uid);
 
         db.collection(userCollectionName).document(documentName)
                 .get()
@@ -275,18 +220,18 @@ public class LarkStocksActivity extends AppCompatActivity {
 
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
-        if (documentName.equals(documentNameMCDarkBlueKisa)) {
+        if (documentName.equals(documentNameLarkKisa)) {
             tv_countLarkKisa.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
+        } else if (documentName.equals(documentNameLarkUzun)) {
             tv_countLarkUzun.setText(String.valueOf(count));
         }
     }
 
     private int getCount(String documentName) {
         // Belirli bir belgeye ait yerel count değerini döndür
-        if (documentName.equals(documentNameMCDarkBlueKisa)) {
+        if (documentName.equals(documentNameLarkKisa)) {
             return countLarkKisa;
-        } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
+        } else if (documentName.equals(documentNameLarkUzun)) {
             return countLarkUzun;
         }
         return 0;
@@ -294,9 +239,9 @@ public class LarkStocksActivity extends AppCompatActivity {
 
     private void setCount(String documentName, int count) {
         // Belirli bir belgeye ait yerel count değerini güncelle
-        if (documentName.equals(documentNameMCDarkBlueKisa)) {
+        if (documentName.equals(documentNameLarkKisa)) {
             countLarkKisa = count;
-        } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
+        } else if (documentName.equals(documentNameLarkUzun)) {
             countLarkUzun = count;
         }
     }

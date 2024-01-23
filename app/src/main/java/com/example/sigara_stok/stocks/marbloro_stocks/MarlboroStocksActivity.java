@@ -1,9 +1,8 @@
 package com.example.sigara_stok.stocks.marbloro_stocks;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,18 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.sigara_stok.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,15 +28,13 @@ public class MarlboroStocksActivity extends AppCompatActivity {
     private TextView tv_marl_touch, tv_marl_touch_grey;
     private TextView tv_marl_touch_white, tv_marl_touch_blue;
     private TextView tv_marl_edge, tv_marl_edge_blue, tv_marl_edge_sky;
-
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
     FirebaseAuth auth;
 
-
-    String documentNameMBRedKisa = "PM_Marlboro_Red_Kisa", documentNameMBRedUzun = "PM_Marlboro_Red_Uzun";
-    String documentNameMBTouch = "PM_Marlboro_Touch", documentNameMBTouchGrey = "PM_Marlboro_Touch_Grey";
-    String documentNameMBTouchBlue = "PM_Marlboro_Touch_Blue", documentNameMBTouchWhite = "PM_Marlboro_Touch_White";
-    String documentNameMBEdge = "PM_Marlboro_Edge", documentNameMBEdgeSky = "PM_Marlboro_Edge_Sky", documentNameMBEdgeBlue = "PM_Marlboro_Edge_Blue";
+    final static String documentNameMBRedKisa = "PM_Marlboro_Red_Kisa", documentNameMBRedUzun = "PM_Marlboro_Red_Uzun";
+    final static String documentNameMBTouch = "PM_Marlboro_Touch", documentNameMBTouchGrey = "PM_Marlboro_Touch_Grey";
+    final static String documentNameMBTouchBlue = "PM_Marlboro_Touch_Blue", documentNameMBTouchWhite = "PM_Marlboro_Touch_White";
+    final static String documentNameMBEdge = "PM_Marlboro_Edge", documentNameMBEdgeSky = "PM_Marlboro_Edge_Sky", documentNameMBEdgeBlue = "PM_Marlboro_Edge_Blue";
 
 
 
@@ -60,26 +51,34 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         Button malb_red_uzun_arttir = findViewById(R.id.malb_red_uzun_arttir);
         Button malb_touch_azalt = findViewById(R.id.malb_touch_azalt);
         Button malb_touch_arttir = findViewById(R.id.malb_touch_arttir);
-
         Button malb_touch_grey_azalt = findViewById(R.id.malb_touch_grey_azalt);
         Button malb_touch_grey_arttir = findViewById(R.id.malb_touch_grey_arttir);
         Button malb_touch_white_azalt = findViewById(R.id.malb_touch_white_azalt);
         Button malb_touch_white_arttir = findViewById(R.id.malb_touch_white_arttir);
         Button malb_touch_blue_azalt = findViewById(R.id.malb_touch_blue_azalt);
         Button malb_touch_blue_arttir = findViewById(R.id.malb_touch_blue_arttir);
-
         Button malb_edge_azalt = findViewById(R.id.malb_edge_azalt);
         Button malb_edge_arttir = findViewById(R.id.malb_edge_arttir);
-
         Button malb_edge_blue_azalt = findViewById(R.id.malb_edge_blue_azalt);
         Button malb_edge_blue_arttir = findViewById(R.id.malb_edge_blue_arttir);
         Button malb_edge_sky_azalt = findViewById(R.id.malb_edge_sky_azalt);
         Button malb_edge_sky_arttir = findViewById(R.id.malb_edge_sky_arttir);
 
+
+        setMarlboroButtonClickListeners(malb_red_kisa_azalt, malb_red_kisa_arttir, documentNameMBRedKisa);
+        setMarlboroButtonClickListeners(malb_red_uzun_azalt, malb_red_uzun_arttir, documentNameMBRedUzun);
+        setMarlboroButtonClickListeners(malb_touch_azalt, malb_touch_arttir, documentNameMBTouch);
+        setMarlboroButtonClickListeners(malb_touch_grey_azalt, malb_touch_grey_arttir, documentNameMBTouchGrey);
+        setMarlboroButtonClickListeners(malb_touch_white_azalt, malb_touch_white_arttir, documentNameMBTouchWhite);
+        setMarlboroButtonClickListeners(malb_touch_blue_azalt, malb_touch_blue_arttir, documentNameMBTouchBlue);
+        setMarlboroButtonClickListeners(malb_edge_azalt, malb_edge_arttir, documentNameMBEdge);
+        setMarlboroButtonClickListeners(malb_edge_blue_azalt, malb_edge_blue_arttir, documentNameMBEdgeBlue);
+        setMarlboroButtonClickListeners(malb_edge_sky_azalt, malb_edge_sky_arttir, documentNameMBEdgeSky);
+
+
         tv_marl_red_kisa = findViewById(R.id.tv_marl_red_kisa);
         tv_marl_red_uzun = findViewById(R.id.tv_marl_red_uzun);
         tv_marl_touch = findViewById(R.id.tv_marl_touch);
-
         tv_marl_touch_grey = findViewById(R.id.tv_marl_touch_grey);
         tv_marl_touch_white = findViewById(R.id.tv_marl_touch_white);
         tv_marl_touch_blue = findViewById(R.id.tv_marl_touch_blue);
@@ -99,166 +98,25 @@ public class MarlboroStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+    }
 
-
-        ////////////////////
-
-        malb_red_kisa_arttir.setOnClickListener(new View.OnClickListener() {
+    private void setMarlboroButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
+        incrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                incrementCount(documentNameMBRedKisa);
+                incrementCount(documentName);
             }
         });
 
-        malb_red_kisa_azalt.setOnClickListener(new View.OnClickListener() {
+        decrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decrementCount(documentNameMBRedKisa);
-            }
-        });
-
-        //////////////////////
-
-        malb_red_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMBRedUzun);
-            }
-        });
-
-        malb_red_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMBRedUzun);
-            }
-        });
-
-        //////////////////////
-
-        malb_touch_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMBTouch);
-            }
-        });
-
-        malb_touch_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMBTouch);
-            }
-        });
-
-        //////////////////////
-
-
-        malb_touch_grey_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMBTouchGrey);
-            }
-        });
-
-
-        malb_touch_grey_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMBTouchGrey);
-            }
-        });
-
-        //////////////////////
-
-        malb_touch_white_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMBTouchWhite);
-            }
-        });
-
-
-        malb_touch_white_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMBTouchWhite);
-            }
-        });
-
-        //////////////////////
-
-        malb_touch_blue_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMBTouchBlue);
-            }
-        });
-
-
-        malb_touch_blue_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMBTouchBlue);
-            }
-        });
-
-        //////////////////////
-
-        malb_edge_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMBEdge);
-            }
-        });
-
-
-        malb_edge_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMBEdge);
-            }
-        });
-
-        //////////////////////
-
-        malb_edge_blue_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMBEdgeSky);
-            }
-        });
-
-
-        malb_edge_blue_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMBEdgeSky);
-            }
-        });
-
-        malb_edge_sky_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMBEdgeBlue);
-            }
-        });
-
-
-        malb_edge_sky_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMBEdgeBlue);
+                decrementCount(documentName);
             }
         });
     }
 
-
-    private void resetAllCounts() {
-        // Tüm yerel ve Firestore count değerlerini sıfırla
-        resetLocalCounts();
-        resetFirestoreCounts();
-    }
-
-    private void resetLocalCounts() {
+    private void resetCounts() {
         countMBRedKisa = 0;
         countMBRedUzun = 0;
         countMBTouch = 0;
@@ -279,19 +137,17 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         updateTextView(documentNameMBEdge, countMBEdge);
         updateTextView(documentNameMBEdgeSky, countMBEdgeSky);
         updateTextView(documentNameMBEdgeBlue, countMBEdgeBlue);
-    }
 
-    private void resetFirestoreCounts() {
         // Firestore'daki tüm belgelerin stock değerini sıfırla
-        updateFirestore(documentNameMBRedKisa, 0);
-        updateFirestore(documentNameMBRedUzun, 0);
-        updateFirestore(documentNameMBTouch, 0);
-        updateFirestore(documentNameMBTouchGrey, 0);
-        updateFirestore(documentNameMBTouchBlue, 0);
-        updateFirestore(documentNameMBTouchWhite, 0);
-        updateFirestore(documentNameMBEdge, 0);
-        updateFirestore(documentNameMBEdgeSky, 0);
-        updateFirestore(documentNameMBEdgeBlue, 0);
+        firestoreCount(documentNameMBRedKisa, 0);
+        firestoreCount(documentNameMBRedUzun, 0);
+        firestoreCount(documentNameMBTouch, 0);
+        firestoreCount(documentNameMBTouchGrey, 0);
+        firestoreCount(documentNameMBTouchBlue, 0);
+        firestoreCount(documentNameMBTouchWhite, 0);
+        firestoreCount(documentNameMBEdge, 0);
+        firestoreCount(documentNameMBEdgeSky, 0);
+        firestoreCount(documentNameMBEdgeBlue, 0);
     }
 
     private void showConfirmationDialog() {
@@ -302,7 +158,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Kullanıcı evet derse tüm verileri sıfırla
-                resetAllCounts();
+                resetCounts();
                 Toast.makeText(getApplicationContext(), "Tüm stok verisi sıfırlandı.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -318,90 +174,78 @@ public class MarlboroStocksActivity extends AppCompatActivity {
 
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
-        updateFirestore(documentName, getCount(documentName) + 1);
+        firestoreCount(documentName, getCount(documentName) + 1);
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
         if (getCount(documentName) > 0) {
-            updateFirestore(documentName, getCount(documentName) - 1);
+            firestoreCount(documentName, getCount(documentName) - 1);
         }
     }
 
-    private void updateFirestore(String documentName, int count) {
+    private void firestoreCount(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String uid = user.getUid();
-
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userCollectionName = getUserCollectionName(uid);
 
-            FirebaseUser currentUser = auth.getCurrentUser();
-            String userEmail = currentUser.getEmail();
-            String[] parts = userEmail.split("@");
-            String userName = parts[0];
-
-            // Koleksiyon adını belirleyin
-            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
+            DocumentReference documentReference = userCollectionRef.document(documentName);
 
-            // Yeni belge eklemek için haritaları oluşturun
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("stock", 0);
-
-            userCollectionRef.document(documentName)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    // Belge mevcut, güncelle
-                                    userCollectionRef.document(documentName)
-                                            .update("stock", count)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla güncellendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi güncellenirken hata oluştu", e);
-                                                }
-                                            });
-                                } else {
-                                    // Belge mevcut değil, yeni belge ekle
-                                    userCollectionRef.document(documentName)
-                                            .set(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla eklendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi eklenirken hata oluştu", e);
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.d("TAG555", "Belge varlık durumu kontrolü başarısız oldu.", task.getException());
-                            }
+            documentReference.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Document exists, update count
+                            updateFirestore(documentReference, count);
+                        } else {
+                            // Document doesn't exist, create new document
+                            createFirestoreDocument(documentReference, count);
                         }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Stok Güncelleme Başarısız..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateFirestore(DocumentReference documentReference, int count) {
+        documentReference.update("stock", count)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully updated.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document update failed.", e);
+                });
+    }
+
+
+    private void createFirestoreDocument(DocumentReference documentReference, int count) {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("stock", count);
+
+        documentReference.set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully created.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document creation failed.", e);
+                });
+    }
+
+    private String getUserCollectionName(String uid) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+        return userName + "_market_" + uid;
     }
 
 
@@ -424,14 +268,9 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        String userEmail = currentUser.getEmail();
-        String[] parts = userEmail.split("@");
-        String userName = parts[0];
-
 
         // Koleksiyon adını belirleyin
-        String userCollectionName = userName + "_market_" + uid;
+        String userCollectionName = getUserCollectionName(uid);
 
         db.collection(userCollectionName).document(documentName)
                 .get()

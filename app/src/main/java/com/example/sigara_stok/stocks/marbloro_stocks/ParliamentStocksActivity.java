@@ -1,9 +1,8 @@
 package com.example.sigara_stok.stocks.marbloro_stocks;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,18 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.sigara_stok.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,14 +26,12 @@ public class ParliamentStocksActivity extends AppCompatActivity {
     private TextView tv_parliament_kisa, tv_parliament_uzun;
     private TextView tv_parliament_midnight, tv_parliament_reserve;
     private TextView tv_parliament_slims, tv_parliament_aqua_blue;
-
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
     FirebaseAuth auth;
 
-
-    String documentNameParliamentKisa = "PM_Parliament_Kisa", documentNameParliamentUzun = "PM_Parliament_Uzun";
-    String documentNameParliamentMidnight = "PM_Parliament_Midnight_Blue", documentNameParliamentReserve = "PM_Parliament_Reserve";
-    String documentNameParliamentSlims = "PM_Parliament_Slims", documentNameParliamentAquaBlue = "PM_Parliament_Aqua_Blue";
+    final static String documentNameParliamentKisa = "PM_Parliament_Kisa", documentNameParliamentUzun = "PM_Parliament_Uzun";
+    final static String documentNameParliamentMidnight = "PM_Parliament_Midnight_Blue", documentNameParliamentReserve = "PM_Parliament_Reserve";
+    final static String documentNameParliamentSlims = "PM_Parliament_Slims", documentNameParliamentAquaBlue = "PM_Parliament_Aqua_Blue";
 
 
     @Override
@@ -49,21 +40,27 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_parliament_stocks);
 
         Button parliament_reset_all = findViewById(R.id.parliament_reset_all);
-
         Button parliament_kisa_azalt = findViewById(R.id.parliament_kisa_azalt);
         Button parliament_kisa_arttir = findViewById(R.id.parliament_kisa_arttir);
         Button parliament_uzun_azalt = findViewById(R.id.parliament_uzun_azalt);
         Button parliament_uzun_arttir = findViewById(R.id.parliament_uzun_arttir);
-
         Button parliament_midnight_azalt = findViewById(R.id.parliament_midnight_azalt);
         Button parliament_midnight_arttir = findViewById(R.id.parliament_midnight_arttir);
         Button parliament_reserve_azalt = findViewById(R.id.parliament_reserve_azalt);
         Button parliament_reserve_arttir = findViewById(R.id.parliament_reserve_arttir);
         Button parliament_slims_azalt = findViewById(R.id.parliament_slims_azalt);
         Button parliament_slims_arttir = findViewById(R.id.parliament_slims_arttir);
-
         Button parliament_aqua_azalt = findViewById(R.id.parliament_aqua_azalt);
         Button parliament_aqua_arttir = findViewById(R.id.parliament_aqua_arttir);
+
+
+        setParliamentButtonClickListeners(parliament_kisa_azalt, parliament_kisa_arttir, documentNameParliamentKisa);
+        setParliamentButtonClickListeners(parliament_uzun_azalt, parliament_uzun_arttir, documentNameParliamentUzun);
+        setParliamentButtonClickListeners(parliament_midnight_azalt, parliament_midnight_arttir, documentNameParliamentMidnight);
+        setParliamentButtonClickListeners(parliament_reserve_azalt, parliament_reserve_arttir, documentNameParliamentReserve);
+        setParliamentButtonClickListeners(parliament_slims_azalt, parliament_slims_arttir, documentNameParliamentSlims);
+        setParliamentButtonClickListeners(parliament_aqua_azalt, parliament_aqua_arttir, documentNameParliamentAquaBlue);
+
 
         tv_parliament_kisa = findViewById(R.id.tv_parliament_kisa);
         tv_parliament_uzun = findViewById(R.id.tv_parliament_uzun);
@@ -84,118 +81,25 @@ public class ParliamentStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
-
-
-        ////////////////////
-
-        parliament_kisa_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameParliamentKisa);
-            }
-        });
-
-        parliament_kisa_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameParliamentKisa);
-            }
-        });
-
-        //////////////////////
-
-        parliament_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameParliamentUzun);
-            }
-        });
-
-        parliament_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameParliamentUzun);
-            }
-        });
-
-        //////////////////////
-
-        parliament_midnight_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameParliamentMidnight);
-            }
-        });
-
-        parliament_midnight_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameParliamentMidnight);
-            }
-        });
-
-        //////////////////////
-
-
-        parliament_reserve_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameParliamentReserve);
-            }
-        });
-
-
-        parliament_reserve_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameParliamentReserve);
-            }
-        });
-
-        //////////////////////
-
-        parliament_slims_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameParliamentSlims);
-            }
-        });
-
-
-        parliament_slims_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameParliamentSlims);
-            }
-        });
-
-        //////////////////////
-
-        parliament_aqua_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameParliamentAquaBlue);
-            }
-        });
-
-
-        parliament_aqua_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameParliamentAquaBlue);
-            }
-        });
-
     }
 
+    private void setParliamentButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
+        incrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementCount(documentName);
+            }
+        });
 
-    private void resetAllCounts() {
-        // Tüm yerel ve Firestore count değerlerini sıfırla
-        resetLocalCounts();
-        resetFirestoreCounts();
+        decrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementCount(documentName);
+            }
+        });
     }
 
-    private void resetLocalCounts() {
+    private void resetCounts() {
         countParliamentKisa = 0;
         countParliamentUzun = 0;
         countParliamentMidnight = 0;
@@ -210,16 +114,14 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         updateTextView(documentNameParliamentReserve, countParliamentReserve);
         updateTextView(documentNameParliamentSlims, countParliamentSlims);
         updateTextView(documentNameParliamentAquaBlue, countParliamentAquaBlue);
-    }
 
-    private void resetFirestoreCounts() {
         // Firestore'daki tüm belgelerin stock değerini sıfırla
-        updateFirestore(documentNameParliamentKisa, 0);
-        updateFirestore(documentNameParliamentUzun, 0);
-        updateFirestore(documentNameParliamentMidnight, 0);
-        updateFirestore(documentNameParliamentReserve, 0);
-        updateFirestore(documentNameParliamentSlims, 0);
-        updateFirestore(documentNameParliamentAquaBlue, 0);
+        firestoreCount(documentNameParliamentKisa, 0);
+        firestoreCount(documentNameParliamentUzun, 0);
+        firestoreCount(documentNameParliamentMidnight, 0);
+        firestoreCount(documentNameParliamentReserve, 0);
+        firestoreCount(documentNameParliamentSlims, 0);
+        firestoreCount(documentNameParliamentAquaBlue, 0);
     }
 
     private void showConfirmationDialog() {
@@ -230,7 +132,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Kullanıcı evet derse tüm verileri sıfırla
-                resetAllCounts();
+                resetCounts();
                 Toast.makeText(getApplicationContext(), "Tüm stok verisi sıfırlandı.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -246,90 +148,78 @@ public class ParliamentStocksActivity extends AppCompatActivity {
 
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
-        updateFirestore(documentName, getCount(documentName) + 1);
+        firestoreCount(documentName, getCount(documentName) + 1);
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
         if (getCount(documentName) > 0) {
-            updateFirestore(documentName, getCount(documentName) - 1);
+            firestoreCount(documentName, getCount(documentName) - 1);
         }
     }
 
-    private void updateFirestore(String documentName, int count) {
+    private void firestoreCount(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String uid = user.getUid();
-
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userCollectionName = getUserCollectionName(uid);
 
-            FirebaseUser currentUser = auth.getCurrentUser();
-            String userEmail = currentUser.getEmail();
-            String[] parts = userEmail.split("@");
-            String userName = parts[0];
-
-            // Koleksiyon adını belirleyin
-            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
+            DocumentReference documentReference = userCollectionRef.document(documentName);
 
-            // Yeni belge eklemek için haritaları oluşturun
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("stock", 0);
-
-            userCollectionRef.document(documentName)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    // Belge mevcut, güncelle
-                                    userCollectionRef.document(documentName)
-                                            .update("stock", count)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla güncellendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi güncellenirken hata oluştu", e);
-                                                }
-                                            });
-                                } else {
-                                    // Belge mevcut değil, yeni belge ekle
-                                    userCollectionRef.document(documentName)
-                                            .set(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla eklendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi eklenirken hata oluştu", e);
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.d("TAG555", "Belge varlık durumu kontrolü başarısız oldu.", task.getException());
-                            }
+            documentReference.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Document exists, update count
+                            updateFirestore(documentReference, count);
+                        } else {
+                            // Document doesn't exist, create new document
+                            createFirestoreDocument(documentReference, count);
                         }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Stok Güncelleme Başarısız..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateFirestore(DocumentReference documentReference, int count) {
+        documentReference.update("stock", count)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully updated.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document update failed.", e);
+                });
+    }
+
+
+    private void createFirestoreDocument(DocumentReference documentReference, int count) {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("stock", count);
+
+        documentReference.set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully created.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document creation failed.", e);
+                });
+    }
+
+    private String getUserCollectionName(String uid) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+        return userName + "_market_" + uid;
     }
 
 
@@ -349,14 +239,9 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        String userEmail = currentUser.getEmail();
-        String[] parts = userEmail.split("@");
-        String userName = parts[0];
-
 
         // Koleksiyon adını belirleyin
-        String userCollectionName = userName + "_market_" + uid;
+        String userCollectionName = getUserCollectionName(uid);
 
         db.collection(userCollectionName).document(documentName)
                 .get()

@@ -22,40 +22,18 @@ public class TekelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tekel);
 
-        kent_intent_btn = findViewById(R.id.kent_intent_btn);
-        rothmans_intent_btn = findViewById(R.id.rothmans_intent_btn);
-        tekel_intent_btn = findViewById(R.id.tekel_intent_btn);
-        viceroy_intent_btn = findViewById(R.id.viceroy_intent_btn);
+        setTekelButtons(R.id.kent_intent_btn, KentStocksActivity.class);
+        setTekelButtons(R.id.rothmans_intent_btn, RothmansStocksActivity.class);
+        setTekelButtons(R.id.tekel_intent_btn, TekelStocksActivity.class);
+        setTekelButtons(R.id.viceroy_intent_btn, ViceroyStocksActivity.class);
+    }
 
-        kent_intent_btn.setOnClickListener(new View.OnClickListener() {
+    private void setTekelButtons(int buttonId, final Class<?> cls) {
+        Button button = findViewById(buttonId);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(TekelActivity.this, KentStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        rothmans_intent_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(TekelActivity.this, RothmansStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        tekel_intent_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(TekelActivity.this, TekelStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        viceroy_intent_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(TekelActivity.this, ViceroyStocksActivity.class);
-                startActivity(i);
+                startActivity(new Intent(TekelActivity.this, cls));
             }
         });
     }

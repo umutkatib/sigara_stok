@@ -1,9 +1,8 @@
 package com.example.sigara_stok.tekel_stocks;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,18 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.sigara_stok.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,12 +29,12 @@ public class RothmansStocksActivity extends AppCompatActivity {
     TextView tv_rothmans_drange_blue_kisa, tv_rothmans_drange_blue_arttir;
 
 
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
     FirebaseAuth auth;
 
-    String documentNameRothamnsBlueKisa = "BAT_Rothmans_Kisa_Blue", documentNameRothamnsBlueUzun = "BAT_Rothmans_Uzun_Blue";
-    String documentNameRothmansDrangeBlackKisa = "BAT_Rothmans_Drange_Kisa_Black", documentNameRothmansDrangeBlackUzun = "BAT_Rothmans_Drange_Uzun_Black";
-    String documentNameRothmansDrangeBlueKisa = "BAT_Rothmans_Drange_Kisa_Blue", documentNameRothmansDrangeBlueUzun = "BAT_Rothmans_Drange_Uzun_Blue";
+    final static String documentNameRothamnsBlueKisa = "BAT_Rothmans_Kisa_Blue", documentNameRothamnsBlueUzun = "BAT_Rothmans_Uzun_Blue";
+    final static String documentNameRothmansDrangeBlackKisa = "BAT_Rothmans_Drange_Kisa_Black", documentNameRothmansDrangeBlackUzun = "BAT_Rothmans_Drange_Uzun_Black";
+    final static String documentNameRothmansDrangeBlueKisa = "BAT_Rothmans_Drange_Kisa_Blue", documentNameRothmansDrangeBlueUzun = "BAT_Rothmans_Drange_Uzun_Blue";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,24 +47,27 @@ public class RothmansStocksActivity extends AppCompatActivity {
         Button rothmans_kisa_arttir_btn = findViewById(R.id.rothmans_kisa_arttir_btn);
         Button rothmans_uzun_azalt_btn = findViewById(R.id.rothmans_uzun_azalt_btn);
         Button rothmans_uzun_arttir_btn = findViewById(R.id.rothmans_uzun_arttir_btn);
-
         Button drange_black_kisa_azalt_btn = findViewById(R.id.drange_black_kisa_azalt_btn);
         Button drange_black_kisa_arttir_btn = findViewById(R.id.drange_black_kisa_arttir_btn);
         Button drange_black_uzun_azalt_btn = findViewById(R.id.drange_black_uzun_azalt_btn);
         Button drange_black_uzun_arttir_btn = findViewById(R.id.drange_black_uzun_arttir_btn);
-
         Button rothmans_drange_blue_kisa_azalt_btn = findViewById(R.id.rothmans_drange_blue_kisa_azalt_btn);
         Button rothmans_drange_black_kisa_arttir_btn = findViewById(R.id.rothmans_drange_black_kisa_arttir_btn);
         Button rothmans_drange_blue_uzun_azalt_btn = findViewById(R.id.rothmans_drange_blue_uzun_azalt_btn);
         Button rothmans_drange_blue_uzun_arttir_btn = findViewById(R.id.rothmans_drange_blue_uzun_arttir_btn);
 
 
+        setRothmansButtonClickListeners(rothmans_kisa_azalt_btn, rothmans_kisa_arttir_btn, documentNameRothamnsBlueKisa);
+        setRothmansButtonClickListeners(rothmans_uzun_azalt_btn, rothmans_uzun_arttir_btn, documentNameRothamnsBlueUzun);
+        setRothmansButtonClickListeners(drange_black_kisa_azalt_btn, drange_black_kisa_arttir_btn, documentNameRothmansDrangeBlackKisa);
+        setRothmansButtonClickListeners(drange_black_uzun_azalt_btn, drange_black_uzun_arttir_btn, documentNameRothmansDrangeBlackUzun);
+        setRothmansButtonClickListeners(rothmans_drange_blue_kisa_azalt_btn, rothmans_drange_black_kisa_arttir_btn, documentNameRothmansDrangeBlueKisa);
+        setRothmansButtonClickListeners(rothmans_drange_blue_uzun_azalt_btn, rothmans_drange_blue_uzun_arttir_btn, documentNameRothmansDrangeBlueUzun);
+
         tv_rothmans_kisa = findViewById(R.id.tv_rothmans_kisa);
         tv_rothmans_uzun = findViewById(R.id.tv_rothmans_uzun);
-
         tv_drange_black_kisa = findViewById(R.id.tv_drange_black_kisa);
         tv_drange_black_uzun = findViewById(R.id.tv_drange_black_uzun);
-
         tv_rothmans_drange_blue_kisa = findViewById(R.id.tv_rothmans_drange_blue_kisa);
         tv_rothmans_drange_blue_arttir = findViewById(R.id.tv_rothmans_drange_blue_arttir);
 
@@ -87,118 +83,25 @@ public class RothmansStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
-
-
-        ////////////////////
-
-        rothmans_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothamnsBlueKisa);
-            }
-        });
-
-        rothmans_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothamnsBlueKisa);
-            }
-        });
-
-        //////////////////////
-
-        rothmans_uzun_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothamnsBlueUzun);
-            }
-        });
-
-        rothmans_uzun_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothamnsBlueUzun);
-            }
-        });
-
-        //////////////////////
-
-        drange_black_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothmansDrangeBlackKisa);
-            }
-        });
-
-        drange_black_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothmansDrangeBlackKisa);
-            }
-        });
-
-        //////////////////////
-
-
-        drange_black_uzun_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothmansDrangeBlackUzun);
-            }
-        });
-
-
-        drange_black_uzun_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothmansDrangeBlackUzun);
-            }
-        });
-
-
-        ///////////////////////
-
-        rothmans_drange_blue_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothmansDrangeBlueKisa);
-            }
-        });
-
-
-        rothmans_drange_black_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothmansDrangeBlueKisa);
-            }
-        });
-
-        ///////////////////////
-
-        rothmans_drange_blue_uzun_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameRothmansDrangeBlueUzun);
-            }
-        });
-
-
-        rothmans_drange_blue_uzun_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameRothmansDrangeBlueUzun);
-            }
-        });
-
     }
 
-    private void resetAllCounts() {
-        // Tüm yerel ve Firestore count değerlerini sıfırla
-        resetLocalCounts();
-        resetFirestoreCounts();
+    private void setRothmansButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
+        incrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementCount(documentName);
+            }
+        });
+
+        decrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementCount(documentName);
+            }
+        });
     }
 
-    private void resetLocalCounts() {
+    private void resetCounts() {
         countRothmansBlueKisa = 0;
         countRothmansBlueUzun = 0;
         countRothmansDrangeBlackKisa = 0;
@@ -214,16 +117,14 @@ public class RothmansStocksActivity extends AppCompatActivity {
         updateTextView(documentNameRothmansDrangeBlackUzun, countRothmansDrangeBlackUzun);
         updateTextView(documentNameRothmansDrangeBlueKisa, countRothmansDrangeBlueKisa);
         updateTextView(documentNameRothmansDrangeBlueUzun, countRothmansDrangeBlueUzun);
-    }
 
-    private void resetFirestoreCounts() {
         // Firestore'daki tüm belgelerin stock değerini sıfırla
-        updateFirestore(documentNameRothamnsBlueKisa, 0);
-        updateFirestore(documentNameRothamnsBlueUzun, 0);
-        updateFirestore(documentNameRothmansDrangeBlackKisa, 0);
-        updateFirestore(documentNameRothmansDrangeBlackUzun, 0);
-        updateFirestore(documentNameRothmansDrangeBlueKisa, 0);
-        updateFirestore(documentNameRothmansDrangeBlueUzun, 0);
+        firestoreCount(documentNameRothamnsBlueKisa, 0);
+        firestoreCount(documentNameRothamnsBlueUzun, 0);
+        firestoreCount(documentNameRothmansDrangeBlackKisa, 0);
+        firestoreCount(documentNameRothmansDrangeBlackUzun, 0);
+        firestoreCount(documentNameRothmansDrangeBlueKisa, 0);
+        firestoreCount(documentNameRothmansDrangeBlueUzun, 0);
     }
 
     private void showConfirmationDialog() {
@@ -234,7 +135,7 @@ public class RothmansStocksActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Kullanıcı evet derse tüm verileri sıfırla
-                resetAllCounts();
+                resetCounts();
                 Toast.makeText(getApplicationContext(), "Tüm stok verisi sıfırlandı.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -250,50 +151,79 @@ public class RothmansStocksActivity extends AppCompatActivity {
 
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
-        updateFirestore(documentName, getCount(documentName) + 1);
+        firestoreCount(documentName, getCount(documentName) + 1);
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
         if (getCount(documentName) > 0) {
-            updateFirestore(documentName, getCount(documentName) - 1);
+            firestoreCount(documentName, getCount(documentName) - 1);
         }
     }
 
 
-    private void updateFirestore(String documentName, int count) {
+    private void firestoreCount(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         if (user != null) {
             String uid = user.getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userCollectionName = getUserCollectionName(uid);
 
-            FirebaseUser currentUser = auth.getCurrentUser();
-            String userEmail = currentUser.getEmail();
-            String[] parts = userEmail.split("@");
-            String userName = parts[0];
-
-            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
+            DocumentReference documentReference = userCollectionRef.document(documentName);
 
-            // Belgeyi ekleyin
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("stock", count);
-
-            userCollectionRef.document(documentName)
-                    .set(userData)
-                    .addOnSuccessListener(aVoid -> {
-                        // Yerel count değerini ve TextView'i güncelle
-                        setCount(documentName, count);
-                        updateTextView(documentName, count);
-                        Log.d("TAG333", documentName + " belgesi başarıyla oluşturuldu ve güncellendi.");
+            documentReference.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Document exists, update count
+                            updateFirestore(documentReference, count);
+                        } else {
+                            // Document doesn't exist, create new document
+                            createFirestoreDocument(documentReference, count);
+                        }
                     })
                     .addOnFailureListener(e -> {
-                        Log.w("TAG444", documentName + " belgesi oluşturulurken hata oluştu", e);
-                        Toast.makeText(getApplicationContext(), "Belge oluşturma hatası", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Stok Güncelleme Başarısız..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateFirestore(DocumentReference documentReference, int count) {
+        documentReference.update("stock", count)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully updated.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document update failed.", e);
+                });
+    }
+
+
+    private void createFirestoreDocument(DocumentReference documentReference, int count) {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("stock", count);
+
+        documentReference.set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully created.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document creation failed.", e);
+                });
+    }
+
+    private String getUserCollectionName(String uid) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+        return userName + "_market_" + uid;
     }
 
 

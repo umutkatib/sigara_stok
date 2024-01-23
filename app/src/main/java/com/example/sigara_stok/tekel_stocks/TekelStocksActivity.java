@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -37,12 +38,12 @@ public class TekelStocksActivity extends AppCompatActivity {
     private TextView tv_2001_mavi_kisa, tv_2001_mavi_uzun;
     private TextView tv_2001_kirmizi_kisa, tv_2001_kirmizi_uzun;
 
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
 
-    String documentNameTekel2000MaviKisa = "BAT_Tekel_2000_Mavi_Kisa", documentNameTekel2000MaviUzun = "BAT_Tekel_2000_Mavi_Uzun";
-    String documentNameTekel2000KirmiziKisa = "BAT_Tekel_2000_kirmizi_Kisa", documentNameTekel2000KirmiziUzun = "BAT_Tekel_2000_kirmizi_Uzun";
-    String documentNameTekel2001MaviKisa = "BAT_Tekel_2001_Mavi_Kisa", documentNameTekel2001MaviUzun = "BAT_Tekel_2001_Mavi_Uzun";
-    String documentNameTekel2001KirmiziKisa = "BAT_Tekel_2001_kirmizi_Kisa", documentNameTekel2001KirmiziUzun = "BAT_Tekel_2001_kirmizi_Uzun";
+    final static String documentNameTekel2000MaviKisa = "BAT_Tekel_2000_Mavi_Kisa", documentNameTekel2000MaviUzun = "BAT_Tekel_2000_Mavi_Uzun";
+    final static String documentNameTekel2000KirmiziKisa = "BAT_Tekel_2000_kirmizi_Kisa", documentNameTekel2000KirmiziUzun = "BAT_Tekel_2000_kirmizi_Uzun";
+    final static String documentNameTekel2001MaviKisa = "BAT_Tekel_2001_Mavi_Kisa", documentNameTekel2001MaviUzun = "BAT_Tekel_2001_Mavi_Uzun";
+    final static String documentNameTekel2001KirmiziKisa = "BAT_Tekel_2001_kirmizi_Kisa", documentNameTekel2001KirmiziUzun = "BAT_Tekel_2001_kirmizi_Uzun";
 
     FirebaseAuth auth;
 
@@ -58,34 +59,38 @@ public class TekelStocksActivity extends AppCompatActivity {
         Button mavi_2000_kisa_arttir_btn = findViewById(R.id.mavi_2000_kisa_arttir_btn);
         Button mavi_2000_uzun_azalt_btn = findViewById(R.id.mavi_2000_uzun_azalt_btn);
         Button mavi_2000_uzun_arttir_btn = findViewById(R.id.mavi_2000_uzun_arttir_btn);
-
         Button kirmizi_2000_kisa_azalt_btn = findViewById(R.id.kirmizi_2000_kisa_azalt_btn);
         Button kirmizi_2000_kisa_arttir_btn = findViewById(R.id.kirmizi_2000_kisa_arttir_btn);
         Button kirmizi_2000_uzun_azalt_btn = findViewById(R.id.kirmizi_2000_uzun_azalt_btn);
         Button kirmizi_2000_uzun_arttir_btn = findViewById(R.id.kirmizi_2000_uzun_arttir_btn);
-
         Button mavi_2001_kisa_azalt_btn = findViewById(R.id.mavi_2001_kisa_azalt_btn);
         Button mavi_2001_kisa_arttir_btn = findViewById(R.id.mavi_2001_kisa_arttir_btn);
         Button mavi_2001_uzun_azalt_btn = findViewById(R.id.mavi_2001_uzun_azalt_btn);
         Button mavi_2001_uzun_arttir_btn = findViewById(R.id.mavi_2001_uzun_arttir_btn);
-
         Button kirmizi_2001_kisa_azalt_btn = findViewById(R.id.kirmizi_2001_kisa_azalt_btn);
         Button kirmizi_2001_kisa_arttir_btn = findViewById(R.id.kirmizi_2001_kisa_arttir_btn);
         Button kirmizi_2001_uzun_azalt_btn = findViewById(R.id.kirmizi_2001_uzun_azalt_btn);
         Button kirmizi_2001_uzun_arttir_btn = findViewById(R.id.kirmizi_2001_uzun_arttir_btn);
 
+
+        setTekelButtonClickListeners(mavi_2000_kisa_azalt_btn, mavi_2000_kisa_arttir_btn, documentNameTekel2000MaviKisa);
+        setTekelButtonClickListeners(mavi_2000_uzun_azalt_btn, mavi_2000_uzun_arttir_btn, documentNameTekel2000MaviUzun);
+        setTekelButtonClickListeners(kirmizi_2000_kisa_azalt_btn, kirmizi_2000_kisa_arttir_btn, documentNameTekel2000KirmiziKisa);
+        setTekelButtonClickListeners(kirmizi_2000_uzun_azalt_btn, kirmizi_2000_uzun_arttir_btn, documentNameTekel2000KirmiziUzun);
+        setTekelButtonClickListeners(mavi_2001_kisa_azalt_btn, mavi_2001_kisa_arttir_btn, documentNameTekel2001MaviKisa);
+        setTekelButtonClickListeners(mavi_2001_uzun_azalt_btn, mavi_2001_uzun_arttir_btn, documentNameTekel2001MaviUzun);
+        setTekelButtonClickListeners(kirmizi_2001_kisa_azalt_btn, kirmizi_2001_kisa_arttir_btn, documentNameTekel2001KirmiziKisa);
+        setTekelButtonClickListeners(kirmizi_2001_uzun_azalt_btn, kirmizi_2001_uzun_arttir_btn, documentNameTekel2001KirmiziUzun);
+
+
         tv_2000_kisa_mavi = findViewById(R.id.tv_2000_kisa_mavi);
         tv_2000_uzun_mavi = findViewById(R.id.tv_2000_uzun_mavi);
-
         tv_2000_kirmizi_kisa = findViewById(R.id.tv_2000_kirmizi_kisa);
         tv_2000_kirmizi_uzun = findViewById(R.id.tv_2000_kirmizi_uzun);
-
         tv_2001_mavi_kisa = findViewById(R.id.tv_2001_mavi_kisa);
         tv_2001_mavi_uzun = findViewById(R.id.tv_2001_mavi_uzun);
-
         tv_2001_kirmizi_kisa = findViewById(R.id.tv_2001_kirmizi_kisa);
         tv_2001_kirmizi_uzun = findViewById(R.id.tv_2001_kirmizi_uzun);
-
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -99,152 +104,26 @@ public class TekelStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+    }
 
-
-        ////////////////////
-
-        mavi_2000_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
+    private void setTekelButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
+        incrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                incrementCount(documentNameTekel2000MaviKisa);
+                incrementCount(documentName);
             }
         });
 
-        mavi_2000_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
+        decrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decrementCount(documentNameTekel2000MaviKisa);
+                decrementCount(documentName);
             }
         });
-
-        //////////////////////
-
-        mavi_2000_uzun_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTekel2000MaviUzun);
-            }
-        });
-
-        mavi_2000_uzun_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTekel2000MaviUzun);
-            }
-        });
-
-        //////////////////////
-
-        kirmizi_2000_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTekel2000KirmiziKisa);
-            }
-        });
-
-        kirmizi_2000_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTekel2000KirmiziKisa);
-            }
-        });
-
-        //////////////////////
-
-
-        kirmizi_2000_uzun_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTekel2000KirmiziUzun);
-            }
-        });
-
-
-        kirmizi_2000_uzun_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTekel2000KirmiziUzun);
-            }
-        });
-
-        //////////////////////
-
-        mavi_2001_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTekel2001MaviKisa);
-            }
-        });
-
-
-        mavi_2001_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTekel2001MaviKisa);
-            }
-        });
-
-        //////////////////////
-
-        mavi_2001_uzun_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTekel2001MaviUzun);
-            }
-        });
-
-
-        mavi_2001_uzun_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTekel2001MaviUzun);
-            }
-        });
-
-        //////////////////////
-
-        kirmizi_2001_kisa_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTekel2001KirmiziKisa);
-            }
-        });
-
-
-        kirmizi_2001_kisa_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTekel2001KirmiziKisa);
-            }
-        });
-
-        //////////////////////
-
-        kirmizi_2001_uzun_azalt_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTekel2001KirmiziUzun);
-            }
-        });
-
-
-        kirmizi_2001_uzun_arttir_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTekel2001KirmiziUzun);
-            }
-        });
-
     }
 
 
-    private void resetAllCounts() {
-        // Tüm yerel ve Firestore count değerlerini sıfırla
-        resetLocalCounts();
-        resetFirestoreCounts();
-    }
-
-    private void resetLocalCounts() {
+    private void resetCounts() {
         countTekel2000MaviKisa = 0;
         countTekel2000MaviUzun = 0;
         countTekel2000KirmiziKisa = 0;
@@ -263,18 +142,16 @@ public class TekelStocksActivity extends AppCompatActivity {
         updateTextView(documentNameTekel2001MaviUzun, countTekel2001MaviUzun);
         updateTextView(documentNameTekel2001KirmiziKisa, countTekel2001KirmiziKisa);
         updateTextView(documentNameTekel2001KirmiziUzun, countTekel2001KirmiziUzun);
-    }
 
-    private void resetFirestoreCounts() {
         // Firestore'daki tüm belgelerin stock değerini sıfırla
-        updateFirestore(documentNameTekel2000MaviKisa, 0);
-        updateFirestore(documentNameTekel2000MaviUzun, 0);
-        updateFirestore(documentNameTekel2000KirmiziKisa, 0);
-        updateFirestore(documentNameTekel2000KirmiziUzun, 0);
-        updateFirestore(documentNameTekel2001MaviKisa, 0);
-        updateFirestore(documentNameTekel2001MaviUzun, 0);
-        updateFirestore(documentNameTekel2001KirmiziKisa, 0);
-        updateFirestore(documentNameTekel2001KirmiziUzun, 0);
+        firestoreCount(documentNameTekel2000MaviKisa, 0);
+        firestoreCount(documentNameTekel2000MaviUzun, 0);
+        firestoreCount(documentNameTekel2000KirmiziKisa, 0);
+        firestoreCount(documentNameTekel2000KirmiziUzun, 0);
+        firestoreCount(documentNameTekel2001MaviKisa, 0);
+        firestoreCount(documentNameTekel2001MaviUzun, 0);
+        firestoreCount(documentNameTekel2001KirmiziKisa, 0);
+        firestoreCount(documentNameTekel2001KirmiziUzun, 0);
     }
 
     private void showConfirmationDialog() {
@@ -285,7 +162,7 @@ public class TekelStocksActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Kullanıcı evet derse tüm verileri sıfırla
-                resetAllCounts();
+                resetCounts();
                 Toast.makeText(getApplicationContext(), "Tüm stok verisi sıfırlandı.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -301,91 +178,78 @@ public class TekelStocksActivity extends AppCompatActivity {
 
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
-        updateFirestore(documentName, getCount(documentName) + 1);
+        firestoreCount(documentName, getCount(documentName) + 1);
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
         if (getCount(documentName) > 0) {
-            updateFirestore(documentName, getCount(documentName) - 1);
+            firestoreCount(documentName, getCount(documentName) - 1);
         }
     }
 
-    private void updateFirestore(String documentName, int count) {
+    private void firestoreCount(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String uid = user.getUid();
-
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userCollectionName = getUserCollectionName(uid);
 
-            FirebaseUser currentUser = auth.getCurrentUser();
-            String userEmail = currentUser.getEmail();
-            String[] parts = userEmail.split("@");
-            String userName = parts[0];
-
-
-            // Koleksiyon adını belirleyin
-            String userCollectionName = userName + "_market_" + uid;
             CollectionReference userCollectionRef = db.collection(userCollectionName);
+            DocumentReference documentReference = userCollectionRef.document(documentName);
 
-            // Yeni belge eklemek için haritaları oluşturun
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("stock", 0);
-
-            userCollectionRef.document(documentName)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    // Belge mevcut, güncelle
-                                    userCollectionRef.document(documentName)
-                                            .update("stock", count)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla güncellendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi güncellenirken hata oluştu", e);
-                                                }
-                                            });
-                                } else {
-                                    // Belge mevcut değil, yeni belge ekle
-                                    userCollectionRef.document(documentName)
-                                            .set(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla eklendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi eklenirken hata oluştu", e);
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.d("TAG555", "Belge varlık durumu kontrolü başarısız oldu.", task.getException());
-                            }
+            documentReference.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Document exists, update count
+                            updateFirestore(documentReference, count);
+                        } else {
+                            // Document doesn't exist, create new document
+                            createFirestoreDocument(documentReference, count);
                         }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Stok Güncelleme Başarısız..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateFirestore(DocumentReference documentReference, int count) {
+        documentReference.update("stock", count)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully updated.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document update failed.", e);
+                });
+    }
+
+
+    private void createFirestoreDocument(DocumentReference documentReference, int count) {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("stock", count);
+
+        documentReference.set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully created.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document creation failed.", e);
+                });
+    }
+
+    private String getUserCollectionName(String uid) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+        return userName + "_market_" + uid;
     }
 
 
@@ -408,14 +272,9 @@ public class TekelStocksActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        String userEmail = currentUser.getEmail();
-        String[] parts = userEmail.split("@");
-        String userName = parts[0];
-
 
         // Koleksiyon adını belirleyin
-        String userCollectionName = userName + "_market_" + uid;
+        String userCollectionName = getUserCollectionName(uid);
 
         db.collection(userCollectionName).document(documentName)
                 .get()

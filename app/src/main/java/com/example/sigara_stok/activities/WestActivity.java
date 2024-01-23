@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.sigara_stok.R;
 import com.example.sigara_stok.tekel_stocks.KentStocksActivity;
+import com.example.sigara_stok.tekel_stocks.RothmansStocksActivity;
 import com.example.sigara_stok.west_stocks.PoloStocksActivity;
 import com.example.sigara_stok.west_stocks.WestStocksActivity;
 
@@ -21,22 +22,16 @@ public class WestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_west_stocks);
 
-        west = findViewById(R.id.west_intent);
-        polo = findViewById(R.id.polo_intent);
+        setWestButtons(R.id.west_intent, WestStocksActivity.class);
+        setWestButtons(R.id.polo_intent, PoloStocksActivity.class);
+    }
 
-        west.setOnClickListener(new View.OnClickListener() {
+    private void setWestButtons(int buttonId, final Class<?> cls) {
+        Button button = findViewById(buttonId);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), WestStocksActivity.class);
-                startActivity(i);
-            }
-        });
-
-        polo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), PoloStocksActivity.class);
-                startActivity(i);
+                startActivity(new Intent(WestActivity.this, cls));
             }
         });
     }
