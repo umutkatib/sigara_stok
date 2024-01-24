@@ -204,7 +204,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout39">
 
         <Button
-            android:id="@+id/malb_touch_white_arttir"
+            android:id="@+id/malb_touch_blue_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -218,7 +218,7 @@
             app:layout_constraintTop_toBottomOf="@+id/malb_touch_grey_arttir" />
 
         <Button
-            android:id="@+id/malb_touch_white_azalt"
+            android:id="@+id/malb_touch_blue_azalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -228,7 +228,7 @@
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_marl_touch_white"
+            app:layout_constraintEnd_toStartOf="@+id/tv_marl_touch_blue"
             app:layout_constraintTop_toBottomOf="@+id/malb_touch_grey_azalt" />
 
         <Button
@@ -245,7 +245,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/malb_touch_blue_azalt"
+            android:id="@+id/malb_touch_white_azalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -255,8 +255,8 @@
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_marl_touch_blue"
-            app:layout_constraintTop_toBottomOf="@+id/malb_touch_white_azalt" />
+            app:layout_constraintEnd_toStartOf="@+id/tv_marl_touch_white"
+            app:layout_constraintTop_toBottomOf="@+id/malb_touch_blue_azalt" />
 
         <TextView
             android:id="@+id/textView82"
@@ -283,28 +283,16 @@
             app:layout_constraintTop_toBottomOf="@+id/textView75" />
 
         <TextView
-            android:id="@+id/tv_marl_touch_white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/malb_touch_white_arttir"
-            app:layout_constraintTop_toBottomOf="@+id/tv_marl_touch_grey" />
-
-        <TextView
             android:id="@+id/tv_marl_touch_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
             android:text="0"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/malb_touch_blue_arttir" />
+            app:layout_constraintEnd_toStartOf="@+id/malb_touch_blue_arttir"
+            app:layout_constraintTop_toBottomOf="@+id/tv_marl_touch_grey" />
 
         <TextView
             android:id="@+id/tv_marl_touch_grey"
@@ -344,7 +332,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView82" />
 
         <Button
-            android:id="@+id/malb_touch_blue_arttir"
+            android:id="@+id/malb_touch_white_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -355,7 +343,19 @@
             android:text="+"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/malb_touch_white_arttir" />
+            app:layout_constraintTop_toBottomOf="@+id/malb_touch_blue_arttir" />
+
+        <TextView
+            android:id="@+id/tv_marl_touch_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="0"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/malb_touch_white_arttir" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

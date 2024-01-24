@@ -300,9 +300,9 @@ public class CamelStocksActivity extends AppCompatActivity {
             tv_white.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelBlack)) {
             tv_black.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameCamelBrown)) {
-            tv_deep_blue.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelDeepBlue)) {
+            tv_deep_blue.setText(String.valueOf(count));
+        } else if (documentName.equals(documentNameCamelBrown)) {
             tv_brown.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelSlenderBlue)) {
             tv_slender_blue.setText(String.valueOf(count));

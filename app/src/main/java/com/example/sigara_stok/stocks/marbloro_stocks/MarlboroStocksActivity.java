@@ -69,8 +69,8 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         setMarlboroButtonClickListeners(malb_red_uzun_azalt, malb_red_uzun_arttir, documentNameMBRedUzun);
         setMarlboroButtonClickListeners(malb_touch_azalt, malb_touch_arttir, documentNameMBTouch);
         setMarlboroButtonClickListeners(malb_touch_grey_azalt, malb_touch_grey_arttir, documentNameMBTouchGrey);
-        setMarlboroButtonClickListeners(malb_touch_white_azalt, malb_touch_white_arttir, documentNameMBTouchWhite);
         setMarlboroButtonClickListeners(malb_touch_blue_azalt, malb_touch_blue_arttir, documentNameMBTouchBlue);
+        setMarlboroButtonClickListeners(malb_touch_white_azalt, malb_touch_white_arttir, documentNameMBTouchWhite);
         setMarlboroButtonClickListeners(malb_edge_azalt, malb_edge_arttir, documentNameMBEdge);
         setMarlboroButtonClickListeners(malb_edge_blue_azalt, malb_edge_blue_arttir, documentNameMBEdgeBlue);
         setMarlboroButtonClickListeners(malb_edge_sky_azalt, malb_edge_sky_arttir, documentNameMBEdgeSky);
@@ -253,15 +253,13 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         // Her iki belgeyi de oku
         readFirestoreForDocument(documentNameMBRedKisa);
         readFirestoreForDocument(documentNameMBRedUzun);
-
         readFirestoreForDocument(documentNameMBTouch);
         readFirestoreForDocument(documentNameMBTouchGrey);
-
         readFirestoreForDocument(documentNameMBTouchBlue);
         readFirestoreForDocument(documentNameMBTouchWhite);
-
         readFirestoreForDocument(documentNameMBEdge);
         readFirestoreForDocument(documentNameMBEdgeSky);
+        readFirestoreForDocument(documentNameMBEdgeBlue);
     }
 
     private void readFirestoreForDocument(String documentName) {
@@ -298,16 +296,16 @@ public class MarlboroStocksActivity extends AppCompatActivity {
             tv_marl_touch.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBTouchGrey)) {
             tv_marl_touch_grey.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameMBTouchBlue)) {
-            tv_marl_touch_white.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBTouchWhite)) {
+            tv_marl_touch_white.setText(String.valueOf(count));
+        } else if (documentName.equals(documentNameMBTouchBlue)) {
             tv_marl_touch_blue.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBEdge)) {
             tv_marl_edge.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBEdgeSky)) {
-            tv_marl_edge_blue.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameMBEdgeBlue)) {
             tv_marl_edge_sky.setText(String.valueOf(count));
+        } else if (documentName.equals(documentNameMBEdgeBlue)) {
+            tv_marl_edge_blue.setText(String.valueOf(count));
         }
     }
 
