@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
@@ -21,9 +22,7 @@ import java.util.Map;
 public class LDStocksActivity extends AppCompatActivity {
     private int countLdMaviKisa = 0, countLdMaviUzun = 0, countLdRedKisa = 0;
     private int countLdRedUzun = 0, countLdSlim = 0;
-    private TextView tv_blue_kisa, tv_blue_uzun;
-    private TextView tv_ld_red_kisa, tv_ld_red_uzun;
-    private TextView tv_ld_slim;
+    private EditText et_blue_kisa, et_blue_uzun, et_red_kisa, et_red_uzun, et_ld_slim;
     FirebaseFirestore db;
     FirebaseAuth auth;
 
@@ -49,17 +48,20 @@ public class LDStocksActivity extends AppCompatActivity {
         Button ld_slim_azalt = findViewById(R.id.ld_slim_azalt);
         Button ld_slim_arttir = findViewById(R.id.ld_slim_arttir);
 
+        Button updateValuesButton = findViewById(R.id.ldGuncelle);
+
+
         setLdButtonClickListeners(ld_blue_kisa_azalt, ld_blue_kisa_arttir, documentNameLdBlueKisa);
         setLdButtonClickListeners(ld_blue_uzun_azalt, ld_blue_uzun_arttir, documentNameLdBlueUzun);
         setLdButtonClickListeners(ld_red_kisa_azalt, ld_red_kisa_arttir, documentNameLdRedKisa);
         setLdButtonClickListeners(ld_red_uzun_azalt, ld_red_uzun_arttir, documentNameLdRedUzun);
         setLdButtonClickListeners(ld_slim_azalt, ld_slim_arttir, documentNameLdSlim);
 
-        tv_blue_kisa = findViewById(R.id.tv_blue_kisa);
-        tv_blue_uzun = findViewById(R.id.tv_blue_uzun);
-        tv_ld_red_kisa = findViewById(R.id.tv_ld_red_kisa);
-        tv_ld_red_uzun = findViewById(R.id.tv_ld_red_uzun);
-        tv_ld_slim = findViewById(R.id.tv_ld_slim);
+        et_blue_kisa = findViewById(R.id.et_blue_kisa);
+        et_blue_uzun = findViewById(R.id.et_blue_uzun);
+        et_red_kisa = findViewById(R.id.et_red_kisa);
+        et_red_uzun = findViewById(R.id.et_red_uzun);
+        et_ld_slim = findViewById(R.id.et_ld_slim);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -67,12 +69,71 @@ public class LDStocksActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
         reset_all_ld_all_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countLdMaviKisa = Integer.parseInt(et_blue_kisa.getText().toString());
+        countLdMaviUzun = Integer.parseInt(et_blue_uzun.getText().toString());
+        countLdRedKisa = Integer.parseInt(et_red_kisa.getText().toString());
+        countLdRedUzun = Integer.parseInt(et_red_uzun.getText().toString());
+        countLdSlim = Integer.parseInt(et_ld_slim.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameLdBlueKisa, countLdMaviKisa);
+        updateTextView(documentNameLdBlueUzun, countLdMaviUzun);
+        updateTextView(documentNameLdRedKisa, countLdRedKisa);
+        updateTextView(documentNameLdRedUzun, countLdRedUzun);
+        updateTextView(documentNameLdSlim, countLdSlim);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameLdBlueKisa, countLdMaviKisa);
+        firestoreCount(documentNameLdBlueUzun, countLdMaviUzun);
+        firestoreCount(documentNameLdRedKisa, countLdRedKisa);
+        firestoreCount(documentNameLdRedUzun, countLdRedUzun);
+        firestoreCount(documentNameLdSlim, countLdSlim);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void discardStockCount() {
+        et_blue_kisa.setText(String.valueOf(countLdMaviKisa));
+        et_blue_uzun.setText(String.valueOf(countLdMaviUzun));
+        et_red_kisa.setText(String.valueOf(countLdRedKisa));
+        et_red_uzun.setText(String.valueOf(countLdRedUzun));
+        et_ld_slim.setText(String.valueOf(countLdSlim));
     }
 
     private void setLdButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -254,15 +315,15 @@ public class LDStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameLdBlueKisa)) {
-            tv_blue_kisa.setText(String.valueOf(count));
+            et_blue_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameLdBlueUzun)) {
-            tv_blue_uzun.setText(String.valueOf(count));
+            et_blue_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameLdRedKisa)) {
-            tv_ld_red_kisa.setText(String.valueOf(count));
+            et_red_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameLdRedUzun)) {
-            tv_ld_red_uzun.setText(String.valueOf(count));
+            et_red_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameLdSlim)) {
-            tv_ld_slim.setText(String.valueOf(count));
+            et_ld_slim.setText(String.valueOf(count));
         }
     }
 

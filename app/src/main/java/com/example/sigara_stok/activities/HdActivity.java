@@ -1,51 +1,30 @@
 package com.example.sigara_stok.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.sigara_stok.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class HdActivity extends AppCompatActivity {
 
-    private int countHDBlueKisa = 0, countHDBlueUzun = 0, countHDSlimBlue = 0;
-    private int countHDWhiteLine = 0, countTorosBlueKisa = 0, countTorosBlueUzun = 0, countTorosRedKisa = 0, countTorosRedUzun = 0;
-    private TextView tv_hd_blue_kisa, tv_hd_blue_uzun;
-    private TextView tv_hd_slim_blue, tv_hd_white_line;
-    private TextView tv_toros_kisa_blue, tv_toros_uzun_blue;
-    private TextView tv_toros_kisa_red, tv_toros_uzun_red;
-
-    private FirebaseFirestore db;
+    private int countHDBlueKisa = 0, countHDBlueUzun = 0, countHDSlimBlue = 0, countHDWhiteLine = 0, countTorosBlueKisa = 0, countTorosBlueUzun = 0, countTorosRedKisa = 0, countTorosRedUzun = 0;
+    private EditText et_hd_kisa, et_hd_uzun, et_hd_slim, et_hd_white_line, et_toros_blue_kisa, et_toros_blue_uzun, et_toros_red_kisa, et_toros_red_uzun;
+    FirebaseFirestore db;
     FirebaseAuth auth;
-
-
-    String documentNameMCDarkBlueKisa = "HD_Blue_Kisa", documentNameMCDarkBlueUzun = "HD_Blue_Uzun";
-    String documentNameMCDarkRedKisa = "HD_Slim_Blue", documentNameMCDarkRedUzun = "HD_White_Line";
-    String documentNameTorosBlueKisa = "HD_Toros_Blue_Kisa", documentNameTorosBlueUzun = "HD_Toros_Blue_Uzun";
-    String documentNameTorosRedKisa = "HD_Toros_Red_Kisa", documentNameTorosRedUzun = "HD_Toros_Red_Uzun";
-
-
-
+    final static String documentNameHDBlueKisa = "HD_Blue_Kisa", documentNameHDBlueUzun = "HD_Blue_Uzun", documentNameHDSlimBlue = "HD_Slim_Blue", documentNameHDWhiteLine = "HD_White_Line", documentNameTorosBlueKisa = "HD_Toros_Blue_Kisa", documentNameTorosBlueUzun = "HD_Toros_Blue_Uzun", documentNameTorosRedKisa = "HD_Toros_Red_Kisa", documentNameTorosRedUzun = "HD_Toros_Red_Uzun";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,17 +52,28 @@ public class HdActivity extends AppCompatActivity {
         Button toros_red_uzun_azalt = findViewById(R.id.toros_red_uzun_azalt);
         Button toros_red_uzun_arttir = findViewById(R.id.toros_red_uzun_arttir);
 
-        tv_hd_blue_kisa = findViewById(R.id.tv_hd_blue_kisa);
-        tv_hd_blue_uzun = findViewById(R.id.tv_hd_blue_uzun);
-        tv_hd_slim_blue = findViewById(R.id.tv_hd_slim_blue);
+        Button updateValuesButton = findViewById(R.id.hdGuncelle);
 
 
-        tv_hd_white_line = findViewById(R.id.tv_hd_white_line);
+        setHdButtonClickListeners(hd_kisa_azalt, hd_kisa_arttir, documentNameHDBlueKisa);
+        setHdButtonClickListeners(hd_uzun_azalt, hd_uzun_arttir, documentNameHDBlueUzun);
+        setHdButtonClickListeners(slim_blue_azalt, slim_blue_arttir, documentNameHDSlimBlue);
+        setHdButtonClickListeners(white_line_azalt, white_line_arttir, documentNameHDWhiteLine);
+        setHdButtonClickListeners(toros_blue_kisa_azalt, toros_blue_kisa_arttir, documentNameTorosBlueKisa);
+        setHdButtonClickListeners(toros_blue_uzun_azalt, toros_blue_uzun_arttir, documentNameTorosBlueUzun);
+        setHdButtonClickListeners(toros_red_kisa_azalt, toros_red_kisa_arttir, documentNameTorosRedKisa);
+        setHdButtonClickListeners(toros_red_uzun_azalt, toros_red_uzun_arttir, documentNameTorosRedUzun);
 
-        tv_toros_kisa_blue = findViewById(R.id.tv_totros_blue_kisa);
-        tv_toros_uzun_blue = findViewById(R.id.tv_totros_blue_uzun);
-        tv_toros_kisa_red = findViewById(R.id.tv_totros_red_kisa);
-        tv_toros_uzun_red = findViewById(R.id.tv_totros_red_uzun);
+
+        et_hd_kisa = findViewById(R.id.et_hd_kisa);
+        et_hd_uzun = findViewById(R.id.et_hd_uzun);
+        et_hd_slim = findViewById(R.id.et_hd_slim);
+        et_hd_white_line = findViewById(R.id.et_hd_white_line);
+
+        et_toros_blue_kisa = findViewById(R.id.et_toros_blue_kisa);
+        et_toros_blue_uzun = findViewById(R.id.et_toros_blue_uzun);
+        et_toros_red_kisa = findViewById(R.id.et_toros_red_kisa);
+        et_toros_red_uzun = findViewById(R.id.et_toros_red_uzun);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -91,151 +81,150 @@ public class HdActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
+
         reset_all_hd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
 
-
-        ////////////////////
-
-        hd_kisa_arttir.setOnClickListener(new View.OnClickListener() {
+    private void setHdButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
+        incrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                incrementCount(documentNameMCDarkBlueKisa);
+                incrementCount(documentName);
             }
         });
 
-        hd_kisa_azalt.setOnClickListener(new View.OnClickListener() {
+        decrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decrementCount(documentNameMCDarkBlueKisa);
+                decrementCount(documentName);
             }
         });
+    }
 
-        //////////////////////
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countHDBlueKisa = Integer.parseInt(et_hd_kisa.getText().toString());
+        countHDBlueUzun = Integer.parseInt(et_hd_uzun.getText().toString());
+        countHDSlimBlue = Integer.parseInt(et_hd_slim.getText().toString());
+        countHDWhiteLine = Integer.parseInt(et_hd_white_line.getText().toString());
+        countTorosBlueKisa = Integer.parseInt(et_toros_blue_kisa.getText().toString());
+        countTorosBlueUzun = Integer.parseInt(et_toros_blue_uzun.getText().toString());
+        countTorosRedKisa = Integer.parseInt(et_toros_red_kisa.getText().toString());
+        countTorosRedUzun = Integer.parseInt(et_toros_red_uzun.getText().toString());
 
-        hd_uzun_arttir.setOnClickListener(new View.OnClickListener() {
+        // TextView'ları güncelle
+        updateTextView(documentNameHDBlueKisa, countHDBlueKisa);
+        updateTextView(documentNameHDBlueUzun, countHDBlueUzun);
+        updateTextView(documentNameHDSlimBlue, countHDSlimBlue);
+        updateTextView(documentNameHDWhiteLine, countHDWhiteLine);
+        updateTextView(documentNameTorosBlueKisa, countTorosBlueKisa);
+        updateTextView(documentNameTorosBlueUzun, countTorosBlueUzun);
+        updateTextView(documentNameTorosRedKisa, countTorosRedKisa);
+        updateTextView(documentNameTorosRedUzun, countTorosRedUzun);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameHDBlueKisa, countHDBlueKisa);
+        firestoreCount(documentNameHDBlueUzun, countHDBlueUzun);
+        firestoreCount(documentNameHDSlimBlue, countHDSlimBlue);
+        firestoreCount(documentNameHDWhiteLine, countHDWhiteLine);
+        firestoreCount(documentNameTorosBlueKisa, countTorosBlueKisa);
+        firestoreCount(documentNameTorosBlueUzun, countTorosBlueUzun);
+        firestoreCount(documentNameTorosRedKisa, countTorosRedKisa);
+        firestoreCount(documentNameTorosRedUzun, countTorosRedUzun);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMCDarkBlueUzun);
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
         });
-
-        hd_uzun_azalt.setOnClickListener(new View.OnClickListener() {
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMCDarkBlueUzun);
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
             }
         });
+        builder.show();
+    }
 
-        //////////////////////
+    private void discardStockCount() {
+        et_hd_kisa.setText(String.valueOf(countHDBlueKisa));
+        et_hd_uzun.setText(String.valueOf(countHDBlueUzun));
+        et_hd_slim.setText(String.valueOf(countHDSlimBlue));
+        et_hd_white_line.setText(String.valueOf(countHDWhiteLine));
+        et_toros_blue_kisa.setText(String.valueOf(countTorosBlueKisa));
+        et_toros_blue_uzun.setText(String.valueOf(countTorosBlueUzun));
+        et_toros_red_kisa.setText(String.valueOf(countTorosRedKisa));
+        et_toros_red_uzun.setText(String.valueOf(countTorosRedUzun));
+    }
 
-        slim_blue_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMCDarkRedKisa);
-            }
-        });
+    private String getUserCollectionName(String uid) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = currentUser.getEmail();
+        String[] parts = userEmail.split("@");
+        String userName = parts[0];
+        return userName + "_market_" + uid;
+    }
 
-        slim_blue_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMCDarkRedKisa);
-            }
-        });
+    private void firestoreCount(String documentName, int count) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String uid = user.getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userCollectionName = getUserCollectionName(uid);
 
-        //////////////////////
+            CollectionReference userCollectionRef = db.collection(userCollectionName);
+            DocumentReference documentReference = userCollectionRef.document(documentName);
 
+            documentReference.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Document exists, update count
+                            updateFirestore(documentReference, count);
+                        } else {
+                            // Document doesn't exist, create new document
+                            createFirestoreDocument(documentReference, count);
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(getApplicationContext(), "Firestore Operation Failed!", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        white_line_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameMCDarkRedUzun);
-            }
-        });
+    private void createFirestoreDocument(DocumentReference documentReference, int count) {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("stock", count);
 
-
-        white_line_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameMCDarkRedUzun);
-            }
-        });
-
-        //////////////////////
-
-
-        toros_blue_kisa_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTorosBlueKisa);
-            }
-        });
-
-
-        toros_blue_kisa_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTorosBlueKisa);
-            }
-        });
-
-        //////////////////////
-
-
-        toros_blue_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTorosBlueUzun);
-            }
-        });
-
-
-        toros_blue_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTorosBlueUzun);
-            }
-        });
-
-        //////////////////////
-
-
-        toros_red_uzun_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTorosRedUzun);
-            }
-        });
-
-        toros_red_uzun_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTorosRedUzun);
-            }
-        });
-
-        //////////////////////
-
-
-        toros_red_kisa_azalt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementCount(documentNameTorosRedKisa);
-            }
-        });
-
-
-        toros_red_kisa_arttir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementCount(documentNameTorosRedKisa);
-            }
-        });
-
+        documentReference.set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully created.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document creation failed.", e);
+                });
     }
 
 
@@ -256,10 +245,10 @@ public class HdActivity extends AppCompatActivity {
         countTorosRedUzun = 0;
 
         // Tüm TextView'ları sıfırla
-        updateTextView(documentNameMCDarkBlueKisa, countHDBlueKisa);
-        updateTextView(documentNameMCDarkBlueUzun, countHDBlueUzun);
-        updateTextView(documentNameMCDarkRedKisa, countHDSlimBlue);
-        updateTextView(documentNameMCDarkRedUzun, countHDWhiteLine);
+        updateTextView(documentNameHDBlueKisa, countHDBlueKisa);
+        updateTextView(documentNameHDBlueUzun, countHDBlueUzun);
+        updateTextView(documentNameHDSlimBlue, countHDSlimBlue);
+        updateTextView(documentNameHDWhiteLine, countHDWhiteLine);
 
         updateTextView(documentNameTorosBlueKisa, countTorosBlueKisa);
         updateTextView(documentNameTorosBlueUzun, countTorosBlueUzun);
@@ -269,15 +258,15 @@ public class HdActivity extends AppCompatActivity {
 
     private void resetFirestoreCounts() {
         // Firestore'daki tüm belgelerin stock değerini sıfırla
-        updateFirestore(documentNameMCDarkBlueKisa, 0);
-        updateFirestore(documentNameMCDarkBlueUzun, 0);
-        updateFirestore(documentNameMCDarkRedKisa, 0);
-        updateFirestore(documentNameMCDarkRedUzun, 0);
+        firestoreCount(documentNameHDBlueKisa, 0);
+        firestoreCount(documentNameHDBlueUzun, 0);
+        firestoreCount(documentNameHDSlimBlue, 0);
+        firestoreCount(documentNameHDWhiteLine, 0);
 
-        updateFirestore(documentNameTorosBlueKisa, 0);
-        updateFirestore(documentNameTorosBlueUzun, 0);
-        updateFirestore(documentNameTorosRedKisa, 0);
-        updateFirestore(documentNameTorosRedUzun, 0);
+        firestoreCount(documentNameTorosBlueKisa, 0);
+        firestoreCount(documentNameTorosBlueUzun, 0);
+        firestoreCount(documentNameTorosRedKisa, 0);
+        firestoreCount(documentNameTorosRedUzun, 0);
     }
 
     private void showConfirmationDialog() {
@@ -304,100 +293,36 @@ public class HdActivity extends AppCompatActivity {
 
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
-        updateFirestore(documentName, getCount(documentName) + 1);
+        firestoreCount(documentName, getCount(documentName) + 1);
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
         if (getCount(documentName) > 0) {
-            updateFirestore(documentName, getCount(documentName) - 1);
+            firestoreCount(documentName, getCount(documentName) - 1);
         }
     }
 
-    private void updateFirestore(String documentName, int count) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String uid = user.getUid();
-
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-            FirebaseUser currentUser = auth.getCurrentUser();
-            String userEmail = currentUser.getEmail();
-            String[] parts = userEmail.split("@");
-            String userName = parts[0];
-
-            // Koleksiyon adını belirleyin
-            String userCollectionName = userName + "_market_" + uid;
-            CollectionReference userCollectionRef = db.collection(userCollectionName);
-
-            // Yeni belge eklemek için haritaları oluşturun
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("stock", 0);
-
-            userCollectionRef.document(documentName)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    // Belge mevcut, güncelle
-                                    userCollectionRef.document(documentName)
-                                            .update("stock", count)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla güncellendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi güncellenirken hata oluştu", e);
-                                                }
-                                            });
-                                } else {
-                                    // Belge mevcut değil, yeni belge ekle
-                                    userCollectionRef.document(documentName)
-                                            .set(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    setCount(documentName, count);
-                                                    // TextView'i güncelle
-                                                    updateTextView(documentName, count);
-                                                    Log.d("TAG333", documentName + " belgesi başarıyla eklendi.");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("TAG444", documentName + " belgesi eklenirken hata oluştu", e);
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.d("TAG555", "Belge varlık durumu kontrolü başarısız oldu.", task.getException());
-                            }
-                        }
-                    });
-        } else {
-            Toast.makeText(getApplicationContext(), "Stok Güncelleme Başarısız..", Toast.LENGTH_SHORT).show();
-        }
+    private void updateFirestore(DocumentReference documentReference, int count) {
+        documentReference.update("stock", count)
+                .addOnSuccessListener(aVoid -> {
+                    setCount(documentReference.getId(), count);
+                    updateTextView(documentReference.getId(), count);
+                    Log.d("TAG333", documentReference.getId() + " document successfully updated.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("TAG444", documentReference.getId() + " document update failed.", e);
+                });
     }
 
 
     private void readFirestore() {
         // Her iki belgeyi de oku
-        readFirestoreForDocument(documentNameMCDarkBlueKisa);
-        readFirestoreForDocument(documentNameMCDarkBlueUzun);
+        readFirestoreForDocument(documentNameHDBlueKisa);
+        readFirestoreForDocument(documentNameHDBlueUzun);
 
-        readFirestoreForDocument(documentNameMCDarkRedKisa);
-        readFirestoreForDocument(documentNameMCDarkRedUzun);
+        readFirestoreForDocument(documentNameHDSlimBlue);
+        readFirestoreForDocument(documentNameHDWhiteLine);
 
         readFirestoreForDocument(documentNameTorosBlueKisa);
         readFirestoreForDocument(documentNameTorosBlueUzun);
@@ -438,34 +363,34 @@ public class HdActivity extends AppCompatActivity {
 
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
-        if (documentName.equals(documentNameMCDarkBlueKisa)) {
-            tv_hd_blue_kisa.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
-            tv_hd_blue_uzun.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameMCDarkRedKisa)) {
-            tv_hd_slim_blue.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameMCDarkRedUzun)) {
-            tv_hd_white_line.setText(String.valueOf(count));
+        if (documentName.equals(documentNameHDBlueKisa)) {
+            et_hd_kisa.setText(String.valueOf(count));
+        } else if (documentName.equals(documentNameHDBlueUzun)) {
+            et_hd_uzun.setText(String.valueOf(count));
+        } else if (documentName.equals(documentNameHDSlimBlue)) {
+            et_hd_slim.setText(String.valueOf(count));
+        } else if (documentName.equals(documentNameHDWhiteLine)) {
+            et_hd_white_line.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTorosBlueKisa)) {
-            tv_toros_kisa_blue.setText(String.valueOf(count));
+            et_toros_blue_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTorosBlueUzun)) {
-            tv_toros_uzun_blue.setText(String.valueOf(count));
+            et_toros_blue_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTorosRedKisa)) {
-            tv_toros_kisa_red.setText(String.valueOf(count));
+            et_toros_red_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTorosRedUzun)) {
-            tv_toros_uzun_red.setText(String.valueOf(count));
+            et_toros_red_uzun.setText(String.valueOf(count));
         }
     }
 
     private int getCount(String documentName) {
         // Belirli bir belgeye ait yerel count değerini döndür
-        if (documentName.equals(documentNameMCDarkBlueKisa)) {
+        if (documentName.equals(documentNameHDBlueKisa)) {
             return countHDBlueKisa;
-        } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
+        } else if (documentName.equals(documentNameHDBlueUzun)) {
             return countHDBlueUzun;
-        } else if(documentName.equals(documentNameMCDarkRedKisa)) {
+        } else if(documentName.equals(documentNameHDSlimBlue)) {
             return countHDSlimBlue;
-        } else if(documentName.equals(documentNameMCDarkRedUzun)) {
+        } else if(documentName.equals(documentNameHDWhiteLine)) {
             return countHDWhiteLine;
         } else if (documentName.equals(documentNameTorosBlueKisa)) {
             return countTorosBlueKisa;
@@ -481,13 +406,13 @@ public class HdActivity extends AppCompatActivity {
 
     private void setCount(String documentName, int count) {
         // Belirli bir belgeye ait yerel count değerini güncelle
-        if (documentName.equals(documentNameMCDarkBlueKisa)) {
+        if (documentName.equals(documentNameHDBlueKisa)) {
             countHDBlueKisa = count;
-        } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
+        } else if (documentName.equals(documentNameHDBlueUzun)) {
             countHDBlueUzun = count;
-        } else if (documentName.equals(documentNameMCDarkRedKisa)) {
+        } else if (documentName.equals(documentNameHDSlimBlue)) {
             countHDSlimBlue = count;
-        } else if (documentName.equals(documentNameMCDarkRedUzun)) {
+        } else if (documentName.equals(documentNameHDWhiteLine)) {
             countHDWhiteLine = count;
         } else if (documentName.equals(documentNameTorosBlueKisa)) {
             countTorosBlueKisa = count;

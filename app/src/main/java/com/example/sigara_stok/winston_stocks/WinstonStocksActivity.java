@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,25 +20,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WinstonStocksActivity extends AppCompatActivity {
-
-    private int countSlenderKisa = 0, countSlenderUzun = 0;
-    private int countBlueKisa = 0, countBlueUzun = 0;
-    private int countRedKisa = 0, countRedUzun = 0;
-    private int countSlimBlue = 0, countSlimGrey = 0, countSlenderGrey = 0, countGrey = 0, countDarkBlueKisa = 0, countDarkBlueUzun = 0;
-    private TextView tv_winston_slender_kisa, tv_winston_slender_uzun;
-    private TextView tv_winston_blue_kisa, tv_winston_blue_uzun;
-    private TextView tv_winston_red_kisa, tv_winston_red_uzun, tv_dark_blue_uzun, tv_dark_blue_kisa;
-    private TextView tv_winston_slim_blue, tv_winston_slim_grey, tv_winston_slender_grey_kisa, tv_winston_grey;
+    private int countSlenderKisa = 0, countSlenderUzun = 0, countBlueKisa = 0, countBlueUzun = 0, countRedKisa = 0, countRedUzun = 0, countSlimBlue = 0, countSlimGrey = 0, countSlenderGrey = 0, countGrey = 0, countDarkBlueKisa = 0, countDarkBlueUzun = 0;
+    private EditText et_slender_blue_kisa, et_slender_blue_uzun, et_winston_blue_kisa, et_winston_blue_uzun, et_winston_red_kisa, et_winston_red_uzun, et_winston_dark_uzun, et_winston_dark_kisa, et_winston_slim_blue, et_winston_slim_grey, et_slender_grey_kisa, et_winston_grey;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
-    final static String documentNameSlenderKisa = "JTI_Slender_Blue_Kisa", documentNameSlenderUzun = "JTI_Slender_Blue_Uzun";
-    final static String getDocumentNameBlueKisa = "JTI_Blue_Kisa", getDocumentNameBlueUzun = "JTI_Blue_Uzun";
-    final static String getDocumentNameRedKisa = "JTI_Red_Kisa", getDocumentNameRedUzun = "JTI_Red_Uzun";
-    final static String getDocumentNameSlimBlue = "JTI_Slims_Blue", getDocumentNameSlimGrey = "JTI_Slims_Grey";
-    final static String getDocumentNameSlenderGreyKisa = "JTI_Slender_Grey", getDocumentNameWinsonGrey= "JTI_Winston_Grey";
-    final static String getDocumentNameDarkBlueKisa = "JTI_Winston_Dark_Blue_Kisa", getDocumentNameDarkBlueUzun= "JTI_Winston_Dark_Blue_Uzun";
-
+    final static String documentNameSlenderKisa = "JTI_Slender_Blue_Kisa", documentNameSlenderUzun = "JTI_Slender_Blue_Uzun", getDocumentNameBlueKisa = "JTI_Blue_Kisa", getDocumentNameBlueUzun = "JTI_Blue_Uzun", getDocumentNameRedKisa = "JTI_Red_Kisa", getDocumentNameRedUzun = "JTI_Red_Uzun", getDocumentNameSlimBlue = "JTI_Slims_Blue", getDocumentNameSlimGrey = "JTI_Slims_Grey", getDocumentNameSlenderGreyKisa = "JTI_Slender_Grey", getDocumentNameWinsonGrey= "JTI_Winston_Grey", getDocumentNameDarkBlueKisa = "JTI_Winston_Dark_Blue_Kisa", getDocumentNameDarkBlueUzun= "JTI_Winston_Dark_Blue_Uzun";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +58,8 @@ public class WinstonStocksActivity extends AppCompatActivity {
         Button dark_blue_uzun_azalt_btn = findViewById(R.id.dark_blue_uzun_azalt_btn);
         Button dark_blue_uzun_arttir_btn = findViewById(R.id.dark_blue_uzun_arttir_btn);
 
+        Button updateValuesButton = findViewById(R.id.winstonGuncelle);
+
 
         setCamelButtonClickListeners(slender_kisa_azalt_btn, slender_kisa_arttir_btn, documentNameSlenderKisa);
         setCamelButtonClickListeners(slender_uzun_azalt_btn, slender_uzun_arttir_btn, documentNameSlenderUzun);
@@ -87,24 +75,31 @@ public class WinstonStocksActivity extends AppCompatActivity {
         setCamelButtonClickListeners(dark_blue_uzun_azalt_btn, dark_blue_uzun_arttir_btn, getDocumentNameDarkBlueUzun);
 
 
-        tv_winston_slender_kisa = findViewById(R.id.tv_winston_slender_kisa);
-        tv_winston_slender_uzun = findViewById(R.id.tv_winston_slender_uzun);
-        tv_winston_slender_grey_kisa = findViewById(R.id.tv_winston_slender_grey_kisa);
-        tv_winston_grey = findViewById(R.id.tv_winston_grey);
-        tv_winston_blue_kisa = findViewById(R.id.tv_winston_blue_kisa);
-        tv_winston_blue_uzun = findViewById(R.id.tv_winston_blue_uzun);
-        tv_dark_blue_kisa = findViewById(R.id.tv_dark_blue_kisa);
-        tv_dark_blue_uzun = findViewById(R.id.tv_dark_blue_uzun);
-        tv_winston_red_kisa = findViewById(R.id.tv_winston_red_kisa);
-        tv_winston_red_uzun = findViewById(R.id.tv_winston_red_uzun);
-        tv_winston_slim_blue = findViewById(R.id.tv_winston_slim_blue);
-        tv_winston_slim_grey = findViewById(R.id.tv_winston_slim_grey);
+        et_slender_blue_kisa = findViewById(R.id.et_slender_blue_kisa);
+        et_slender_blue_uzun = findViewById(R.id.et_slender_blue_uzun);
+        et_slender_grey_kisa = findViewById(R.id.et_slender_grey_kisa);
+        et_winston_grey = findViewById(R.id.et_winston_grey);
+        et_winston_blue_kisa = findViewById(R.id.et_winston_blue_kisa);
+        et_winston_blue_uzun = findViewById(R.id.et_winston_blue_uzun);
+        et_winston_dark_kisa = findViewById(R.id.et_winston_dark_kisa);
+        et_winston_dark_uzun = findViewById(R.id.et_winston_dark_uzun);
+        et_winston_red_kisa = findViewById(R.id.et_winston_red_kisa);
+        et_winston_red_uzun = findViewById(R.id.et_winston_red_uzun);
+        et_winston_slim_blue = findViewById(R.id.et_winston_slim_blue);
+        et_winston_slim_grey = findViewById(R.id.et_winston_slim_grey);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
 
         resetAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +108,84 @@ public class WinstonStocksActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countSlenderKisa = Integer.parseInt(et_slender_blue_kisa.getText().toString());
+        countSlenderUzun = Integer.parseInt(et_slender_blue_uzun.getText().toString());
+        countBlueKisa = Integer.parseInt(et_winston_blue_kisa.getText().toString());
+        countBlueUzun = Integer.parseInt(et_winston_blue_uzun.getText().toString());
+        countRedKisa = Integer.parseInt(et_winston_red_kisa.getText().toString());
+        countRedUzun = Integer.parseInt(et_winston_red_uzun.getText().toString());
+        countSlimBlue = Integer.parseInt(et_winston_slim_blue.getText().toString());
+        countSlimGrey = Integer.parseInt(et_winston_slim_grey.getText().toString());
+        countSlenderGrey = Integer.parseInt(et_slender_grey_kisa.getText().toString());
+
+        countGrey = Integer.parseInt(et_winston_grey.getText().toString());
+        countDarkBlueKisa = Integer.parseInt(et_winston_dark_kisa.getText().toString());
+        countDarkBlueUzun = Integer.parseInt(et_winston_dark_uzun.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameSlenderKisa, countSlenderKisa);
+        updateTextView(documentNameSlenderUzun, countSlenderUzun);
+        updateTextView(getDocumentNameBlueKisa, countBlueKisa);
+        updateTextView(getDocumentNameBlueUzun, countBlueUzun);
+        updateTextView(getDocumentNameRedKisa, countRedKisa);
+        updateTextView(getDocumentNameRedUzun, countRedUzun);
+        updateTextView(getDocumentNameSlimBlue, countSlimBlue);
+        updateTextView(getDocumentNameSlimGrey, countSlimGrey);
+        updateTextView(getDocumentNameSlenderGreyKisa, countSlenderGrey);
+        updateTextView(getDocumentNameWinsonGrey, countGrey);
+        updateTextView(getDocumentNameDarkBlueKisa, countDarkBlueKisa);
+        updateTextView(getDocumentNameDarkBlueUzun, countDarkBlueUzun);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameSlenderKisa, countSlenderKisa);
+        firestoreCount(documentNameSlenderUzun, countSlenderUzun);
+        firestoreCount(getDocumentNameBlueKisa, countBlueKisa);
+        firestoreCount(getDocumentNameBlueUzun, countBlueUzun);
+        firestoreCount(getDocumentNameRedKisa, countRedKisa);
+        firestoreCount(getDocumentNameRedUzun, countRedUzun);
+        firestoreCount(getDocumentNameSlimBlue, countSlimBlue);
+        firestoreCount(getDocumentNameSlimGrey, countSlimGrey);
+        firestoreCount(getDocumentNameSlenderGreyKisa, countSlenderGrey);
+        firestoreCount(getDocumentNameWinsonGrey, countGrey);
+        firestoreCount(getDocumentNameDarkBlueKisa, countDarkBlueKisa);
+        firestoreCount(getDocumentNameDarkBlueUzun, countDarkBlueUzun);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void discardStockCount() {
+        et_slender_blue_kisa.setText(String.valueOf(countSlenderKisa));
+        et_slender_blue_uzun.setText(String.valueOf(countSlenderUzun));
+        et_winston_blue_kisa.setText(String.valueOf(countBlueKisa));
+        et_winston_blue_uzun.setText(String.valueOf(countBlueUzun));
+        et_winston_red_kisa.setText(String.valueOf(countRedKisa));
+        et_winston_red_uzun.setText(String.valueOf(countRedUzun));
+        et_winston_slim_blue.setText(String.valueOf(countSlimBlue));
+        et_winston_slim_grey.setText(String.valueOf(countSlimGrey));
+        et_winston_grey.setText(String.valueOf(countGrey));
     }
 
 
@@ -325,29 +398,29 @@ public class WinstonStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameSlenderKisa)) {
-            tv_winston_slender_kisa.setText(String.valueOf(count));
+            et_slender_blue_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameSlenderUzun)) {
-            tv_winston_slender_uzun.setText(String.valueOf(count));
+            et_slender_blue_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameBlueKisa)) {
-            tv_winston_blue_kisa.setText(String.valueOf(count));
+            et_winston_blue_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameBlueUzun)) {
-            tv_winston_blue_uzun.setText(String.valueOf(count));
+            et_winston_blue_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameRedKisa)) {
-            tv_winston_red_kisa.setText(String.valueOf(count));
+            et_winston_red_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameRedUzun)) {
-            tv_winston_red_uzun.setText(String.valueOf(count));
+            et_winston_red_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameSlimBlue)) {
-            tv_winston_slim_blue.setText(String.valueOf(count));
+            et_winston_slim_blue.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameSlimGrey)) {
-            tv_winston_slim_grey.setText(String.valueOf(count));
+            et_winston_slim_grey.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameSlenderGreyKisa)) {
-            tv_winston_slender_grey_kisa.setText(String.valueOf(count));
+            et_slender_grey_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameWinsonGrey)) {
-            tv_winston_grey.setText(String.valueOf(count));
+            et_winston_grey.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameDarkBlueKisa)) {
-            tv_dark_blue_kisa.setText(String.valueOf(count));
+            et_winston_dark_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameDarkBlueUzun)) {
-            tv_dark_blue_uzun.setText(String.valueOf(count));
+            et_winston_dark_uzun.setText(String.valueOf(count));
         }
 
     }

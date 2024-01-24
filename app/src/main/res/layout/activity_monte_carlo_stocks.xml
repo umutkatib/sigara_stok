@@ -63,30 +63,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView64" />
 
-        <TextView
-            android:id="@+id/tv_mc_dark_blue_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/mc_dark_blue_kisa_arttir"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_mc_dark_blue_uzun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="15dp"
-            android:text="0"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/mc_dark_blue_uzun_arttir" />
-
         <Button
             android:id="@+id/mc_dark_blue_kisa_azalt"
             android:layout_width="wrap_content"
@@ -97,7 +73,7 @@
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_mc_dark_blue_kisa"
+            app:layout_constraintEnd_toStartOf="@+id/et_mc_dark_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -111,7 +87,7 @@
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_mc_dark_blue_uzun"
+            app:layout_constraintEnd_toStartOf="@+id/et_mc_dark_uzun"
             app:layout_constraintTop_toBottomOf="@+id/mc_dark_blue_kisa_azalt" />
 
         <Button
@@ -140,6 +116,32 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mc_dark_blue_kisa_arttir" />
+
+        <EditText
+            android:id="@+id/et_mc_dark_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toStartOf="@+id/mc_dark_blue_kisa_arttir"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_mc_dark_uzun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/mc_dark_blue_uzun_arttir" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -185,7 +187,7 @@
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_mc_dark_red_kisa"
+            app:layout_constraintEnd_toStartOf="@+id/et_mc_red_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -193,13 +195,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="9dp"
+            android:layout_marginEnd="10dp"
             android:height="50sp"
             android:backgroundTint="#2196F3"
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_mc_dark_red_uzun"
+            app:layout_constraintEnd_toStartOf="@+id/et_mc_red_uzun"
             app:layout_constraintTop_toBottomOf="@+id/mc_dark_red_kisa_azalt" />
 
         <Button
@@ -229,29 +231,31 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mc_dark_red_kisa_arttir" />
 
-        <TextView
-            android:id="@+id/tv_mc_dark_red_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/mc_dark_red_kisa_arttir"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_mc_dark_red_uzun"
+        <EditText
+            android:id="@+id/et_mc_red_uzun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="0"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/mc_dark_red_uzun_arttir" />
+
+        <EditText
+            android:id="@+id/et_mc_red_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toStartOf="@+id/mc_dark_red_kisa_arttir"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -296,42 +300,56 @@
             android:backgroundTint="#039BE5"
             android:minWidth="65dip"
             android:text="-"
-            app:layout_constraintEnd_toStartOf="@+id/tv_mc_slender"
+            app:layout_constraintEnd_toStartOf="@+id/et_mc_slender_dark"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_mc_slender"
+        <EditText
+            android:id="@+id/et_mc_slender_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
             app:layout_constraintEnd_toStartOf="@+id/mc_slender_blue_arttir"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout40">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout40">
 
-        <Button
-            android:id="@+id/reset_all_mc_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="115dp"
-            android:layout_marginTop="100dp"
-            android:backgroundTint="#FF0000"
-            android:text="Stok Sıfırla"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/reset_all_mc_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="115dp"
+                    android:layout_marginTop="100dp"
+                    android:backgroundTint="#FF0000"
+                    android:text="Stok Sıfırla"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/montecarloGuncelle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="118dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#2196F3"
+                    android:text="Stok Güncelle"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

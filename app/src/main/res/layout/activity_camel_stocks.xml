@@ -44,7 +44,7 @@
                     android:id="@+id/camel_yellow_soft_arttir_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:height="50sp"
                     android:backgroundTint="#2196F3"
@@ -78,30 +78,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView48" />
 
-                <TextView
-                    android:id="@+id/tv_yellow_kisa"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="0"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/camel_yellow_kisa_arttir_btn"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_yellow_uzun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="0"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/camel_yellow_uzun_arttir_btn"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_yellow_kisa" />
-
                 <Button
                     android:id="@+id/camel_yellow_kisa_azalt_btn"
                     android:layout_width="wrap_content"
@@ -112,21 +88,21 @@
                     android:minWidth="65dip"
                     android:text="-"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_yellow_kisa"
+                    app:layout_constraintEnd_toStartOf="@+id/et_camel_kisa"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/camel_yellow_uzun_azalt_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:height="50sp"
                     android:backgroundTint="#2196F3"
                     android:minWidth="65dip"
                     android:text="-"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_yellow_uzun"
+                    app:layout_constraintEnd_toStartOf="@+id/et_camel_uzun"
                     app:layout_constraintTop_toBottomOf="@+id/camel_yellow_kisa_azalt_btn" />
 
                 <Button
@@ -146,7 +122,7 @@
                     android:id="@+id/camel_yellow_uzun_arttir_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:height="50sp"
                     android:backgroundTint="#2196F3"
@@ -172,27 +148,58 @@
                     android:id="@+id/camel_yellow_soft_azalt_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:height="50sp"
                     android:backgroundTint="#2196F3"
                     android:minWidth="65dip"
                     android:text="-"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_yellow_soft_kisa"
+                    app:layout_constraintEnd_toStartOf="@+id/et_camel_soft"
                     app:layout_constraintTop_toBottomOf="@+id/camel_yellow_uzun_azalt_btn" />
 
-                <TextView
-                    android:id="@+id/tv_yellow_soft_kisa"
+                <EditText
+                    android:id="@+id/et_camel_uzun"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="0"
+                    android:width="45sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/camel_yellow_uzun_arttir_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/et_camel_kisa" />
+
+                <EditText
+                    android:id="@+id/et_camel_soft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
                     android:textSize="25sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/camel_yellow_soft_arttir_btn" />
+
+                <EditText
+                    android:id="@+id/et_camel_kisa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/camel_yellow_kisa_arttir_btn"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -203,18 +210,6 @@
                 android:layout_marginTop="50dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout28">
-
-                <TextView
-                    android:id="@+id/tv_deep_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="0"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/camel_deep_blue_arttir_btn"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_black" />
 
                 <TextView
                     android:id="@+id/textView55"
@@ -233,63 +228,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="55dp"
+                    android:layout_marginTop="50dp"
                     android:text="Camel Black"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView55" />
-
-                <TextView
-                    android:id="@+id/tv_white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="0"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/camel_white_arttir_btn"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="0"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/camel_black_arttir_btn"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_white" />
-
-                <Button
-                    android:id="@+id/camel_white_azalt_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:height="50sp"
-                    android:backgroundTint="#2196F3"
-                    android:minWidth="65dip"
-                    android:text="-"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_white"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/camel_black_azalt_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:height="50sp"
-                    android:backgroundTint="#2196F3"
-                    android:minWidth="65dip"
-                    android:text="-"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_black"
-                    app:layout_constraintTop_toBottomOf="@+id/camel_white_azalt_btn" />
 
                 <Button
                     android:id="@+id/camel_white_arttir_btn"
@@ -323,7 +267,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="55dp"
+                    android:layout_marginTop="50dp"
                     android:text="Camel Deep Blue"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -335,24 +279,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="55dp"
+                    android:layout_marginTop="50dp"
                     android:text="Camel Brown"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView73" />
-
-                <TextView
-                    android:id="@+id/tv_brown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="0"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/camel_brown_arttir_btn" />
 
                 <Button
                     android:id="@+id/camel_deep_blue_azalt_btn"
@@ -365,8 +297,35 @@
                     android:minWidth="65dip"
                     android:text="-"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_deep_blue"
+                    app:layout_constraintEnd_toStartOf="@+id/et_camel_deep_blue"
                     app:layout_constraintTop_toBottomOf="@+id/camel_black_azalt_btn" />
+
+                <Button
+                    android:id="@+id/camel_white_azalt_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:height="50sp"
+                    android:backgroundTint="#2196F3"
+                    android:minWidth="65dip"
+                    android:text="-"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toStartOf="@+id/et_camel_white"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/camel_black_azalt_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:height="50sp"
+                    android:backgroundTint="#2196F3"
+                    android:minWidth="65dip"
+                    android:text="-"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toStartOf="@+id/et_camel_black"
+                    app:layout_constraintTop_toBottomOf="@+id/camel_white_azalt_btn" />
 
                 <Button
                     android:id="@+id/camel_brown_azalt_btn"
@@ -379,7 +338,7 @@
                     android:minWidth="65dip"
                     android:text="-"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_brown"
+                    app:layout_constraintEnd_toStartOf="@+id/et_camel_brown"
                     app:layout_constraintTop_toBottomOf="@+id/camel_deep_blue_azalt_btn" />
 
                 <Button
@@ -409,6 +368,66 @@
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/camel_black_arttir_btn" />
+
+                <EditText
+                    android:id="@+id/et_camel_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/camel_white_arttir_btn"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/et_camel_brown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/camel_brown_arttir_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/et_camel_deep_blue" />
+
+                <EditText
+                    android:id="@+id/et_camel_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/camel_black_arttir_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/et_camel_white" />
+
+                <EditText
+                    android:id="@+id/et_camel_deep_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/camel_deep_blue_arttir_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/et_camel_black" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -437,7 +456,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="55dp"
+                    android:layout_marginTop="50dp"
                     android:text="Slender Grey"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -454,46 +473,22 @@
                     android:minWidth="65dip"
                     android:text="-"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_slender_blue"
+                    app:layout_constraintEnd_toStartOf="@+id/et_camel_slender_blue"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/camel_slender_grey_azalt_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:height="50sp"
                     android:backgroundTint="#2196F3"
                     android:minWidth="65dip"
                     android:text="-"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_slender_grey"
+                    app:layout_constraintEnd_toStartOf="@+id/et_camel_slender_grey"
                     app:layout_constraintTop_toBottomOf="@+id/camel_slender_blue_azalt_btn" />
-
-                <TextView
-                    android:id="@+id/tv_slender_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="0"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/camel_slender_blue_arttir_btn"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_slender_grey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="0"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/camel_slender_grey_arttir_btn" />
 
                 <Button
                     android:id="@+id/camel_slender_blue_arttir_btn"
@@ -512,7 +507,7 @@
                     android:id="@+id/camel_slender_grey_arttir_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:height="50sp"
                     android:backgroundTint="#2196F3"
@@ -521,6 +516,36 @@
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/camel_slender_blue_arttir_btn" />
+
+                <EditText
+                    android:id="@+id/et_camel_slender_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/camel_slender_blue_arttir_btn"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/et_camel_slender_grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/camel_slender_grey_arttir_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/et_camel_slender_blue" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -545,16 +570,19 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tvTotalStock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="181dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout30" />
+                <Button
+                    android:id="@+id/camelGuncelle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="116dp"
+                    android:layout_marginBottom="50dp"
+                    android:backgroundTint="#2196F3"
+                    android:text="Stok Güncelle"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/reset_all_camel_all_btn"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

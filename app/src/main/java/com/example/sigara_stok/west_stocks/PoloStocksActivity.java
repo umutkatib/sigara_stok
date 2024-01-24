@@ -1,6 +1,5 @@
 package com.example.sigara_stok.west_stocks;
 
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
@@ -8,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
@@ -21,11 +21,9 @@ import java.util.Map;
 
 public class PoloStocksActivity extends AppCompatActivity {
     private int countPoloBlue = 0, countPoloGrey = 0;
-    private TextView tv_polo_blue, tv_polo_grey;
-
+    private EditText et_polo_blue, et_polo_grey;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
     final static String documentNamePoloBlue = "POLO_Blue", documentNamePoloGrey = "POLO_Grey";
 
 
@@ -41,17 +39,28 @@ public class PoloStocksActivity extends AppCompatActivity {
         Button polo_grey_azalt = findViewById(R.id.polo_grey_azalt);
         Button polo_grey_arttir = findViewById(R.id.polo_grey_arttir);
 
+        Button updateValuesButton = findViewById(R.id.poloGuncelle);
+
+
         setPoloButtonClickListeners(polo_blue_azalt, polo_blue_arttir, documentNamePoloBlue);
         setPoloButtonClickListeners(polo_grey_azalt, polo_grey_arttir, documentNamePoloGrey);
 
-        tv_polo_blue = findViewById(R.id.tv_polo_blue);
-        tv_polo_grey = findViewById(R.id.tv_polo_grey);
+        et_polo_blue = findViewById(R.id.et_polo_blue);
+        et_polo_grey = findViewById(R.id.et_polo_grey);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
+
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
 
         reset_all_polo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +69,27 @@ public class PoloStocksActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void discardStockCount() {
+        et_polo_blue.setText(String.valueOf(countPoloBlue));
+        et_polo_grey.setText(String.valueOf(countPoloGrey));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countPoloBlue = Integer.parseInt(et_polo_blue.getText().toString());
+        countPoloGrey = Integer.parseInt(et_polo_grey.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNamePoloBlue, countPoloBlue);
+        updateTextView(documentNamePoloGrey, countPoloGrey);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNamePoloBlue, countPoloBlue);
+        firestoreCount(documentNamePoloGrey, countPoloGrey);
+    }
+
 
     private void setPoloButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
         incrementButton.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +208,27 @@ public class PoloStocksActivity extends AppCompatActivity {
         builder.show();
     }
 
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
         firestoreCount(documentName, getCount(documentName) + 1);
@@ -224,9 +275,9 @@ public class PoloStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNamePoloBlue)) {
-            tv_polo_blue.setText(String.valueOf(count));
+            et_polo_blue.setText(String.valueOf(count));
         } else if (documentName.equals(documentNamePoloGrey)) {
-            tv_polo_grey.setText(String.valueOf(count));
+            et_polo_grey.setText(String.valueOf(count));
         }
     }
 

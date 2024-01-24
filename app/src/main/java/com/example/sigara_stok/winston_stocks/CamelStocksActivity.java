@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
@@ -22,13 +23,9 @@ public class CamelStocksActivity extends AppCompatActivity {
     private int countCamelYellowKisa, countCamelYellowUzun, countCamelYellowSoftKisa;
     private int  countCamelWhite, countCamelBrown, countCamelBlack, countCamelDeepBlue;
     private int countCamelSlenderBlue, countCamelSlenderGrey;
-    private TextView tv_yellow_kisa, tv_yellow_uzun;
-    private TextView tv_yellow_soft_kisa, tv_white;
-    private TextView tv_black, tv_deep_blue;
-    private TextView tv_brown, tv_slender_blue, tv_slender_grey;
+    private EditText et_camel_kisa, et_camel_uzun, et_camel_soft, et_camel_white, et_camel_black, et_camel_deep_blue, et_camel_brown, et_camel_slender_blue, et_camel_slender_grey;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
     final static String documentNameCamelYellowKisa = "JTI_Camel_Yellow_Kisa", documentNameCamelYellowUzun = "JTI_Camel_Yellow_Uzun";
     final static String documentNameCamelYellowSoftKisa = "JTI_Camel_Yellow_Soft_Kisa", documentNameCamelWhite = "JTI_Camel_White";
     final static String documentNameCamelBlack = "JTI_Camel_Black", documentNameCamelBrown = "JTI_Camel_Brown";
@@ -60,6 +57,8 @@ public class CamelStocksActivity extends AppCompatActivity {
         Button camel_slender_grey_azalt_btn = findViewById(R.id.camel_slender_grey_azalt_btn);
         Button camel_slender_grey_arttir_btn = findViewById(R.id.camel_slender_grey_arttir_btn);
 
+        Button updateValuesButton = findViewById(R.id.camelGuncelle);
+
         // Set click listeners for Camel buttons
         setCamelButtonClickListeners(camel_yellow_kisa_azalt_btn, camel_yellow_kisa_arttir_btn, documentNameCamelYellowKisa);
         setCamelButtonClickListeners(camel_yellow_uzun_azalt_btn, camel_yellow_uzun_arttir_btn, documentNameCamelYellowUzun);
@@ -71,17 +70,15 @@ public class CamelStocksActivity extends AppCompatActivity {
         setCamelButtonClickListeners(camel_slender_blue_azalt_btn, camel_slender_blue_arttir_btn, documentNameCamelSlenderBlue);
         setCamelButtonClickListeners(camel_slender_grey_azalt_btn, camel_slender_grey_arttir_btn, documentNameCamelSlenderGrey);
 
-
-        tv_yellow_kisa = findViewById(R.id.tv_yellow_kisa);
-        tv_yellow_uzun = findViewById(R.id.tv_yellow_uzun);
-        tv_yellow_soft_kisa = findViewById(R.id.tv_yellow_soft_kisa);
-
-        tv_white = findViewById(R.id.tv_white);
-        tv_black = findViewById(R.id.tv_black);
-        tv_deep_blue = findViewById(R.id.tv_deep_blue);
-        tv_brown = findViewById(R.id.tv_brown);
-        tv_slender_blue = findViewById(R.id.tv_slender_blue);
-        tv_slender_grey = findViewById(R.id.tv_slender_grey);
+        et_camel_kisa = findViewById(R.id.et_camel_kisa);
+        et_camel_uzun = findViewById(R.id.et_camel_uzun);
+        et_camel_soft = findViewById(R.id.et_camel_soft);
+        et_camel_white = findViewById(R.id.et_camel_white);
+        et_camel_black = findViewById(R.id.et_camel_black);
+        et_camel_deep_blue = findViewById(R.id.et_camel_deep_blue);
+        et_camel_brown = findViewById(R.id.et_camel_brown);
+        et_camel_slender_blue = findViewById(R.id.et_camel_slender_blue);
+        et_camel_slender_grey = findViewById(R.id.et_camel_slender_grey);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -89,12 +86,87 @@ public class CamelStocksActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
+
         reset_all_camel_all_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countCamelYellowKisa = Integer.parseInt(et_camel_kisa.getText().toString());
+        countCamelYellowUzun = Integer.parseInt(et_camel_uzun.getText().toString());
+        countCamelYellowSoftKisa = Integer.parseInt(et_camel_soft.getText().toString());
+        countCamelWhite = Integer.parseInt(et_camel_white.getText().toString());
+        countCamelBlack = Integer.parseInt(et_camel_black.getText().toString());
+        countCamelDeepBlue = Integer.parseInt(et_camel_deep_blue.getText().toString());
+        countCamelBrown = Integer.parseInt(et_camel_brown.getText().toString());
+        countCamelSlenderBlue = Integer.parseInt(et_camel_slender_blue.getText().toString());
+        countCamelSlenderGrey = Integer.parseInt(et_camel_slender_grey.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameCamelYellowKisa, countCamelYellowKisa);
+        updateTextView(documentNameCamelYellowUzun, countCamelYellowUzun);
+        updateTextView(documentNameCamelYellowSoftKisa, countCamelYellowSoftKisa);
+        updateTextView(documentNameCamelWhite, countCamelWhite);
+        updateTextView(documentNameCamelBlack, countCamelBlack);
+        updateTextView(documentNameCamelDeepBlue, countCamelDeepBlue);
+        updateTextView(documentNameCamelBrown, countCamelBrown);
+        updateTextView(documentNameCamelSlenderBlue, countCamelSlenderBlue);
+        updateTextView(documentNameCamelSlenderGrey, countCamelSlenderGrey);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameCamelYellowKisa, countCamelYellowKisa);
+        firestoreCount(documentNameCamelYellowUzun, countCamelYellowUzun);
+        firestoreCount(documentNameCamelYellowSoftKisa, countCamelYellowSoftKisa);
+        firestoreCount(documentNameCamelWhite, countCamelWhite);
+        firestoreCount(documentNameCamelBlack, countCamelBlack);
+        firestoreCount(documentNameCamelDeepBlue, countCamelDeepBlue);
+        firestoreCount(documentNameCamelBrown, countCamelBrown);
+        firestoreCount(documentNameCamelSlenderBlue, countCamelSlenderBlue);
+        firestoreCount(documentNameCamelSlenderGrey, countCamelSlenderGrey);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void discardStockCount() {
+        et_camel_kisa.setText(String.valueOf(countCamelYellowKisa));
+        et_camel_uzun.setText(String.valueOf(countCamelYellowUzun));
+        et_camel_soft.setText(String.valueOf(countCamelYellowSoftKisa));
+        et_camel_white.setText(String.valueOf(countCamelWhite));
+        et_camel_black.setText(String.valueOf(countCamelBlack));
+        et_camel_deep_blue.setText(String.valueOf(countCamelDeepBlue));
+        et_camel_brown.setText(String.valueOf(countCamelBrown));
+        et_camel_slender_blue.setText(String.valueOf(countCamelSlenderBlue));
+        et_camel_slender_grey.setText(String.valueOf(countCamelSlenderGrey));
     }
 
     private void setCamelButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -291,23 +363,23 @@ public class CamelStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameCamelYellowKisa)) {
-            tv_yellow_kisa.setText(String.valueOf(count));
+            et_camel_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelYellowUzun)) {
-            tv_yellow_uzun.setText(String.valueOf(count));
+            et_camel_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelYellowSoftKisa)) {
-            tv_yellow_soft_kisa.setText(String.valueOf(count));
+            et_camel_soft.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelWhite)) {
-            tv_white.setText(String.valueOf(count));
+            et_camel_white.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelBlack)) {
-            tv_black.setText(String.valueOf(count));
+            et_camel_black.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelDeepBlue)) {
-            tv_deep_blue.setText(String.valueOf(count));
+            et_camel_deep_blue.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelBrown)) {
-            tv_brown.setText(String.valueOf(count));
+            et_camel_brown.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelSlenderBlue)) {
-            tv_slender_blue.setText(String.valueOf(count));
+            et_camel_slender_blue.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelSlenderGrey)) {
-            tv_slender_grey.setText(String.valueOf(count));
+            et_camel_slender_grey.setText(String.valueOf(count));
         }
     }
 

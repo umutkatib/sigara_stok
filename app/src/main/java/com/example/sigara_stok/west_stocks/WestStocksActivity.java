@@ -1,43 +1,30 @@
 package com.example.sigara_stok.west_stocks;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.sigara_stok.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class WestStocksActivity extends AppCompatActivity {
-
-
-    private int countWestNavyKisa = 0, countWestNavyUzun = 0, countHDSlimBlue = 0;
-    private TextView tv_navy, tv_grey;
-
+    private int countWestNavyKisa = 0, countWestGreyKısa = 0;
+    private EditText navy_kisa, grey_kisa;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
     String documentNameWestNavyKisa = "WEST_Navy", documentNameWestNavyUzun = "WEST_Grey";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +38,23 @@ public class WestStocksActivity extends AppCompatActivity {
         Button west_grey_azalt = findViewById(R.id.west_grey_azalt);
         Button west_grey_arttir = findViewById(R.id.west_grey_arttir);
 
-        tv_navy = findViewById(R.id.tv_navy);
-        tv_grey = findViewById(R.id.tv_grey);
+        Button updateValuesButton = findViewById(R.id.guncelle);
+
+        navy_kisa = findViewById(R.id.navy_kisa);
+        grey_kisa = findViewById(R.id.grey_kisa);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
 
         reset_all_west.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,13 +99,33 @@ public class WestStocksActivity extends AppCompatActivity {
 
     }
 
+    private void discardStockCount() {
+        navy_kisa.setText(String.valueOf(countWestNavyKisa));
+        grey_kisa.setText(String.valueOf(countWestGreyKısa));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countWestNavyKisa = Integer.parseInt(navy_kisa.getText().toString());
+        countWestGreyKısa = Integer.parseInt(grey_kisa.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameWestNavyKisa, countWestNavyKisa);
+        updateTextView(documentNameWestNavyUzun, countWestGreyKısa);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameWestNavyKisa, countWestNavyKisa);
+        firestoreCount(documentNameWestNavyUzun, countWestGreyKısa);
+    }
+
     private void resetCounts() {
         countWestNavyKisa = 0;
-        countWestNavyUzun = 0;
+        countWestGreyKısa = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameWestNavyKisa, countWestNavyKisa);
-        updateTextView(documentNameWestNavyUzun, countWestNavyUzun);
+        updateTextView(documentNameWestNavyUzun, countWestGreyKısa);
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameWestNavyKisa, 0);
@@ -132,6 +148,27 @@ public class WestStocksActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Kullanıcı hayır derse hiçbir şey yapma
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
                 dialog.dismiss();
             }
         });
@@ -249,9 +286,9 @@ public class WestStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameWestNavyKisa)) {
-            tv_navy.setText(String.valueOf(count));
+            navy_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameWestNavyUzun)) {
-            tv_grey.setText(String.valueOf(count));
+            grey_kisa.setText(String.valueOf(count));
         }
     }
 
@@ -260,7 +297,7 @@ public class WestStocksActivity extends AppCompatActivity {
         if (documentName.equals(documentNameWestNavyKisa)) {
             return countWestNavyKisa;
         } else if (documentName.equals(documentNameWestNavyUzun)) {
-            return countWestNavyUzun;
+            return countWestGreyKısa;
         }
         return 0;
     }
@@ -270,7 +307,7 @@ public class WestStocksActivity extends AppCompatActivity {
         if (documentName.equals(documentNameWestNavyKisa)) {
             countWestNavyKisa = count;
         } else if (documentName.equals(documentNameWestNavyUzun)) {
-            countWestNavyUzun = count;
+            countWestGreyKısa = count;
         }
     }
 }

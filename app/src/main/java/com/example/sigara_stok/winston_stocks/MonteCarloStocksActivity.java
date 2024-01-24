@@ -1,6 +1,5 @@
 package com.example.sigara_stok.winston_stocks;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,37 +8,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.sigara_stok.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MonteCarloStocksActivity extends AppCompatActivity {
-    private int countMCDarkBlueKisa = 0, countMCDarkBlueUzun = 0, countMCDarkRedKisa = 0;
-    private int countMCDarkRedUzun = 0, countMCSlenderDarkBlue = 0;
-    private TextView tv_mc_dark_blue_kisa, tv_mc_dark_blue_uzun;
-    private TextView tv_mc_dark_red_kisa, tv_mc_dark_red_uzun;
-    private TextView tv_mc_slender;
+    private int countMCDarkBlueKisa = 0, countMCDarkBlueUzun = 0, countMCDarkRedKisa = 0, countMCDarkRedUzun = 0, countMCSlenderDarkBlue = 0;
+    private EditText et_mc_dark_kisa, et_mc_dark_uzun, et_mc_red_kisa, et_mc_red_uzun, et_mc_slender_dark;
+    final static String documentNameMCDarkBlueKisa = "JTI_MC_Dark_Blue_Kisa", documentNameMCDarkBlueUzun = "JTI_MC_Dark_Blue_Uzun", documentNameMCDarkRedKisa = "JTI_MC_Dark_Red_Kisa", documentNameMCDarkRedUzun = "JTI_MC_Dark_Red_Uzun", documentNameMCSlenderDarkBlue = "JTI_MC_Slender_Dark";
     FirebaseFirestore db;
     FirebaseAuth auth;
-
-    final static String documentNameMCDarkBlueKisa = "JTI_MC_Dark_Blue_Kisa", documentNameMCDarkBlueUzun = "JTI_MC_Dark_Blue_Uzun";
-    final static String documentNameMCDarkRedKisa = "JTI_MC_Dark_Red_Kisa", documentNameMCDarkRedUzun = "JTI_MC_Dark_Red_Uzun";
-    final static String documentNameMCSlenderDarkBlue = "JTI_MC_Slender_Dark";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +46,19 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         Button mc_slender_blue_azalt = findViewById(R.id.mc_slender_blue_azalt);
         Button mc_slender_blue_arttir = findViewById(R.id.mc_slender_blue_arttir);
 
+        Button updateValuesButton = findViewById(R.id.montecarloGuncelle);
+
         setMonteCarloButtonClickListeners(mc_dark_blue_kisa_azalt, mc_dark_blue_kisa_arttir, documentNameMCDarkBlueKisa);
         setMonteCarloButtonClickListeners(mc_dark_blue_uzun_azalt, mc_dark_blue_uzun_arttir, documentNameMCDarkBlueUzun);
         setMonteCarloButtonClickListeners(mc_dark_red_kisa_azalt, mc_dark_red_kisa_arttir, documentNameMCDarkRedKisa);
         setMonteCarloButtonClickListeners(mc_dark_red_uzun_azalt, mc_dark_red_uzun_arttir, documentNameMCDarkRedUzun);
         setMonteCarloButtonClickListeners(mc_slender_blue_azalt, mc_slender_blue_arttir, documentNameMCSlenderDarkBlue);
 
-        tv_mc_dark_blue_kisa = findViewById(R.id.tv_mc_dark_blue_kisa);
-        tv_mc_dark_blue_uzun = findViewById(R.id.tv_mc_dark_blue_uzun);
-        tv_mc_dark_red_kisa = findViewById(R.id.tv_mc_dark_red_kisa);
-        tv_mc_dark_red_uzun = findViewById(R.id.tv_mc_dark_red_uzun);
-        tv_mc_slender = findViewById(R.id.tv_mc_slender);
+        et_mc_dark_kisa = findViewById(R.id.et_mc_dark_kisa);
+        et_mc_dark_uzun = findViewById(R.id.et_mc_dark_uzun);
+        et_mc_red_kisa = findViewById(R.id.et_mc_red_kisa);
+        et_mc_red_uzun = findViewById(R.id.et_mc_red_uzun);
+        et_mc_slender_dark = findViewById(R.id.et_mc_slender_dark);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -77,12 +66,43 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
+
         reset_all_mc_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countMCDarkBlueKisa = Integer.parseInt(et_mc_dark_kisa.getText().toString());
+        countMCDarkBlueUzun = Integer.parseInt(et_mc_dark_uzun.getText().toString());
+        countMCDarkRedKisa = Integer.parseInt(et_mc_red_kisa.getText().toString());
+        countMCDarkRedUzun = Integer.parseInt(et_mc_red_uzun.getText().toString());
+        countMCSlenderDarkBlue = Integer.parseInt(et_mc_slender_dark.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameMCDarkBlueKisa, countMCDarkBlueKisa);
+        updateTextView(documentNameMCDarkBlueUzun, countMCDarkBlueUzun);
+        updateTextView(documentNameMCDarkRedKisa, countMCDarkRedKisa);
+        updateTextView(documentNameMCDarkRedUzun, countMCDarkRedUzun);
+        updateTextView(documentNameMCSlenderDarkBlue, countMCSlenderDarkBlue);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameMCDarkBlueKisa, countMCDarkBlueKisa);
+        firestoreCount(documentNameMCDarkBlueUzun, countMCDarkBlueUzun);
+        firestoreCount(documentNameMCDarkRedKisa, countMCDarkRedKisa);
+        firestoreCount(documentNameMCDarkRedUzun, countMCDarkRedUzun);
+        firestoreCount(documentNameMCSlenderDarkBlue, countMCSlenderDarkBlue);
     }
 
     private void setMonteCarloButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -143,6 +163,35 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void discardStockCount() {
+        et_mc_dark_kisa.setText(String.valueOf(countMCDarkBlueKisa));
+        et_mc_dark_uzun.setText(String.valueOf(countMCDarkBlueUzun));
+        et_mc_red_kisa.setText(String.valueOf(countMCDarkRedKisa));
+        et_mc_red_uzun.setText(String.valueOf(countMCDarkRedUzun));
+        et_mc_slender_dark.setText(String.valueOf(countMCSlenderDarkBlue));
     }
 
     private void incrementCount(String documentName) {
@@ -261,15 +310,15 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameMCDarkBlueKisa)) {
-            tv_mc_dark_blue_kisa.setText(String.valueOf(count));
+            et_mc_dark_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMCDarkBlueUzun)) {
-            tv_mc_dark_blue_uzun.setText(String.valueOf(count));
+            et_mc_dark_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMCDarkRedKisa)) {
-            tv_mc_dark_red_kisa.setText(String.valueOf(count));
+            et_mc_red_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMCDarkRedUzun)) {
-            tv_mc_dark_red_uzun.setText(String.valueOf(count));
+            et_mc_red_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMCSlenderDarkBlue)) {
-            tv_mc_slender.setText(String.valueOf(count));
+            et_mc_slender_dark.setText(String.valueOf(count));
         }
     }
 

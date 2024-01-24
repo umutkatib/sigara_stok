@@ -8,10 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.sigara_stok.R;
-import com.example.sigara_stok.tekel_stocks.KentStocksActivity;
-import com.example.sigara_stok.tekel_stocks.RothmansStocksActivity;
-import com.example.sigara_stok.tekel_stocks.TekelStocksActivity;
-import com.example.sigara_stok.tekel_stocks.ViceroyStocksActivity;
 import com.example.sigara_stok.winston_stocks.CamelStocksActivity;
 import com.example.sigara_stok.winston_stocks.LDStocksActivity;
 import com.example.sigara_stok.winston_stocks.MonteCarloStocksActivity;
