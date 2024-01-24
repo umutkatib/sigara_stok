@@ -37,20 +37,20 @@
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_rosso"
+            app:layout_constraintEnd_toStartOf="@+id/et_rosso"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/blue_line_azalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="#00ACC1"
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_blue_line"
+            app:layout_constraintEnd_toStartOf="@+id/et_blue_line"
             app:layout_constraintTop_toBottomOf="@+id/rosso_azalt" />
 
         <TextView
@@ -77,30 +77,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView99" />
 
-        <TextView
-            android:id="@+id/tv_rosso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/rosso_arttir"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_blue_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/blue_line_arttir" />
-
         <Button
             android:id="@+id/rosso_arttir"
             android:layout_width="wrap_content"
@@ -117,7 +93,7 @@
             android:id="@+id/blue_line_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="#00ACC1"
             android:minWidth="65dip"
@@ -125,13 +101,42 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rosso_arttir" />
+
+        <EditText
+            android:id="@+id/et_rosso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/rosso_arttir"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_blue_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/blue_line_arttir"
+            app:layout_constraintTop_toBottomOf="@+id/et_rosso" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout46">
 
@@ -143,6 +148,18 @@
             android:layout_marginTop="100dp"
             android:backgroundTint="#FF0000"
             android:text="Stok Sıfırla"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/murattiGuncelle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="112dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="#00ACC1"
+            android:text="Stok Güncelle"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

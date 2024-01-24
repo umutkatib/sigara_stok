@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ import java.util.Map;
 
 public class ChesterfieldStocksActivity extends AppCompatActivity {
     private int countNavyKisa = 0, countNavyUzun = 0;
-    private TextView tv_chester_navy_kisa,tv_chester_navy_uzun;
+    private EditText et_chester_navy_kisa,et_chester_navy_uzun;
     FirebaseFirestore db;
     FirebaseAuth auth;
 
@@ -47,11 +48,14 @@ public class ChesterfieldStocksActivity extends AppCompatActivity {
         Button navy_uzun_azalt = findViewById(R.id.navy_uzun_azalt);
         Button navy_uzun_arttir = findViewById(R.id.navy_uzun_arttir);
 
+        Button updateValuesButton = findViewById(R.id.chesterGuncelle);
+
+
         setChesterfieldButtonClickListeners(navy_kisa_azalt, navy_kisa_arttir, documentNamePMChesterfieldKisa);
         setChesterfieldButtonClickListeners(navy_uzun_azalt, navy_uzun_arttir, documentNamePMChesterfieldUzun);
 
-        tv_chester_navy_kisa = findViewById(R.id.tv_chester_navy_kisa);
-        tv_chester_navy_uzun = findViewById(R.id.tv_chester_navy_uzun);
+        et_chester_navy_kisa = findViewById(R.id.et_chester_navy_kisa);
+        et_chester_navy_uzun = findViewById(R.id.et_chester_navy_uzun);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -59,12 +63,61 @@ public class ChesterfieldStocksActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
+
         reset_all_chester.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private void discardStockCount() {
+        et_chester_navy_kisa.setText(String.valueOf(countNavyKisa));
+        et_chester_navy_uzun.setText(String.valueOf(countNavyUzun));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countNavyKisa = Integer.parseInt(et_chester_navy_kisa.getText().toString());
+        countNavyUzun = Integer.parseInt(et_chester_navy_uzun.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNamePMChesterfieldKisa, countNavyKisa);
+        updateTextView(documentNamePMChesterfieldUzun, countNavyUzun);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNamePMChesterfieldKisa, countNavyKisa);
+        firestoreCount(documentNamePMChesterfieldUzun, countNavyUzun);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void setChesterfieldButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -237,9 +290,9 @@ public class ChesterfieldStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNamePMChesterfieldKisa)) {
-            tv_chester_navy_kisa.setText(String.valueOf(count));
+            et_chester_navy_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNamePMChesterfieldUzun)) {
-            tv_chester_navy_uzun.setText(String.valueOf(count));
+            et_chester_navy_uzun.setText(String.valueOf(count));
         }
     }
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 public class LarkStocksActivity extends AppCompatActivity {
     private int countLarkKisa = 0, countLarkUzun = 0;
-    private TextView tv_countLarkKisa, tv_countLarkUzun;
+    private EditText et_lark_kisa, et_lark_uzun;
 
     FirebaseFirestore db;
     FirebaseAuth auth;
@@ -39,14 +40,24 @@ public class LarkStocksActivity extends AppCompatActivity {
         Button lark_uzun_azalt = findViewById(R.id.lark_uzun_azalt);
         Button lark_uzun_arttir = findViewById(R.id.lark_uzun_arttir);
 
+        Button updateValuesButton = findViewById(R.id.larkGuncelle);
+
+
         setLarkButtonClickListeners(lark_kisa_azalt, lark_kisa_arttir, documentNameLarkKisa);
         setLarkButtonClickListeners(lark_uzun_azalt, lark_uzun_arttir, documentNameLarkUzun);
 
-        tv_countLarkKisa = findViewById(R.id.tv_lark_kisa);
-        tv_countLarkUzun = findViewById(R.id.tv_lark_uzun);
+        et_lark_kisa = findViewById(R.id.et_lark_kisa);
+        et_lark_uzun = findViewById(R.id.et_lark_uzun);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
@@ -57,6 +68,47 @@ public class LarkStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private void discardStockCount() {
+        et_lark_kisa.setText(String.valueOf(countLarkKisa));
+        et_lark_uzun.setText(String.valueOf(countLarkUzun));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countLarkKisa = Integer.parseInt(et_lark_kisa.getText().toString());
+        countLarkUzun = Integer.parseInt(et_lark_uzun.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameLarkKisa, countLarkKisa);
+        updateTextView(documentNameLarkUzun, countLarkUzun);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameLarkKisa, countLarkKisa);
+        firestoreCount(documentNameLarkUzun, countLarkUzun);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void setLarkButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -221,9 +273,9 @@ public class LarkStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameLarkKisa)) {
-            tv_countLarkKisa.setText(String.valueOf(count));
+            et_lark_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameLarkUzun)) {
-            tv_countLarkUzun.setText(String.valueOf(count));
+            et_lark_uzun.setText(String.valueOf(count));
         }
     }
 

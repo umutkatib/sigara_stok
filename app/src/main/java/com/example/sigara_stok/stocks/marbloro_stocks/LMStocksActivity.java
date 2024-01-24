@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LMStocksActivity extends AppCompatActivity {
-    private int countLarkKisa = 0, countLarkUzun = 0;
-    private TextView tv_lm_kisa, tv_lm_uzun;
+    private int countLmKisa = 0, countLmUzun = 0;
+    private EditText et_lm_kisa, et_lm_uzun;
     FirebaseFirestore db;
     FirebaseAuth auth;
 
@@ -39,16 +39,25 @@ public class LMStocksActivity extends AppCompatActivity {
         Button lm_uzun_azalt = findViewById(R.id.lm_uzun_azalt);
         Button lm_uzun_arttir = findViewById(R.id.lm_uzun_arttir);
 
+        Button updateValuesButton = findViewById(R.id.lmGuncelle);
 
         setLmButtonClickListeners(lm_kisa_azalt, lm_kisa_arttir, documentNameLmKisa);
         setLmButtonClickListeners(lm_uzun_azalt, lm_uzun_arttir, documentNameLmUzun);
 
 
-        tv_lm_kisa = findViewById(R.id.tv_lm_kisa);
-        tv_lm_uzun = findViewById(R.id.tv_lm_uzun);
+        et_lm_kisa = findViewById(R.id.et_lm_kisa);
+        et_lm_uzun = findViewById(R.id.et_lm_uzun);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
@@ -59,6 +68,47 @@ public class LMStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private void discardStockCount() {
+        et_lm_kisa.setText(String.valueOf(countLmKisa));
+        et_lm_uzun.setText(String.valueOf(countLmUzun));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countLmKisa = Integer.parseInt(et_lm_kisa.getText().toString());
+        countLmUzun = Integer.parseInt(et_lm_uzun.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameLmKisa, countLmKisa);
+        updateTextView(documentNameLmUzun, countLmUzun);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameLmKisa, countLmKisa);
+        firestoreCount(documentNameLmUzun, countLmUzun);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void setLmButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -85,12 +135,12 @@ public class LMStocksActivity extends AppCompatActivity {
     }
 
     private void resetLocalCounts() {
-        countLarkKisa = 0;
-        countLarkUzun = 0;
+        countLmKisa = 0;
+        countLmUzun = 0;
 
         // Tüm TextView'ları sıfırla
-        updateTextView(documentNameLmKisa, countLarkKisa);
-        updateTextView(documentNameLmUzun, countLarkUzun);
+        updateTextView(documentNameLmKisa, countLmKisa);
+        updateTextView(documentNameLmUzun, countLmUzun);
     }
 
     private void resetFirestoreCounts() {
@@ -201,7 +251,6 @@ public class LMStocksActivity extends AppCompatActivity {
         // Her iki belgeyi de oku
         readFirestoreForDocument(documentNameLmKisa);
         readFirestoreForDocument(documentNameLmUzun);
-
     }
 
     private void readFirestoreForDocument(String documentName) {
@@ -231,18 +280,18 @@ public class LMStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameLmKisa)) {
-            tv_lm_kisa.setText(String.valueOf(count));
+            et_lm_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameLmUzun)) {
-            tv_lm_uzun.setText(String.valueOf(count));
+            et_lm_uzun.setText(String.valueOf(count));
         }
     }
 
     private int getCount(String documentName) {
         // Belirli bir belgeye ait yerel count değerini döndür
         if (documentName.equals(documentNameLmKisa)) {
-            return countLarkKisa;
+            return countLmKisa;
         } else if (documentName.equals(documentNameLmUzun)) {
-            return countLarkUzun;
+            return countLmUzun;
         }
         return 0;
     }
@@ -250,9 +299,9 @@ public class LMStocksActivity extends AppCompatActivity {
     private void setCount(String documentName, int count) {
         // Belirli bir belgeye ait yerel count değerini güncelle
         if (documentName.equals(documentNameLmKisa)) {
-            countLarkKisa = count;
+            countLmKisa = count;
         } else if (documentName.equals(documentNameLmUzun)) {
-            countLarkUzun = count;
+            countLmUzun = count;
         }
     }
 }

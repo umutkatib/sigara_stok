@@ -51,30 +51,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView102" />
 
-        <TextView
-            android:id="@+id/tv_lm_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/lm_kisa_arttir"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_lm_uzun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/lm_uzun_arttir" />
-
         <Button
             android:id="@+id/lm_kisa_azalt"
             android:layout_width="wrap_content"
@@ -85,7 +61,7 @@
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_lm_kisa"
+            app:layout_constraintEnd_toStartOf="@+id/et_lm_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -99,7 +75,7 @@
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_lm_uzun"
+            app:layout_constraintEnd_toStartOf="@+id/et_lm_uzun"
             app:layout_constraintTop_toBottomOf="@+id/lm_kisa_azalt" />
 
         <Button
@@ -128,13 +104,42 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lm_kisa_arttir" />
+
+        <EditText
+            android:id="@+id/et_lm_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/lm_kisa_arttir"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_lm_uzun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/lm_uzun_arttir"
+            app:layout_constraintTop_toBottomOf="@+id/et_lm_kisa" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout47">
 
@@ -146,6 +151,18 @@
             android:layout_marginTop="100dp"
             android:backgroundTint="#FF0000"
             android:text="Stok Sıfırla"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/lmGuncelle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="116dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="#00897B"
+            android:text="Stok Güncelle"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

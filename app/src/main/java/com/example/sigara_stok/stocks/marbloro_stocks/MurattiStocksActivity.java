@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
@@ -22,35 +23,45 @@ import java.util.Map;
 public class MurattiStocksActivity extends AppCompatActivity {
 
     private int countMuratti = 0, countMurattiBlue = 0;
-    private TextView tv_rosso, tv_blue_line;
+    private EditText et_rosso, et_blue_line;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
     final static String documentNameMurattiRosso = "PM_Muratti_Rosso", documentNameMurattiBlu = "PM_Muratti_Blu_Line";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_muratti_stocks);
+
         Button reset_all_muratti = findViewById(R.id.reset_all_muratti);
+
         Button rosso_azalt = findViewById(R.id.rosso_azalt);
         Button rosso_arttir = findViewById(R.id.rosso_arttir);
         Button blue_line_azalt = findViewById(R.id.blue_line_azalt);
         Button blue_line_arttir = findViewById(R.id.blue_line_arttir);
+
+        Button updateValuesButton = findViewById(R.id.murattiGuncelle);
 
 
         setMurattiButtonClickListeners(rosso_azalt, rosso_arttir, documentNameMurattiRosso);
         setMurattiButtonClickListeners(blue_line_azalt, blue_line_arttir, documentNameMurattiBlu);
 
 
-        tv_rosso = findViewById(R.id.tv_rosso);
-        tv_blue_line = findViewById(R.id.tv_blue_line);
+        et_rosso = findViewById(R.id.et_rosso);
+        et_blue_line = findViewById(R.id.et_blue_line);
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
+
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
 
         reset_all_muratti.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +69,47 @@ public class MurattiStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private void discardStockCount() {
+        et_rosso.setText(String.valueOf(countMuratti));
+        et_blue_line.setText(String.valueOf(countMurattiBlue));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countMuratti = Integer.parseInt(et_rosso.getText().toString());
+        countMurattiBlue = Integer.parseInt(et_blue_line.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameMurattiRosso, countMuratti);
+        updateTextView(documentNameMurattiBlu, countMurattiBlue);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameMurattiRosso, countMuratti);
+        firestoreCount(documentNameMurattiBlu, countMurattiBlue);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void setMurattiButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -222,9 +274,9 @@ public class MurattiStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameMurattiRosso)) {
-            tv_rosso.setText(String.valueOf(count));
+            et_rosso.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMurattiBlu)) {
-            tv_blue_line.setText(String.valueOf(count));
+            et_blue_line.setText(String.valueOf(count));
         }
     }
 
