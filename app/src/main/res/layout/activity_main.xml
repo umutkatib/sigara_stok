@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cool"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -32,7 +33,7 @@
                 android:layout_width="409dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView">
 
@@ -106,7 +107,9 @@
                 android:layout_width="409dp"
                 android:layout_height="107dp"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout35">
 
@@ -114,10 +117,12 @@
                     android:id="@+id/btn_cikis_yap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="130dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginStart="60dp"
+                    android:width="200sp"
+                    android:height="75sp"
                     android:backgroundTint="#FF9E80"
                     android:text="CIKIS YAP"
+                    android:textSize="25sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -127,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="90dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:text="Hoşgeldiniz: "
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -138,9 +143,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="225dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="88dp"
+                android:textColor="#FF0000"
                 android:textSize="20sp"
-                android:textStyle="italic"
+                android:textStyle="bold|italic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

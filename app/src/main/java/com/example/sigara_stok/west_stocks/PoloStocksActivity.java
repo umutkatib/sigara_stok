@@ -20,11 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PoloStocksActivity extends AppCompatActivity {
-    private int countPoloBlue = 0, countPoloGrey = 0;
+    private int countPoloBlue, countPoloGrey, countTotalStock;
     private EditText et_polo_blue, et_polo_grey;
+    private TextView totalSumTextView;
     FirebaseFirestore db;
     FirebaseAuth auth;
-    final static String documentNamePoloBlue = "POLO_Blue", documentNamePoloGrey = "POLO_Grey";
+    final static String documentNamePoloBlue = "POLO_Blue", documentNamePoloGrey = "POLO_Grey", documentTotalStocks= "Total_Polo_Stocks";
 
 
     @Override
@@ -41,10 +42,10 @@ public class PoloStocksActivity extends AppCompatActivity {
 
         Button updateValuesButton = findViewById(R.id.poloGuncelle);
 
-
         setPoloButtonClickListeners(polo_blue_azalt, polo_blue_arttir, documentNamePoloBlue);
         setPoloButtonClickListeners(polo_grey_azalt, polo_grey_arttir, documentNamePoloGrey);
 
+        totalSumTextView = findViewById(R.id.tv_polo_total);
         et_polo_blue = findViewById(R.id.et_polo_blue);
         et_polo_grey = findViewById(R.id.et_polo_grey);
 
@@ -70,6 +71,23 @@ public class PoloStocksActivity extends AppCompatActivity {
         });
     }
 
+    private void updateTotalSum() {
+        try {
+            countPoloBlue = Integer.parseInt(et_polo_blue.getText().toString());
+        } catch (NumberFormatException e) {
+            countPoloBlue = 0;  // Set a default value or handle the error as needed
+        }
+
+        try {
+            countPoloGrey = Integer.parseInt(et_polo_grey.getText().toString());
+        } catch (NumberFormatException e) {
+            countPoloGrey = 0;  // Set a default value or handle the error as needed
+        }
+
+        countTotalStock = countPoloBlue + countPoloGrey;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
     private void discardStockCount() {
         et_polo_blue.setText(String.valueOf(countPoloBlue));
         et_polo_grey.setText(String.valueOf(countPoloGrey));
@@ -84,10 +102,12 @@ public class PoloStocksActivity extends AppCompatActivity {
         // TextView'ları güncelle
         updateTextView(documentNamePoloBlue, countPoloBlue);
         updateTextView(documentNamePoloGrey, countPoloGrey);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNamePoloBlue, countPoloBlue);
         firestoreCount(documentNamePoloGrey, countPoloGrey);
+        firestoreCount(documentTotalStocks, countTotalStock);
     }
 
 
@@ -140,6 +160,7 @@ public class PoloStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -156,6 +177,7 @@ public class PoloStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -176,14 +198,18 @@ public class PoloStocksActivity extends AppCompatActivity {
     private void resetCounts() {
         countPoloBlue = 0;
         countPoloGrey = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNamePoloBlue, countPoloBlue);
         updateTextView(documentNamePoloGrey, countPoloGrey);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNamePoloBlue, 0);
         firestoreCount(documentNamePoloGrey, 0);
+        firestoreCount(documentTotalStocks, 0);
+
     }
 
     private void showConfirmationDialog() {
@@ -215,6 +241,7 @@ public class PoloStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -245,7 +272,7 @@ public class PoloStocksActivity extends AppCompatActivity {
         // Her iki belgeyi de oku
         readFirestoreForDocument(documentNamePoloBlue);
         readFirestoreForDocument(documentNamePoloGrey);
-
+        readFirestoreForDocument(documentTotalStocks);
     }
 
     private void readFirestoreForDocument(String documentName) {
@@ -265,6 +292,7 @@ public class PoloStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -278,6 +306,8 @@ public class PoloStocksActivity extends AppCompatActivity {
             et_polo_blue.setText(String.valueOf(count));
         } else if (documentName.equals(documentNamePoloGrey)) {
             et_polo_grey.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -287,6 +317,8 @@ public class PoloStocksActivity extends AppCompatActivity {
             return countPoloBlue;
         } else if (documentName.equals(documentNamePoloGrey)) {
             return countPoloGrey;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -297,6 +329,8 @@ public class PoloStocksActivity extends AppCompatActivity {
             countPoloBlue = count;
         } else if (documentName.equals(documentNamePoloGrey)) {
             countPoloGrey = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

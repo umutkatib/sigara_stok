@@ -14,6 +14,7 @@
         android:layout_marginTop="32dp"
         android:text="VICEROY"
         android:textSize="30sp"
+        android:textColor="#ff9f43"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,55 +52,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView37" />
 
-        <TextView
-            android:id="@+id/tv_navy_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/viceroy_nav_kisa_arttir"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_navy_uzun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="15dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/viceroy_nav_uzun_arttir" />
-
         <Button
             android:id="@+id/viceroy_nav_kisa_azalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff9f43"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_navy_kisa"
+            app:layout_constraintEnd_toStartOf="@+id/et_navy_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/viceroy_nav_uzun_azalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff9f43"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_navy_uzun"
+            app:layout_constraintEnd_toStartOf="@+id/et_navy_uzun"
             app:layout_constraintTop_toBottomOf="@+id/viceroy_nav_kisa_azalt" />
 
         <Button
@@ -108,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff9f43"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20sp"
@@ -119,15 +96,43 @@
             android:id="@+id/viceroy_nav_uzun_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff9f43"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viceroy_nav_kisa_arttir" />
+
+        <EditText
+            android:id="@+id/et_navy_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/viceroy_nav_kisa_arttir"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_navy_uzun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/viceroy_nav_uzun_arttir" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -163,55 +168,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView45" />
 
-        <TextView
-            android:id="@+id/tv_red_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/viceroy_red_kisa_arttir"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_red_uzun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="15dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/viceroy_red_uzun_arttir" />
-
         <Button
             android:id="@+id/viceroy_red_kisa_azalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff9f43"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_red_kisa"
+            app:layout_constraintEnd_toStartOf="@+id/et_nav_red_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/viceroy_red_uzun_azalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff9f43"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_red_uzun"
+            app:layout_constraintEnd_toStartOf="@+id/et_nav_red_uzun"
             app:layout_constraintTop_toBottomOf="@+id/viceroy_red_kisa_azalt" />
 
         <Button
@@ -220,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff9f43"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20sp"
@@ -231,22 +212,50 @@
             android:id="@+id/viceroy_red_uzun_arttir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff9f43"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viceroy_red_kisa_arttir" />
+
+        <EditText
+            android:id="@+id/et_nav_red_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/viceroy_red_kisa_arttir"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_nav_red_uzun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/viceroy_red_uzun_arttir" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout52">
 
@@ -254,12 +263,27 @@
             android:id="@+id/btn_reset_viceroy_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="124dp"
-            android:layout_marginBottom="44dp"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="75dp"
+            android:width="150sp"
+            android:height="50sp"
             android:backgroundTint="#FF0000"
-            android:text="Stock Sıfırla"
+            android:text="Stok Sıfırla"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viceroyGuncelle" />
+
+        <Button
+            android:id="@+id/viceroyGuncelle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="25dp"
+            android:width="150sp"
+            android:height="50sp"
+            android:backgroundTint="#ff9f43"
+            android:text="Stok Güncelle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
@@ -24,10 +25,10 @@ public class MarlboroStocksActivity extends AppCompatActivity {
     private int countMBRedKisa = 0, countMBRedUzun = 0, countMBTouch = 0;
     private int countMBTouchGrey = 0, countMBTouchBlue = 0, countMBTouchWhite = 0, countMBEdge = 0;
     private int countMBEdgeSky = 0, countMBEdgeBlue = 0;
-    private TextView tv_marl_red_kisa, tv_marl_red_uzun;
-    private TextView tv_marl_touch, tv_marl_touch_grey;
-    private TextView tv_marl_touch_white, tv_marl_touch_blue;
-    private TextView tv_marl_edge, tv_marl_edge_blue, tv_marl_edge_sky;
+    private EditText et_mb_red_kisa, et_mb_red_uzun;
+    private TextView et_mb_touch, et_mb_touch_grey;
+    private TextView et_mb_touch_white, et_mb_touch_blue;
+    private TextView et_mb_edge, et_mb_edge_blue, et_mb_edge_sky;
     FirebaseFirestore db;
     FirebaseAuth auth;
 
@@ -64,6 +65,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         Button malb_edge_sky_azalt = findViewById(R.id.malb_edge_sky_azalt);
         Button malb_edge_sky_arttir = findViewById(R.id.malb_edge_sky_arttir);
 
+        Button updateValuesButton = findViewById(R.id.marlboroGuncelle);
 
         setMarlboroButtonClickListeners(malb_red_kisa_azalt, malb_red_kisa_arttir, documentNameMBRedKisa);
         setMarlboroButtonClickListeners(malb_red_uzun_azalt, malb_red_uzun_arttir, documentNameMBRedUzun);
@@ -76,15 +78,15 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         setMarlboroButtonClickListeners(malb_edge_sky_azalt, malb_edge_sky_arttir, documentNameMBEdgeSky);
 
 
-        tv_marl_red_kisa = findViewById(R.id.tv_marl_red_kisa);
-        tv_marl_red_uzun = findViewById(R.id.tv_marl_red_uzun);
-        tv_marl_touch = findViewById(R.id.tv_marl_touch);
-        tv_marl_touch_grey = findViewById(R.id.tv_marl_touch_grey);
-        tv_marl_touch_white = findViewById(R.id.tv_marl_touch_white);
-        tv_marl_touch_blue = findViewById(R.id.tv_marl_touch_blue);
-        tv_marl_edge = findViewById(R.id.tv_marl_edge);
-        tv_marl_edge_blue = findViewById(R.id.tv_marl_edge_blue);
-        tv_marl_edge_sky = findViewById(R.id.tv_marl_edge_sky);
+        et_mb_red_kisa = findViewById(R.id.et_mb_red_kisa);
+        et_mb_red_uzun = findViewById(R.id.et_mb_red_uzun);
+        et_mb_touch = findViewById(R.id.et_mb_touch);
+        et_mb_touch_grey = findViewById(R.id.et_mb_touch_grey);
+        et_mb_touch_white = findViewById(R.id.et_mb_touch_white);
+        et_mb_touch_blue = findViewById(R.id.et_mb_touch_blue);
+        et_mb_edge = findViewById(R.id.et_mb_edge);
+        et_mb_edge_blue = findViewById(R.id.et_mb_edge_blue);
+        et_mb_edge_sky = findViewById(R.id.et_mb_edge_sky);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -92,12 +94,96 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
+
         reset_all_marl_all_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private void discardStockCount() {
+        et_mb_red_kisa.setText(String.valueOf(countMBRedKisa));
+        et_mb_red_uzun.setText(String.valueOf(countMBRedUzun));
+
+        et_mb_touch.setText(String.valueOf(countMBTouch));
+        et_mb_touch_grey.setText(String.valueOf(countMBTouchGrey));
+
+        et_mb_touch_blue.setText(String.valueOf(countMBTouchBlue));
+        et_mb_touch_white.setText(String.valueOf(countMBTouchWhite));
+
+        et_mb_edge.setText(String.valueOf(countMBEdge));
+        et_mb_edge_blue.setText(String.valueOf(countMBEdgeBlue));
+        et_mb_edge_sky.setText(String.valueOf(countMBEdgeSky));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countMBRedKisa = Integer.parseInt(et_mb_red_kisa.getText().toString());
+        countMBRedUzun = Integer.parseInt(et_mb_red_uzun.getText().toString());
+
+        countMBTouch = Integer.parseInt(et_mb_touch.getText().toString());
+        countMBTouchGrey = Integer.parseInt(et_mb_touch_grey.getText().toString());
+
+        countMBTouchBlue = Integer.parseInt(et_mb_touch_blue.getText().toString());
+        countMBTouchWhite = Integer.parseInt(et_mb_touch_white.getText().toString());
+
+        countMBEdge = Integer.parseInt(et_mb_edge.getText().toString());
+        countMBEdgeBlue = Integer.parseInt(et_mb_edge_blue.getText().toString());
+        countMBEdgeSky = Integer.parseInt(et_mb_edge_sky.getText().toString());
+
+
+        // TextView'ları güncelle
+        updateTextView(documentNameMBRedKisa, countMBRedKisa);
+        updateTextView(documentNameMBRedUzun, countMBRedUzun);
+        updateTextView(documentNameMBTouch, countMBTouch);
+        updateTextView(documentNameMBTouchGrey, countMBTouchGrey);
+        updateTextView(documentNameMBTouchBlue, countMBTouchBlue);
+        updateTextView(documentNameMBTouchWhite, countMBTouchWhite);
+        updateTextView(documentNameMBEdge, countMBEdge);
+        updateTextView(documentNameMBEdgeBlue, countMBEdgeBlue);
+        updateTextView(documentNameMBEdgeSky, countMBEdgeSky);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameMBRedKisa, countMBRedKisa);
+        firestoreCount(documentNameMBRedUzun, countMBRedUzun);
+        firestoreCount(documentNameMBTouch, countMBTouch);
+        firestoreCount(documentNameMBTouchGrey, countMBTouchGrey);
+        firestoreCount(documentNameMBTouchBlue, countMBTouchBlue);
+        firestoreCount(documentNameMBTouchWhite, countMBTouchWhite);
+        firestoreCount(documentNameMBEdge, countMBEdge);
+        firestoreCount(documentNameMBEdgeBlue, countMBEdgeBlue);
+        firestoreCount(documentNameMBEdgeSky, countMBEdgeSky);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void setMarlboroButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -289,23 +375,23 @@ public class MarlboroStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameMBRedKisa)) {
-            tv_marl_red_kisa.setText(String.valueOf(count));
+            et_mb_red_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBRedUzun)) {
-            tv_marl_red_uzun.setText(String.valueOf(count));
+            et_mb_red_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBTouch)) {
-            tv_marl_touch.setText(String.valueOf(count));
+            et_mb_touch.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBTouchGrey)) {
-            tv_marl_touch_grey.setText(String.valueOf(count));
+            et_mb_touch_grey.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBTouchWhite)) {
-            tv_marl_touch_white.setText(String.valueOf(count));
+            et_mb_touch_white.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBTouchBlue)) {
-            tv_marl_touch_blue.setText(String.valueOf(count));
+            et_mb_touch_blue.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBEdge)) {
-            tv_marl_edge.setText(String.valueOf(count));
+            et_mb_edge.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBEdgeSky)) {
-            tv_marl_edge_sky.setText(String.valueOf(count));
+            et_mb_edge_sky.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBEdgeBlue)) {
-            tv_marl_edge_blue.setText(String.valueOf(count));
+            et_mb_edge_blue.setText(String.valueOf(count));
         }
     }
 

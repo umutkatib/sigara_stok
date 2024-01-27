@@ -10,9 +10,10 @@
         android:id="@+id/textView76"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
+        android:layout_marginStart="125dp"
         android:layout_marginTop="36dp"
         android:text="WEST"
+        android:textColor="#ff6b81"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#8E24AA"
+            android:backgroundTint="#ff6b81"
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
@@ -71,7 +72,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#8E24AA"
+            android:backgroundTint="#ff6b81"
             android:minWidth="65dip"
             android:text="-"
             android:textSize="20sp"
@@ -84,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#8E24AA"
+            android:backgroundTint="#ff6b81"
             android:minWidth="65dip"
             android:text="+"
             android:textSize="20sp"
@@ -97,13 +98,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="#8E24AA"
+            android:height="50sp"
+            android:backgroundTint="#ff6b81"
             android:minWidth="65dip"
             android:text="+"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/west_navy_arttir"
-            android:height="50sp" />
+            app:layout_constraintTop_toBottomOf="@+id/west_navy_arttir" />
 
         <EditText
             android:id="@+id/navy_kisa"
@@ -115,6 +116,7 @@
             android:gravity="center"
             android:inputType="number"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/west_navy_arttir"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -129,6 +131,7 @@
             android:gravity="center"
             android:inputType="number"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/west_grey_arttir" />
 
@@ -139,7 +142,7 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout43">
 
@@ -147,25 +150,50 @@
             android:id="@+id/reset_all_west"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="115dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="75dp"
+            android:width="150sp"
+            android:height="50sp"
             android:backgroundTint="#FF0000"
             android:text="Stok Sıfırla"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/guncelle" />
 
         <Button
             android:id="@+id/guncelle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="116dp"
-            android:layout_marginTop="4dp"
-            android:backgroundTint="#8E24AA"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="25dp"
+            android:width="150sp"
+            android:height="50sp"
+            android:backgroundTint="#ff6b81"
             android:text="Stok Güncelle"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_west_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout43" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="28dp"
+        android:text="Toplam Stok Sayısı: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout43" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

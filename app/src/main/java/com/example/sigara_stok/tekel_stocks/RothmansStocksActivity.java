@@ -20,15 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RothmansStocksActivity extends AppCompatActivity {
-
     private int countRothmansBlueKisa = 0, countRothmansBlueUzun = 0;
     private int countRothmansDrangeBlackKisa = 0, countRothmansDrangeBlackUzun = 0;
     private int countRothmansDrangeBlueKisa = 0, countRothmansDrangeBlueUzun = 0;
-    private TextView tv_rothmans_kisa, tv_rothmans_uzun;
-    private TextView tv_drange_black_kisa, tv_drange_black_uzun;
-    TextView tv_rothmans_drange_blue_kisa, tv_rothmans_drange_blue_arttir;
-
-
+    private TextView et_rothmans_kisa, et_rothmans_uzun;
+    private TextView et_rothmans_drange__black_kisa, et_rothmans_drange__black_uzun;
+    TextView et_rothmans_drange__blue_kisa, et_rothmans_drange__blue_uzun;
     FirebaseFirestore db;
     FirebaseAuth auth;
 
@@ -56,6 +53,7 @@ public class RothmansStocksActivity extends AppCompatActivity {
         Button rothmans_drange_blue_uzun_azalt_btn = findViewById(R.id.rothmans_drange_blue_uzun_azalt_btn);
         Button rothmans_drange_blue_uzun_arttir_btn = findViewById(R.id.rothmans_drange_blue_uzun_arttir_btn);
 
+        Button updateValuesButton = findViewById(R.id.rothmansGuncelle);
 
         setRothmansButtonClickListeners(rothmans_kisa_azalt_btn, rothmans_kisa_arttir_btn, documentNameRothamnsBlueKisa);
         setRothmansButtonClickListeners(rothmans_uzun_azalt_btn, rothmans_uzun_arttir_btn, documentNameRothamnsBlueUzun);
@@ -64,12 +62,12 @@ public class RothmansStocksActivity extends AppCompatActivity {
         setRothmansButtonClickListeners(rothmans_drange_blue_kisa_azalt_btn, rothmans_drange_black_kisa_arttir_btn, documentNameRothmansDrangeBlueKisa);
         setRothmansButtonClickListeners(rothmans_drange_blue_uzun_azalt_btn, rothmans_drange_blue_uzun_arttir_btn, documentNameRothmansDrangeBlueUzun);
 
-        tv_rothmans_kisa = findViewById(R.id.tv_rothmans_kisa);
-        tv_rothmans_uzun = findViewById(R.id.tv_rothmans_uzun);
-        tv_drange_black_kisa = findViewById(R.id.tv_drange_black_kisa);
-        tv_drange_black_uzun = findViewById(R.id.tv_drange_black_uzun);
-        tv_rothmans_drange_blue_kisa = findViewById(R.id.tv_rothmans_drange_blue_kisa);
-        tv_rothmans_drange_blue_arttir = findViewById(R.id.tv_rothmans_drange_blue_arttir);
+        et_rothmans_kisa = findViewById(R.id.et_rothmans_kisa);
+        et_rothmans_uzun = findViewById(R.id.et_rothmans_uzun);
+        et_rothmans_drange__black_kisa = findViewById(R.id.et_rothmans_drange__black_kisa);
+        et_rothmans_drange__black_uzun = findViewById(R.id.et_rothmans_drange__black_uzun);
+        et_rothmans_drange__blue_kisa = findViewById(R.id.et_rothmans_drange__blue_kisa);
+        et_rothmans_drange__blue_uzun = findViewById(R.id.et_rothmans_drange__blue_uzun);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -77,12 +75,84 @@ public class RothmansStocksActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
+
         btn_reset_all_kent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private void discardStockCount() {
+        et_rothmans_kisa.setText(String.valueOf(countRothmansBlueKisa));
+        et_rothmans_uzun.setText(String.valueOf(countRothmansBlueUzun));
+
+        et_rothmans_drange__black_kisa.setText(String.valueOf(countRothmansDrangeBlackKisa));
+        et_rothmans_drange__black_uzun.setText(String.valueOf(countRothmansDrangeBlackUzun));
+
+        et_rothmans_drange__blue_kisa.setText(String.valueOf(countRothmansDrangeBlueKisa));
+        et_rothmans_drange__blue_uzun.setText(String.valueOf(countRothmansDrangeBlueUzun));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countRothmansBlueKisa = Integer.parseInt(et_rothmans_kisa.getText().toString());
+        countRothmansBlueUzun = Integer.parseInt(et_rothmans_uzun.getText().toString());
+
+        countRothmansDrangeBlackKisa = Integer.parseInt(et_rothmans_drange__black_kisa.getText().toString());
+        countRothmansDrangeBlackUzun = Integer.parseInt(et_rothmans_drange__black_uzun.getText().toString());
+
+        countRothmansDrangeBlueKisa = Integer.parseInt(et_rothmans_drange__blue_kisa.getText().toString());
+        countRothmansDrangeBlueUzun = Integer.parseInt(et_rothmans_drange__blue_uzun.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameRothamnsBlueKisa, countRothmansBlueKisa);
+        updateTextView(documentNameRothamnsBlueUzun, countRothmansBlueUzun);
+
+        updateTextView(documentNameRothmansDrangeBlackKisa, countRothmansDrangeBlackKisa);
+        updateTextView(documentNameRothmansDrangeBlackUzun, countRothmansDrangeBlackUzun);
+
+        updateTextView(documentNameRothmansDrangeBlueKisa, countRothmansDrangeBlueKisa);
+        updateTextView(documentNameRothmansDrangeBlueUzun, countRothmansDrangeBlueUzun);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameRothamnsBlueKisa, countRothmansBlueKisa);
+        firestoreCount(documentNameRothamnsBlueUzun, countRothmansBlueUzun);
+
+        firestoreCount(documentNameRothmansDrangeBlackKisa, countRothmansDrangeBlackKisa);
+        firestoreCount(documentNameRothmansDrangeBlackUzun, countRothmansDrangeBlackUzun);
+
+        firestoreCount(documentNameRothmansDrangeBlueKisa, countRothmansDrangeBlueKisa);
+        firestoreCount(documentNameRothmansDrangeBlueUzun, countRothmansDrangeBlueUzun);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void setRothmansButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -270,17 +340,17 @@ public class RothmansStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameRothamnsBlueKisa)) {
-            tv_rothmans_kisa.setText(String.valueOf(count));
+            et_rothmans_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameRothamnsBlueUzun)) {
-            tv_rothmans_uzun.setText(String.valueOf(count));
+            et_rothmans_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameRothmansDrangeBlackKisa)) {
-            tv_drange_black_kisa.setText(String.valueOf(count));
+            et_rothmans_drange__black_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameRothmansDrangeBlackUzun)) {
-            tv_drange_black_uzun.setText(String.valueOf(count));
+            et_rothmans_drange__black_uzun.setText(String.valueOf(count));
         }else if (documentName.equals(documentNameRothmansDrangeBlueKisa)) {
-            tv_rothmans_drange_blue_kisa.setText(String.valueOf(count));
+            et_rothmans_drange__blue_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameRothmansDrangeBlueUzun)) {
-            tv_rothmans_drange_blue_arttir.setText(String.valueOf(count));
+            et_rothmans_drange__blue_uzun.setText(String.valueOf(count));
         }
     }
 

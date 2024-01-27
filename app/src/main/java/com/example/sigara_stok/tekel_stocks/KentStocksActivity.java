@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
@@ -20,23 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class KentStocksActivity extends AppCompatActivity {
-
-    private int countKentDrangeBlueKisa = 0, countKentDrangeBlueUzun = 0;
-    private int countKentDrangeGreyKisa = 0, countKentDrangeGreyUzun = 0;
-    private int countKentDarkBlueKisa = 0, countKentDarkBlueUzun = 0;
-    private int countKentBlueKisa = 0, countKentSwitchKisa = 0;
-    private TextView tv_drange_blue_kisa, tv_drange_blue_uzun;
-    private TextView tv_drange_grey_kisa, tv_drange_grey_uzun;
-    private TextView tv_kent_dark_blue_kisa, tv_kent_dark_blue_uzun;
-    private TextView tv_kent_blue_kisa, tv_kent_switch_kisa;
-
+    private int countKentDrangeBlueKisa, countKentDrangeBlueUzun, countKentDrangeGreyKisa, countKentDrangeGreyUzun, countKentDarkBlueKisa, countKentDarkBlueUzun, countKentBlueKisa, countKentSwitchKisa, countTotalStock;
+    private EditText et_drange_blue_kisa, et_drange_blue_uzun, et_drange_grey_kisa, et_drange_grey_uzun, et_dark_blue_kisa, et_dark_blue_uzun, et_kent_blue_kisa, et_switch_kisa;
+    private TextView totalSumTextView;
     FirebaseFirestore db;
     FirebaseAuth auth;
 
-    final static String documentNameKentDrangeBlueKisa = "BAT_Kent_Drange_Blue_Kisa", documentNameKentDrangeBlueUzun = "BAT_Kent_Drange_Blue_Uzun";
-    final static String documentNameKentDrangeGreyKisa = "BAT_Kent_Drange_Grey_Kisa", documentNameKentDrangeGreyUzun = "BAT_Kent_Drange_Grey_Uzun";
-    final static String documentNameKentDarkBlueKisa = "BAT_Kent_Dark_Blue_Kisa", documentNameKentDarkBlueUzun = "BAT_Kent_Dark_Blue_Uzun";
-    final static String documentNameKentBlueKisa = "BAT_Kent_Blue_Kisa", documentNameKentSwitchKisa = "BAT_Kent_Switch_Kisa";
+    final static String documentNameKentDrangeBlueKisa = "BAT_Kent_Drange_Blue_Kisa", documentNameKentDrangeBlueUzun = "BAT_Kent_Drange_Blue_Uzun", documentNameKentDrangeGreyKisa = "BAT_Kent_Drange_Grey_Kisa", documentNameKentDrangeGreyUzun = "BAT_Kent_Drange_Grey_Uzun", documentNameKentDarkBlueKisa = "BAT_Kent_Dark_Blue_Kisa", documentNameKentDarkBlueUzun = "BAT_Kent_Dark_Blue_Uzun", documentNameKentBlueKisa = "BAT_Kent_Blue_Kisa", documentNameKentSwitchKisa = "BAT_Kent_Switch_Kisa", documentTotalStocks= "Total_Kent_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +54,8 @@ public class KentStocksActivity extends AppCompatActivity {
         Button kent_switch_arttir_btn = findViewById(R.id.kent_switch_arttir_btn);
 
 
+        Button updateValuesButton = findViewById(R.id.kentGuncelle);
+
         setLdButtonClickListeners(drange_blue_kisa_azalt_btn, drange_blue_kisa_arttir_btn, documentNameKentDrangeBlueKisa);
         setLdButtonClickListeners(drange_blue_uzun_azalt_btn, drange_blue_uzun_arttir_btn, documentNameKentDrangeBlueUzun);
         setLdButtonClickListeners(drange_grey_kisa_azalt_btn, drange_grey_kisa_arttir_btn, documentNameKentDrangeGreyKisa);
@@ -73,17 +66,19 @@ public class KentStocksActivity extends AppCompatActivity {
         setLdButtonClickListeners(kent_switch_azalt_btn, kent_switch_arttir_btn, documentNameKentSwitchKisa);
 
 
-        tv_drange_blue_kisa = findViewById(R.id.tv_drange_blue_kisa);
-        tv_drange_blue_uzun = findViewById(R.id.tv_drange_blue_uzun);
+        totalSumTextView = findViewById(R.id.tv_kent_total);
 
-        tv_drange_grey_kisa = findViewById(R.id.tv_drange_grey_kisa);
-        tv_drange_grey_uzun = findViewById(R.id.tv_drange_grey_uzun);
+        et_drange_blue_kisa = findViewById(R.id.et_drange_blue_kisa);
+        et_drange_blue_uzun = findViewById(R.id.et_drange_blue_uzun);
 
-        tv_kent_dark_blue_kisa = findViewById(R.id.tv_kent_dark_blue_kisa);
-        tv_kent_dark_blue_uzun = findViewById(R.id.tv_kent_dark_blue_uzun);
+        et_drange_grey_kisa = findViewById(R.id.et_drange_grey_kisa);
+        et_drange_grey_uzun = findViewById(R.id.et_drange_grey_uzun);
 
-        tv_kent_blue_kisa = findViewById(R.id.tv_kent_blue_kisa);
-        tv_kent_switch_kisa = findViewById(R.id.tv_kent_switch_kisa);
+        et_dark_blue_kisa = findViewById(R.id.et_dark_blue_kisa);
+        et_dark_blue_uzun = findViewById(R.id.et_dark_blue_uzun);
+
+        et_kent_blue_kisa = findViewById(R.id.et_kent_blue_kisa);
+        et_switch_kisa = findViewById(R.id.et_switch_kisa);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -91,12 +86,124 @@ public class KentStocksActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
+
         btn_reset_all_kent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countKentDrangeBlueKisa = parseEditTextValue(et_drange_blue_kisa);
+        countKentDrangeBlueUzun = parseEditTextValue(et_drange_blue_uzun);
+
+        countKentDrangeGreyKisa = parseEditTextValue(et_drange_grey_kisa);
+        countKentDrangeGreyKisa = parseEditTextValue(et_drange_grey_uzun);
+
+        countKentDarkBlueKisa = parseEditTextValue(et_dark_blue_kisa);
+        countKentDarkBlueUzun = parseEditTextValue(et_dark_blue_uzun);
+
+        countKentBlueKisa = parseEditTextValue(et_kent_blue_kisa);
+        countKentSwitchKisa = parseEditTextValue(et_switch_kisa);
+
+
+        countTotalStock = countKentDrangeBlueKisa + countKentDrangeBlueUzun+ countKentDrangeGreyKisa+ countKentDrangeGreyKisa+ countKentDarkBlueKisa+ countKentDarkBlueUzun+ countKentBlueKisa +countKentSwitchKisa;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
+
+    private void discardStockCount() {
+        et_drange_blue_kisa.setText(String.valueOf(countKentDrangeBlueKisa));
+        et_drange_blue_uzun.setText(String.valueOf(countKentDrangeBlueUzun));
+
+        et_drange_grey_kisa.setText(String.valueOf(countKentDrangeGreyKisa));
+        et_drange_grey_uzun.setText(String.valueOf(countKentDrangeGreyUzun));
+
+        et_dark_blue_kisa.setText(String.valueOf(countKentDarkBlueKisa));
+        et_dark_blue_uzun.setText(String.valueOf(countKentDarkBlueUzun));
+
+        et_kent_blue_kisa.setText(String.valueOf(countKentBlueKisa));
+        et_switch_kisa.setText(String.valueOf(countKentSwitchKisa));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countKentDrangeBlueKisa = Integer.parseInt(et_drange_blue_kisa.getText().toString());
+        countKentDrangeBlueUzun = Integer.parseInt(et_drange_blue_uzun.getText().toString());
+        countKentDrangeGreyKisa = Integer.parseInt(et_drange_grey_kisa.getText().toString());
+        countKentDrangeGreyUzun = Integer.parseInt(et_drange_grey_uzun.getText().toString());
+        countKentDarkBlueKisa = Integer.parseInt(et_dark_blue_kisa.getText().toString());
+        countKentDarkBlueUzun = Integer.parseInt(et_dark_blue_uzun.getText().toString());
+        countKentBlueKisa = Integer.parseInt(et_kent_blue_kisa.getText().toString());
+        countKentSwitchKisa = Integer.parseInt(et_switch_kisa.getText().toString());
+
+
+        // TextView'ları güncelle
+        updateTextView(documentNameKentDrangeBlueKisa, countKentDrangeBlueKisa);
+        updateTextView(documentNameKentDrangeBlueUzun, countKentDrangeBlueUzun);
+        updateTextView(documentNameKentDrangeGreyKisa, countKentDrangeGreyKisa);
+        updateTextView(documentNameKentDrangeGreyUzun, countKentDrangeGreyUzun);
+        updateTextView(documentNameKentDarkBlueKisa, countKentDarkBlueKisa);
+        updateTextView(documentNameKentDarkBlueUzun, countKentDarkBlueUzun);
+        updateTextView(documentNameKentBlueKisa, countKentBlueKisa);
+        updateTextView(documentNameKentSwitchKisa, countKentSwitchKisa);
+        updateTextView(documentTotalStocks, countTotalStock);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameKentDrangeBlueKisa, countKentDrangeBlueKisa);
+        firestoreCount(documentNameKentDrangeBlueUzun, countKentDrangeBlueUzun);
+
+        firestoreCount(documentNameKentDrangeGreyKisa, countKentDrangeGreyKisa);
+        firestoreCount(documentNameKentDrangeGreyUzun, countKentDrangeGreyUzun);
+
+        firestoreCount(documentNameKentDarkBlueKisa, countKentDarkBlueKisa);
+        firestoreCount(documentNameKentDarkBlueUzun, countKentDarkBlueUzun);
+
+        firestoreCount(documentNameKentBlueKisa, countKentBlueKisa);
+        firestoreCount(documentNameKentSwitchKisa, countKentSwitchKisa);
+
+        firestoreCount(documentTotalStocks, countTotalStock);
+
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
 
@@ -126,6 +233,7 @@ public class KentStocksActivity extends AppCompatActivity {
         countKentDarkBlueUzun = 0;
         countKentBlueKisa = 0;
         countKentSwitchKisa = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameKentDrangeBlueKisa, countKentDrangeBlueKisa);
@@ -136,6 +244,7 @@ public class KentStocksActivity extends AppCompatActivity {
         updateTextView(documentNameKentDarkBlueUzun, countKentDarkBlueUzun);
         updateTextView(documentNameKentBlueKisa, countKentBlueKisa);
         updateTextView(documentNameKentSwitchKisa, countKentSwitchKisa);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameKentDrangeBlueKisa, 0);
@@ -146,6 +255,7 @@ public class KentStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameKentDarkBlueUzun, 0);
         firestoreCount(documentNameKentBlueKisa, 0);
         firestoreCount(documentNameKentSwitchKisa, 0);
+        firestoreCount(documentTotalStocks, 0);
     }
 
     private void showConfirmationDialog() {
@@ -177,8 +287,10 @@ public class KentStocksActivity extends AppCompatActivity {
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
-        if (getCount(documentName) > 0) {
-            firestoreCount(documentName, getCount(documentName) - 1);
+        int currentCount = getCount(documentName);
+        if (currentCount > 0) {
+            firestoreCount(documentName, currentCount - 1);
+
         }
     }
 
@@ -215,6 +327,7 @@ public class KentStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -231,6 +344,7 @@ public class KentStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -257,6 +371,7 @@ public class KentStocksActivity extends AppCompatActivity {
         readFirestoreForDocument(documentNameKentDarkBlueUzun);
         readFirestoreForDocument(documentNameKentBlueKisa);
         readFirestoreForDocument(documentNameKentSwitchKisa);
+        readFirestoreForDocument(documentTotalStocks);
     }
 
     private void readFirestoreForDocument(String documentName) {
@@ -276,6 +391,7 @@ public class KentStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -286,21 +402,23 @@ public class KentStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameKentDrangeBlueKisa)) {
-            tv_drange_blue_kisa.setText(String.valueOf(count));
+            et_drange_blue_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameKentDrangeBlueUzun)) {
-            tv_drange_blue_uzun.setText(String.valueOf(count));
+            et_drange_blue_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameKentDrangeGreyKisa)) {
-            tv_drange_grey_kisa.setText(String.valueOf(count));
+            et_drange_grey_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameKentDrangeGreyUzun)) {
-            tv_drange_grey_uzun.setText(String.valueOf(count));
+            et_drange_grey_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameKentDarkBlueKisa)) {
-            tv_kent_dark_blue_kisa.setText(String.valueOf(count));
+            et_dark_blue_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameKentDarkBlueUzun)) {
-            tv_kent_dark_blue_uzun.setText(String.valueOf(count));
+            et_dark_blue_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameKentBlueKisa)) {
-            tv_kent_blue_kisa.setText(String.valueOf(count));
+            et_kent_blue_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameKentSwitchKisa)) {
-            tv_kent_switch_kisa.setText(String.valueOf(count));
+            et_switch_kisa.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -322,6 +440,8 @@ public class KentStocksActivity extends AppCompatActivity {
             return countKentBlueKisa;
         } else if(documentName.equals(documentNameKentSwitchKisa)) {
             return countKentSwitchKisa;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -344,6 +464,8 @@ public class KentStocksActivity extends AppCompatActivity {
             countKentBlueKisa = count;
         } else if (documentName.equals(documentNameKentSwitchKisa)) {
             countKentSwitchKisa = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

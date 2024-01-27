@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,18 +23,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ViceroyStocksActivity extends AppCompatActivity {
-
-
-    private int countViceroyNavyKisa = 0, countViceroyNavyUzun = 0;
-    private int countViceroyRedKisa = 0, countViceroyRedUzun = 0;
-    private TextView tv_navy_kisa, tv_navy_uzun;
-    private TextView tv_red_kisa, tv_red_uzun;
+    private int countViceroyNavyKisa = 0, countViceroyNavyUzun = 0, countViceroyRedKisa = 0, countViceroyRedUzun = 0;
+    private EditText et_navy_kisa, et_navy_uzun, et_nav_red_kisa, et_nav_red_uzun;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
-    final static String documentNameViceroyNavyKisa = "BAT_Viceroy_Kisa_Navy", documentNameViceroyNavyUzun = "BAT_Viceroy_Uzun_Navy";
-    final static String documentNameViceroyRedKisa = "BAT_Viceroy_Kisa_Red", documentNameViceroyRedUzun = "BAT_Viceroy_Uzun_Red";
-
+    final static String documentNameViceroyNavyKisa = "BAT_Viceroy_Kisa_Navy", documentNameViceroyNavyUzun = "BAT_Viceroy_Uzun_Navy", documentNameViceroyRedKisa = "BAT_Viceroy_Kisa_Red", documentNameViceroyRedUzun = "BAT_Viceroy_Uzun_Red";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +45,19 @@ public class ViceroyStocksActivity extends AppCompatActivity {
         Button viceroy_red_uzun_azalt = findViewById(R.id.viceroy_red_uzun_azalt);
         Button viceroy_red_uzun_arttir = findViewById(R.id.viceroy_red_uzun_arttir);
 
+        Button updateValuesButton = findViewById(R.id.viceroyGuncelle);
+
         setViceroyButtonClickListeners(viceroy_nav_kisa_azalt, viceroy_nav_kisa_arttir, documentNameViceroyNavyKisa);
         setViceroyButtonClickListeners(viceroy_nav_uzun_azalt, viceroy_nav_uzun_arttir, documentNameViceroyNavyUzun);
         setViceroyButtonClickListeners(viceroy_red_kisa_azalt, viceroy_red_kisa_arttir, documentNameViceroyRedKisa);
         setViceroyButtonClickListeners(viceroy_red_uzun_azalt, viceroy_red_uzun_arttir, documentNameViceroyRedUzun);
 
 
-        tv_navy_kisa = findViewById(R.id.tv_navy_kisa);
-        tv_navy_uzun = findViewById(R.id.tv_navy_uzun);
+        et_navy_kisa = findViewById(R.id.et_navy_kisa);
+        et_navy_uzun = findViewById(R.id.et_navy_uzun);
 
-        tv_red_kisa = findViewById(R.id.tv_red_kisa);
-        tv_red_uzun = findViewById(R.id.tv_red_uzun);
+        et_nav_red_kisa = findViewById(R.id.et_nav_red_kisa);
+        et_nav_red_uzun = findViewById(R.id.et_nav_red_uzun);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -69,12 +65,72 @@ public class ViceroyStocksActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
+
         btn_reset_viceroy_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
+
+
+    private void discardStockCount() {
+        et_navy_kisa.setText(String.valueOf(countViceroyNavyKisa));
+        et_navy_uzun.setText(String.valueOf(countViceroyNavyUzun));
+
+        et_nav_red_kisa.setText(String.valueOf(countViceroyRedKisa));
+        et_nav_red_uzun.setText(String.valueOf(countViceroyRedUzun));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countViceroyNavyKisa = Integer.parseInt(et_navy_kisa.getText().toString());
+        countViceroyNavyUzun = Integer.parseInt(et_navy_uzun.getText().toString());
+
+        countViceroyRedKisa = Integer.parseInt(et_nav_red_kisa.getText().toString());
+        countViceroyRedUzun = Integer.parseInt(et_nav_red_uzun.getText().toString());
+
+        // TextView'ları güncelle
+        updateTextView(documentNameViceroyNavyKisa, countViceroyNavyKisa);
+        updateTextView(documentNameViceroyNavyUzun, countViceroyNavyUzun);
+        updateTextView(documentNameViceroyRedKisa, countViceroyRedKisa);
+        updateTextView(documentNameViceroyRedUzun, countViceroyRedUzun);
+
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameViceroyNavyKisa, countViceroyNavyKisa);
+        firestoreCount(documentNameViceroyNavyUzun, countViceroyNavyUzun);
+        firestoreCount(documentNameViceroyRedKisa, countViceroyRedKisa);
+        firestoreCount(documentNameViceroyRedUzun, countViceroyRedUzun);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void setViceroyButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -250,13 +306,13 @@ public class ViceroyStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameViceroyNavyKisa)) {
-            tv_navy_kisa.setText(String.valueOf(count));
+            et_navy_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameViceroyNavyUzun)) {
-            tv_navy_uzun.setText(String.valueOf(count));
+            et_navy_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameViceroyRedKisa)) {
-            tv_red_kisa.setText(String.valueOf(count));
+            et_nav_red_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameViceroyRedUzun)) {
-            tv_red_uzun.setText(String.valueOf(count));
+            et_nav_red_uzun.setText(String.valueOf(count));
         }
     }
 

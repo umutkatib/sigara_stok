@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,25 +29,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TekelStocksActivity extends AppCompatActivity {
-
-    private int countTekel2000MaviKisa = 0, countTekel2000MaviUzun = 0;
-    private int countTekel2000KirmiziKisa = 0, countTekel2000KirmiziUzun = 0;
-    private int countTekel2001MaviKisa = 0, countTekel2001MaviUzun = 0;
-    private int countTekel2001KirmiziKisa = 0, countTekel2001KirmiziUzun = 0;
-    private TextView tv_2000_kisa_mavi, tv_2000_uzun_mavi;
-    private TextView tv_2000_kirmizi_kisa, tv_2000_kirmizi_uzun;
-    private TextView tv_2001_mavi_kisa, tv_2001_mavi_uzun;
-    private TextView tv_2001_kirmizi_kisa, tv_2001_kirmizi_uzun;
-
+    private int countTekel2000MaviKisa = 0, countTekel2000MaviUzun = 0, countTekel2000KirmiziKisa = 0, countTekel2000KirmiziUzun = 0, countTekel2001MaviKisa = 0, countTekel2001MaviUzun = 0, countTekel2001KirmiziKisa = 0, countTekel2001KirmiziUzun = 0;
+    private EditText et_2000_mavi_kisa, et_2000_mavi_uzun, et_2000_kirmizi_kisa, et_2000_kirmizi_uzun, et_2001_mavi_kisa, et_2001_mavi_uzun, et_2001_kirmizi_kisa, et_2001_kirmizi_uzun;
     FirebaseFirestore db;
-
-    final static String documentNameTekel2000MaviKisa = "BAT_Tekel_2000_Mavi_Kisa", documentNameTekel2000MaviUzun = "BAT_Tekel_2000_Mavi_Uzun";
-    final static String documentNameTekel2000KirmiziKisa = "BAT_Tekel_2000_kirmizi_Kisa", documentNameTekel2000KirmiziUzun = "BAT_Tekel_2000_kirmizi_Uzun";
-    final static String documentNameTekel2001MaviKisa = "BAT_Tekel_2001_Mavi_Kisa", documentNameTekel2001MaviUzun = "BAT_Tekel_2001_Mavi_Uzun";
-    final static String documentNameTekel2001KirmiziKisa = "BAT_Tekel_2001_kirmizi_Kisa", documentNameTekel2001KirmiziUzun = "BAT_Tekel_2001_kirmizi_Uzun";
-
+    final static String documentNameTekel2000MaviKisa = "BAT_Tekel_2000_Mavi_Kisa", documentNameTekel2000MaviUzun = "BAT_Tekel_2000_Mavi_Uzun", documentNameTekel2000KirmiziKisa = "BAT_Tekel_2000_kirmizi_Kisa", documentNameTekel2000KirmiziUzun = "BAT_Tekel_2000_kirmizi_Uzun", documentNameTekel2001MaviKisa = "BAT_Tekel_2001_Mavi_Kisa", documentNameTekel2001MaviUzun = "BAT_Tekel_2001_Mavi_Uzun", documentNameTekel2001KirmiziKisa = "BAT_Tekel_2001_kirmizi_Kisa", documentNameTekel2001KirmiziUzun = "BAT_Tekel_2001_kirmizi_Uzun";
     FirebaseAuth auth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +59,7 @@ public class TekelStocksActivity extends AppCompatActivity {
         Button kirmizi_2001_uzun_azalt_btn = findViewById(R.id.kirmizi_2001_uzun_azalt_btn);
         Button kirmizi_2001_uzun_arttir_btn = findViewById(R.id.kirmizi_2001_uzun_arttir_btn);
 
+        Button updateValuesButton = findViewById(R.id.tekelGuncelle);
 
         setTekelButtonClickListeners(mavi_2000_kisa_azalt_btn, mavi_2000_kisa_arttir_btn, documentNameTekel2000MaviKisa);
         setTekelButtonClickListeners(mavi_2000_uzun_azalt_btn, mavi_2000_uzun_arttir_btn, documentNameTekel2000MaviUzun);
@@ -83,14 +71,14 @@ public class TekelStocksActivity extends AppCompatActivity {
         setTekelButtonClickListeners(kirmizi_2001_uzun_azalt_btn, kirmizi_2001_uzun_arttir_btn, documentNameTekel2001KirmiziUzun);
 
 
-        tv_2000_kisa_mavi = findViewById(R.id.tv_2000_kisa_mavi);
-        tv_2000_uzun_mavi = findViewById(R.id.tv_2000_uzun_mavi);
-        tv_2000_kirmizi_kisa = findViewById(R.id.tv_2000_kirmizi_kisa);
-        tv_2000_kirmizi_uzun = findViewById(R.id.tv_2000_kirmizi_uzun);
-        tv_2001_mavi_kisa = findViewById(R.id.tv_2001_mavi_kisa);
-        tv_2001_mavi_uzun = findViewById(R.id.tv_2001_mavi_uzun);
-        tv_2001_kirmizi_kisa = findViewById(R.id.tv_2001_kirmizi_kisa);
-        tv_2001_kirmizi_uzun = findViewById(R.id.tv_2001_kirmizi_uzun);
+        et_2000_mavi_kisa = findViewById(R.id.et_2000_mavi_kisa);
+        et_2000_mavi_uzun = findViewById(R.id.et_2000_mavi_uzun);
+        et_2000_kirmizi_kisa = findViewById(R.id.et_2000_kirmizi_kisa);
+        et_2000_kirmizi_uzun = findViewById(R.id.et_2000_kirmizi_uzun);
+        et_2001_mavi_kisa = findViewById(R.id.et_2001_mavi_kisa);
+        et_2001_mavi_uzun = findViewById(R.id.et_2001_mavi_uzun);
+        et_2001_kirmizi_kisa = findViewById(R.id.et_2001_kirmizi_kisa);
+        et_2001_kirmizi_uzun = findViewById(R.id.et_2001_kirmizi_uzun);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -98,12 +86,98 @@ public class TekelStocksActivity extends AppCompatActivity {
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
 
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
+
+
         reset_all_tekel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private void discardStockCount() {
+        et_2000_mavi_kisa.setText(String.valueOf(countTekel2000MaviKisa));
+        et_2000_mavi_uzun.setText(String.valueOf(countTekel2000MaviUzun));
+
+        et_2000_kirmizi_kisa.setText(String.valueOf(countTekel2000KirmiziKisa));
+        et_2000_kirmizi_uzun.setText(String.valueOf(countTekel2000KirmiziUzun));
+
+        et_2001_mavi_kisa.setText(String.valueOf(countTekel2001MaviKisa));
+        et_2001_mavi_uzun.setText(String.valueOf(countTekel2001MaviUzun));
+
+        et_2001_kirmizi_kisa.setText(String.valueOf(countTekel2001KirmiziKisa));
+        et_2001_kirmizi_uzun.setText(String.valueOf(countTekel2001KirmiziUzun));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countTekel2000MaviKisa = Integer.parseInt(et_2000_mavi_kisa.getText().toString());
+        countTekel2000MaviUzun = Integer.parseInt(et_2000_mavi_uzun.getText().toString());
+
+        countTekel2000KirmiziKisa = Integer.parseInt(et_2000_kirmizi_kisa.getText().toString());
+        countTekel2000KirmiziUzun = Integer.parseInt(et_2000_kirmizi_uzun.getText().toString());
+
+        countTekel2001MaviKisa = Integer.parseInt(et_2001_mavi_kisa.getText().toString());
+        countTekel2001MaviUzun = Integer.parseInt(et_2001_mavi_uzun.getText().toString());
+
+        countTekel2001KirmiziKisa = Integer.parseInt(et_2001_kirmizi_kisa.getText().toString());
+        countTekel2001KirmiziUzun = Integer.parseInt(et_2001_kirmizi_uzun.getText().toString());
+
+
+        // TextView'ları güncelle
+        updateTextView(documentNameTekel2000MaviKisa, countTekel2000MaviKisa);
+        updateTextView(documentNameTekel2000MaviUzun, countTekel2000MaviUzun);
+
+        updateTextView(documentNameTekel2000KirmiziKisa, countTekel2000KirmiziKisa);
+        updateTextView(documentNameTekel2000KirmiziUzun, countTekel2000KirmiziUzun);
+
+        updateTextView(documentNameTekel2001MaviKisa, countTekel2001MaviKisa);
+        updateTextView(documentNameTekel2001MaviUzun, countTekel2001MaviUzun);
+
+        updateTextView(documentNameTekel2001KirmiziKisa, countTekel2001KirmiziKisa);
+        updateTextView(documentNameTekel2001KirmiziUzun, countTekel2001KirmiziUzun);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameTekel2000MaviKisa, countTekel2000MaviKisa);
+        firestoreCount(documentNameTekel2000MaviUzun, countTekel2000MaviUzun);
+
+        firestoreCount(documentNameTekel2000KirmiziKisa, countTekel2000KirmiziKisa);
+        firestoreCount(documentNameTekel2000KirmiziUzun, countTekel2000KirmiziUzun);
+
+        firestoreCount(documentNameTekel2001MaviKisa, countTekel2001MaviKisa);
+        firestoreCount(documentNameTekel2001MaviUzun, countTekel2001MaviUzun);
+
+        firestoreCount(documentNameTekel2001KirmiziKisa, countTekel2001KirmiziKisa);
+        firestoreCount(documentNameTekel2001KirmiziUzun, countTekel2001KirmiziUzun);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void setTekelButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -295,21 +369,21 @@ public class TekelStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameTekel2000MaviKisa)) {
-            tv_2000_kisa_mavi.setText(String.valueOf(count));
+            et_2000_mavi_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTekel2000MaviUzun)) {
-            tv_2000_uzun_mavi.setText(String.valueOf(count));
+            et_2000_mavi_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTekel2000KirmiziKisa)) {
-            tv_2000_kirmizi_kisa.setText(String.valueOf(count));
+            et_2000_kirmizi_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTekel2000KirmiziUzun)) {
-            tv_2000_kirmizi_uzun.setText(String.valueOf(count));
+            et_2000_kirmizi_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTekel2001MaviKisa)) {
-            tv_2001_mavi_kisa.setText(String.valueOf(count));
+            et_2001_mavi_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTekel2001MaviUzun)) {
-            tv_2001_mavi_uzun.setText(String.valueOf(count));
+            et_2001_mavi_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTekel2001KirmiziKisa)) {
-            tv_2001_kirmizi_kisa.setText(String.valueOf(count));
+            et_2001_kirmizi_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTekel2001KirmiziUzun)) {
-            tv_2001_kirmizi_uzun.setText(String.valueOf(count));
+            et_2001_kirmizi_uzun.setText(String.valueOf(count));
         }
 
     }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,11 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WestStocksActivity extends AppCompatActivity {
-    private int countWestNavyKisa = 0, countWestGreyKısa = 0;
+    private int countWestNavyKisa, countWestGreyKisa, countTotalStock;
     private EditText navy_kisa, grey_kisa;
+    private TextView totalSumTextView;
+
     FirebaseFirestore db;
     FirebaseAuth auth;
-    String documentNameWestNavyKisa = "WEST_Navy", documentNameWestNavyUzun = "WEST_Grey";
+    String documentNameWestNavyKisa = "WEST_Navy", documentNameWestGrey = "WEST_Grey", documentTotalStocks= "Total_West_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +41,10 @@ public class WestStocksActivity extends AppCompatActivity {
         Button west_grey_azalt = findViewById(R.id.west_grey_azalt);
         Button west_grey_arttir = findViewById(R.id.west_grey_arttir);
 
+
         Button updateValuesButton = findViewById(R.id.guncelle);
 
+        totalSumTextView = findViewById(R.id.tv_west_total);
         navy_kisa = findViewById(R.id.navy_kisa);
         grey_kisa = findViewById(R.id.grey_kisa);
 
@@ -85,51 +90,79 @@ public class WestStocksActivity extends AppCompatActivity {
         west_grey_arttir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                incrementCount(documentNameWestNavyUzun);
+                incrementCount(documentNameWestGrey);
             }
         });
 
         west_grey_azalt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decrementCount(documentNameWestNavyUzun);
+                decrementCount(documentNameWestGrey);
             }
         });
 
 
     }
 
+    private void updateTotalSum() {
+        try {
+            countWestNavyKisa = Integer.parseInt(navy_kisa.getText().toString());
+        } catch (NumberFormatException e) {
+            countWestNavyKisa = 0;  // Set a default value or handle the error as needed
+        }
+
+        try {
+            countWestGreyKisa = Integer.parseInt(grey_kisa.getText().toString());
+        } catch (NumberFormatException e) {
+            countWestGreyKisa = 0;  // Set a default value or handle the error as needed
+        }
+
+        countTotalStock = countWestNavyKisa + countWestGreyKisa;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
+
+
     private void discardStockCount() {
         navy_kisa.setText(String.valueOf(countWestNavyKisa));
-        grey_kisa.setText(String.valueOf(countWestGreyKısa));
+        grey_kisa.setText(String.valueOf(countWestGreyKisa));
     }
 
 
     private void updateEditTextValues() {
         // EditText değerlerini al ve ilgili değişkenlere at
         countWestNavyKisa = Integer.parseInt(navy_kisa.getText().toString());
-        countWestGreyKısa = Integer.parseInt(grey_kisa.getText().toString());
+        countWestGreyKisa = Integer.parseInt(grey_kisa.getText().toString());
 
         // TextView'ları güncelle
         updateTextView(documentNameWestNavyKisa, countWestNavyKisa);
-        updateTextView(documentNameWestNavyUzun, countWestGreyKısa);
+        updateTextView(documentNameWestGrey, countWestGreyKisa);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameWestNavyKisa, countWestNavyKisa);
-        firestoreCount(documentNameWestNavyUzun, countWestGreyKısa);
+        firestoreCount(documentNameWestGrey, countWestGreyKisa);
+
+        // Update the Firestore document for documentTotalStocks
+        firestoreCount(documentTotalStocks, countTotalStock);
     }
+
+
 
     private void resetCounts() {
         countWestNavyKisa = 0;
-        countWestGreyKısa = 0;
+        countWestGreyKisa = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameWestNavyKisa, countWestNavyKisa);
-        updateTextView(documentNameWestNavyUzun, countWestGreyKısa);
+        updateTextView(documentNameWestGrey, countWestGreyKisa);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameWestNavyKisa, 0);
-        firestoreCount(documentNameWestNavyUzun, 0);
+        firestoreCount(documentNameWestGrey, 0);
+        firestoreCount(documentTotalStocks, 0);
     }
 
     private void showConfirmationDialog() {
@@ -161,6 +194,7 @@ public class WestStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -178,14 +212,18 @@ public class WestStocksActivity extends AppCompatActivity {
     private void incrementCount(String documentName) {
         // Mevcut değeri arttır ve güncelle
         firestoreCount(documentName, getCount(documentName) + 1);
+
     }
 
     private void decrementCount(String documentName) {
         // Eğer mevcut değer 0'dan büyükse azalt ve güncelle
-        if (getCount(documentName) > 0) {
-            firestoreCount(documentName, getCount(documentName) - 1);
+        int currentCount = getCount(documentName);
+        if (currentCount > 0) {
+            firestoreCount(documentName, currentCount - 1);
+
         }
     }
+
 
     private void firestoreCount(String documentName, int count) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -202,6 +240,7 @@ public class WestStocksActivity extends AppCompatActivity {
                         if (documentSnapshot.exists()) {
                             // Document exists, update count
                             updateFirestore(documentReference, count);
+
                         } else {
                             // Document doesn't exist, create new document
                             createFirestoreDocument(documentReference, count);
@@ -220,13 +259,13 @@ public class WestStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
                     Log.w("TAG444", documentReference.getId() + " document update failed.", e);
                 });
     }
-
 
     private void createFirestoreDocument(DocumentReference documentReference, int count) {
         Map<String, Object> userData = new HashMap<>();
@@ -236,12 +275,14 @@ public class WestStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
                     Log.w("TAG444", documentReference.getId() + " document creation failed.", e);
                 });
     }
+
 
     private String getUserCollectionName(String uid) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -255,8 +296,8 @@ public class WestStocksActivity extends AppCompatActivity {
     private void readFirestore() {
         // Her iki belgeyi de oku
         readFirestoreForDocument(documentNameWestNavyKisa);
-        readFirestoreForDocument(documentNameWestNavyUzun);
-
+        readFirestoreForDocument(documentNameWestGrey);
+        readFirestoreForDocument(documentTotalStocks);
     }
 
     private void readFirestoreForDocument(String documentName) {
@@ -276,6 +317,7 @@ public class WestStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -287,8 +329,10 @@ public class WestStocksActivity extends AppCompatActivity {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameWestNavyKisa)) {
             navy_kisa.setText(String.valueOf(count));
-        } else if (documentName.equals(documentNameWestNavyUzun)) {
+        } else if (documentName.equals(documentNameWestGrey)) {
             grey_kisa.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -296,8 +340,10 @@ public class WestStocksActivity extends AppCompatActivity {
         // Belirli bir belgeye ait yerel count değerini döndür
         if (documentName.equals(documentNameWestNavyKisa)) {
             return countWestNavyKisa;
-        } else if (documentName.equals(documentNameWestNavyUzun)) {
-            return countWestGreyKısa;
+        } else if (documentName.equals(documentNameWestGrey)) {
+            return countWestGreyKisa;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -306,8 +352,10 @@ public class WestStocksActivity extends AppCompatActivity {
         // Belirli bir belgeye ait yerel count değerini güncelle
         if (documentName.equals(documentNameWestNavyKisa)) {
             countWestNavyKisa = count;
-        } else if (documentName.equals(documentNameWestNavyUzun)) {
-            countWestGreyKısa = count;
+        } else if (documentName.equals(documentNameWestGrey)) {
+            countWestGreyKisa = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

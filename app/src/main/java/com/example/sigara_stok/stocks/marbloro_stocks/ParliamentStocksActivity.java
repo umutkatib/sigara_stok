@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
@@ -20,20 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParliamentStocksActivity extends AppCompatActivity {
-
-    private int countParliamentKisa = 0, countParliamentUzun = 0, countParliamentMidnight = 0;
-    private int countParliamentReserve = 0, countParliamentSlims = 0, countParliamentAquaBlue = 0;
-    private TextView tv_parliament_kisa, tv_parliament_uzun;
-    private TextView tv_parliament_midnight, tv_parliament_reserve;
-    private TextView tv_parliament_slims, tv_parliament_aqua_blue;
+    private int countParliamentKisa = 0, countParliamentUzun = 0, countParliamentMidnight = 0, countParliamentReserve = 0, countParliamentSlims = 0, countParliamentAquaBlue = 0;
+    private EditText et_parliament_kisa, et_parliament_uzun, et_parliament_midnight, et_parliament_reserve, et_parliament_slims, et_parliament_aqua_blue;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
-    final static String documentNameParliamentKisa = "PM_Parliament_Kisa", documentNameParliamentUzun = "PM_Parliament_Uzun";
-    final static String documentNameParliamentMidnight = "PM_Parliament_Midnight_Blue", documentNameParliamentReserve = "PM_Parliament_Reserve";
-    final static String documentNameParliamentSlims = "PM_Parliament_Slims", documentNameParliamentAquaBlue = "PM_Parliament_Aqua_Blue";
-
-
+    final static String documentNameParliamentKisa = "PM_Parliament_Kisa", documentNameParliamentUzun = "PM_Parliament_Uzun", documentNameParliamentMidnight = "PM_Parliament_Midnight_Blue", documentNameParliamentReserve = "PM_Parliament_Reserve", documentNameParliamentSlims = "PM_Parliament_Slims", documentNameParliamentAquaBlue = "PM_Parliament_Aqua_Blue";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +45,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         Button parliament_aqua_azalt = findViewById(R.id.parliament_aqua_azalt);
         Button parliament_aqua_arttir = findViewById(R.id.parliament_aqua_arttir);
 
+        Button updateValuesButton = findViewById(R.id.parliamentGuncelle);
 
         setParliamentButtonClickListeners(parliament_kisa_azalt, parliament_kisa_arttir, documentNameParliamentKisa);
         setParliamentButtonClickListeners(parliament_uzun_azalt, parliament_uzun_arttir, documentNameParliamentUzun);
@@ -62,18 +55,25 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         setParliamentButtonClickListeners(parliament_aqua_azalt, parliament_aqua_arttir, documentNameParliamentAquaBlue);
 
 
-        tv_parliament_kisa = findViewById(R.id.tv_parliament_kisa);
-        tv_parliament_uzun = findViewById(R.id.tv_parliament_uzun);
-        tv_parliament_midnight = findViewById(R.id.tv_parliament_midnight);
-        tv_parliament_reserve = findViewById(R.id.tv_parliament_reserve);
-        tv_parliament_slims = findViewById(R.id.tv_parliament_slims);
-        tv_parliament_aqua_blue = findViewById(R.id.tv_parliament_aqua_blue);
+        et_parliament_kisa = findViewById(R.id.et_parliament_kisa);
+        et_parliament_uzun = findViewById(R.id.et_parliament_uzun);
+        et_parliament_midnight = findViewById(R.id.et_parliament_midnight);
+        et_parliament_reserve = findViewById(R.id.et_parliament_reserve);
+        et_parliament_slims = findViewById(R.id.et_parliament_slims);
+        et_parliament_aqua_blue = findViewById(R.id.et_parliament_aqua_blue);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
         // Sayfa açıldığında veriyi çekip göster
         readFirestore();
+
+        updateValuesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStockDialog();
+            }
+        });
 
         parliament_reset_all.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +97,72 @@ public class ParliamentStocksActivity extends AppCompatActivity {
                 decrementCount(documentName);
             }
         });
+    }
+
+    private void discardStockCount() {
+        et_parliament_kisa.setText(String.valueOf(countParliamentKisa));
+        et_parliament_uzun.setText(String.valueOf(countParliamentUzun));
+
+        et_parliament_midnight.setText(String.valueOf(countParliamentMidnight));
+        et_parliament_reserve.setText(String.valueOf(countParliamentReserve));
+
+        et_parliament_slims.setText(String.valueOf(countParliamentSlims));
+        et_parliament_aqua_blue.setText(String.valueOf(countParliamentAquaBlue));
+    }
+
+
+    private void updateEditTextValues() {
+        // EditText değerlerini al ve ilgili değişkenlere at
+        countParliamentKisa = Integer.parseInt(et_parliament_kisa.getText().toString());
+        countParliamentUzun = Integer.parseInt(et_parliament_uzun.getText().toString());
+
+        countParliamentMidnight = Integer.parseInt(et_parliament_midnight.getText().toString());
+        countParliamentReserve = Integer.parseInt(et_parliament_reserve.getText().toString());
+
+        countParliamentSlims = Integer.parseInt(et_parliament_slims.getText().toString());
+        countParliamentAquaBlue = Integer.parseInt(et_parliament_aqua_blue.getText().toString());
+
+
+        // TextView'ları güncelle
+        updateTextView(documentNameParliamentKisa, countParliamentKisa);
+        updateTextView(documentNameParliamentUzun, countParliamentUzun);
+
+        updateTextView(documentNameParliamentMidnight, countParliamentMidnight);
+        updateTextView(documentNameParliamentReserve, countParliamentReserve);
+
+        updateTextView(documentNameParliamentSlims, countParliamentSlims);
+        updateTextView(documentNameParliamentAquaBlue, countParliamentAquaBlue);
+
+        // Firestore'daki belgeleri güncelle
+        firestoreCount(documentNameParliamentKisa, countParliamentKisa);
+        firestoreCount(documentNameParliamentUzun, countParliamentUzun);
+
+        firestoreCount(documentNameParliamentMidnight, countParliamentMidnight);
+        firestoreCount(documentNameParliamentReserve, countParliamentReserve);
+
+        firestoreCount(documentNameParliamentSlims, countParliamentSlims);
+        firestoreCount(documentNameParliamentAquaBlue, countParliamentAquaBlue);
+    }
+
+    private void updateStockDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Stok Güncelle");
+        builder.setMessage("Stok verisini güncellemek istediğinizden emin misiniz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateEditTextValues();
+                Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                discardStockCount();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void resetCounts() {
@@ -262,17 +328,17 @@ public class ParliamentStocksActivity extends AppCompatActivity {
     private void updateTextView(String documentName, int count) {
         // Belirli bir belgeye ait TextView'i güncelle
         if (documentName.equals(documentNameParliamentKisa)) {
-            tv_parliament_kisa.setText(String.valueOf(count));
+            et_parliament_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameParliamentUzun)) {
-            tv_parliament_uzun.setText(String.valueOf(count));
+            et_parliament_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameParliamentMidnight)) {
-            tv_parliament_midnight.setText(String.valueOf(count));
+            et_parliament_midnight.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameParliamentReserve)) {
-            tv_parliament_reserve.setText(String.valueOf(count));
+            et_parliament_reserve.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameParliamentSlims)) {
-            tv_parliament_slims.setText(String.valueOf(count));
+            et_parliament_slims.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameParliamentAquaBlue)) {
-            tv_parliament_aqua_blue.setText(String.valueOf(count));
+            et_parliament_aqua_blue.setText(String.valueOf(count));
         }
     }
 

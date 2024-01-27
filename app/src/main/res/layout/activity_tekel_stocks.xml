@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#000000"
+    android:backgroundTint="#ff6b6b"
     app:layout_marginBaseline="10dp"
     tools:context=".tekel_stocks.TekelStocksActivity">
+
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,7 +28,7 @@
                 android:layout_marginStart="125dp"
                 android:layout_marginTop="30dp"
                 android:text="TEKEL"
-                android:textColor="#000000"
+                android:textColor="#ff6b6b"
                 android:textSize="40sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,41 +67,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <TextView
-            android:id="@+id/tv_2000_kisa_mavi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/mavi_2000_kisa_arttir_btn"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_2000_uzun_mavi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/mavi_2000_uzun_arttir_btn" />
-
         <Button
             android:id="@+id/mavi_2000_kisa_azalt_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_2000_kisa_mavi"
+            app:layout_constraintEnd_toStartOf="@+id/et_2000_mavi_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -108,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20sp"
@@ -122,11 +100,11 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_2000_uzun_mavi"
+            app:layout_constraintEnd_toStartOf="@+id/et_2000_mavi_uzun"
             app:layout_constraintTop_toBottomOf="@+id/mavi_2000_kisa_azalt_btn" />
 
         <Button
@@ -136,33 +114,78 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mavi_2000_kisa_arttir_btn" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="409dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout17">
-
-        <Button
-            android:id="@+id/reset_all_tekel_btn"
+        <EditText
+            android:id="@+id/et_2000_mavi_uzun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="125dp"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#FF0000"
-            android:text="Stok Sıfırla"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:height="50sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/mavi_2000_uzun_arttir_btn" />
+
+        <EditText
+            android:id="@+id/et_2000_mavi_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:height="50sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/mavi_2000_kisa_arttir_btn"
+            tools:layout_editor_absoluteY="6dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout17">
+
+                <Button
+                    android:id="@+id/reset_all_tekel_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="90dp"
+                    android:layout_marginTop="75dp"
+                    android:width="150sp"
+                    android:height="50sp"
+                    android:backgroundTint="#FF0000"
+                    android:text="Stok Sıfırla"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tekelGuncelle" />
+
+                <Button
+                    android:id="@+id/tekelGuncelle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="90dp"
+                    android:layout_marginTop="25dp"
+                    android:width="150sp"
+                    android:height="50sp"
+                    android:backgroundTint="#ff6b6b"
+                    android:text="Stok Güncelle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout15"
@@ -203,11 +226,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_2000_kirmizi_kisa"
+            app:layout_constraintEnd_toStartOf="@+id/et_2000_kirmizi_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -217,11 +240,11 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_2000_kirmizi_uzun"
+            app:layout_constraintEnd_toStartOf="@+id/et_2000_kirmizi_uzun"
             app:layout_constraintTop_toBottomOf="@+id/kirmizi_2000_kisa_azalt_btn" />
 
         <Button
@@ -230,7 +253,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20dp"
@@ -244,36 +267,42 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/kirmizi_2000_kisa_arttir_btn" />
 
-        <TextView
-            android:id="@+id/tv_2000_kirmizi_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/kirmizi_2000_kisa_arttir_btn"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_2000_kirmizi_uzun"
+        <EditText
+            android:id="@+id/et_2000_kirmizi_uzun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
-            android:text="0"
+            android:width="45sp"
+            android:height="50sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/kirmizi_2000_uzun_arttir_btn" />
+
+        <EditText
+            android:id="@+id/et_2000_kirmizi_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:height="50sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/kirmizi_2000_kisa_arttir_btn"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -309,41 +338,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
-        <TextView
-            android:id="@+id/tv_2001_mavi_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/mavi_2001_kisa_arttir_btn"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_2001_mavi_uzun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/mavi_2001_uzun_arttir_btn" />
-
         <Button
             android:id="@+id/mavi_2001_kisa_azalt_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_2001_mavi_kisa"
+            app:layout_constraintEnd_toStartOf="@+id/et_2001_mavi_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -353,11 +358,11 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_2001_mavi_uzun"
+            app:layout_constraintEnd_toStartOf="@+id/et_2001_mavi_uzun"
             app:layout_constraintTop_toBottomOf="@+id/mavi_2001_kisa_azalt_btn" />
 
         <Button
@@ -366,7 +371,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20dp"
@@ -380,12 +385,42 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mavi_2001_kisa_arttir_btn" />
+
+        <EditText
+            android:id="@+id/et_2001_mavi_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:height="50sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/mavi_2001_kisa_arttir_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_2001_mavi_uzun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:height="50sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/mavi_2001_uzun_arttir_btn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -396,18 +431,6 @@
         android:layout_marginTop="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout16">
-
-        <TextView
-            android:id="@+id/tv_2001_kirmizi_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_kisa_arttir_btn"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView29"
@@ -433,29 +456,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
-        <TextView
-            android:id="@+id/tv_2001_kirmizi_uzun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
-            android:text="0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_uzun_arttir_btn" />
-
         <Button
             android:id="@+id/kirmizi_2001_kisa_azalt_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_2001_kirmizi_kisa"
+            app:layout_constraintEnd_toStartOf="@+id/et_2001_kirmizi_kisa"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -464,13 +475,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="#000000"
+            android:height="50sp"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="-"
             android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_2001_kirmizi_uzun"
-            app:layout_constraintTop_toBottomOf="@+id/kirmizi_2001_kisa_azalt_btn"
-            android:height="50sp" />
+            app:layout_constraintEnd_toStartOf="@+id/et_2001_kirmizi_uzun"
+            app:layout_constraintTop_toBottomOf="@+id/kirmizi_2001_kisa_azalt_btn" />
 
         <Button
             android:id="@+id/kirmizi_2001_kisa_arttir_btn"
@@ -478,7 +489,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20dp"
@@ -492,15 +503,45 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:height="50sp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ff6b6b"
             android:minWidth="70dip"
             android:text="+"
             android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/kirmizi_2001_kisa_arttir_btn" />
+
+        <EditText
+            android:id="@+id/et_2001_kirmizi_kisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:height="50sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_kisa_arttir_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_2001_kirmizi_uzun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:width="45sp"
+            android:height="50sp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_uzun_arttir_btn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 

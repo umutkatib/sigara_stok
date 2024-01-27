@@ -1,7 +1,10 @@
 package com.example.sigara_stok;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,19 +13,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.sigara_stok.R;
 import com.example.sigara_stok.activities.HdActivity;
 import com.example.sigara_stok.activities.LoginActivity;
 import com.example.sigara_stok.activities.MarlboroActivity;
 import com.example.sigara_stok.activities.TekelActivity;
 import com.example.sigara_stok.activities.WestActivity;
 import com.example.sigara_stok.activities.WinstonActivity;
-import com.example.sigara_stok.tekel_stocks.KentStocksActivity;
-import com.example.sigara_stok.tekel_stocks.RothmansStocksActivity;
-import com.example.sigara_stok.tekel_stocks.TekelStocksActivity;
-import com.example.sigara_stok.tekel_stocks.ViceroyStocksActivity;
-import com.example.sigara_stok.west_stocks.WestStocksActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
