@@ -262,51 +262,52 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/white_line_arttir"
             app:layout_constraintTop_toBottomOf="@+id/et_hd_slim" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout54">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout54">
 
-        <Button
-            android:id="@+id/reset_all_hd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:layout_marginTop="75dp"
-            android:width="150sp"
-            android:height="50sp"
-            android:backgroundTint="#FF0000"
-            android:text="Stok Sıfırla"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hdGuncelle" />
+                <Button
+                    android:id="@+id/reset_all_hd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="90dp"
+                    android:layout_marginTop="75dp"
+                    android:width="150sp"
+                    android:height="50sp"
+                    android:backgroundTint="#FF0000"
+                    android:text="Stok Sıfırla"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/hdGuncelle" />
 
-        <Button
-            android:id="@+id/hdGuncelle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:layout_marginTop="25dp"
-            android:width="150sp"
-            android:height="50sp"
-            android:backgroundTint="#0fb9b1"
-            android:text="Stok Güncelle"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/hdGuncelle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="90dp"
+                    android:layout_marginTop="25dp"
+                    android:width="150sp"
+                    android:height="50sp"
+                    android:backgroundTint="#0fb9b1"
+                    android:text="Stok Güncelle"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout54"
                 android:layout_width="409dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="50dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView125">
 
@@ -518,6 +519,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/toros_red_kisa_arttir"
                     app:layout_constraintTop_toBottomOf="@+id/et_toros_blue_uzun" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -525,13 +527,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="80dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="150dp"
                 android:text="TOROS"
                 android:textColor="#fd9644"
                 android:textSize="50sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout42" />
+
+            <TextView
+                android:id="@+id/textView130"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="74dp"
+                android:layout_marginTop="67dp"
+                android:text="Toplam Stok Sayısı: "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout42" />
+
+            <TextView
+                android:id="@+id/tv_hd_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="66dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textView130"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout42" />
+
+            <TextView
+                android:id="@+id/textView132"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="46dp"
+                android:layout_marginTop="27dp"
+                android:text="Toplam Stok Sayısı: "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout54" />
+
+            <TextView
+                android:id="@+id/tv_toros_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textView132"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout54" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

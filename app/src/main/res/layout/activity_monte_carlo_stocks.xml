@@ -127,6 +127,7 @@
             android:gravity="center"
             android:inputType="number"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/mc_dark_blue_kisa_arttir"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -140,6 +141,7 @@
             android:gravity="center"
             android:inputType="number"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/mc_dark_blue_uzun_arttir" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -241,6 +243,7 @@
             android:gravity="center"
             android:inputType="number"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/mc_dark_red_uzun_arttir" />
 
@@ -254,6 +257,7 @@
             android:gravity="center"
             android:inputType="number"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/mc_dark_red_kisa_arttir"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -313,6 +317,7 @@
             android:gravity="center"
             android:inputType="number"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/mc_slender_blue_arttir"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -322,7 +327,7 @@
                 android:layout_width="409dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout40">
 
@@ -354,6 +359,27 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView128"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="36dp"
+                android:text="Toplam Stok Sayısı: "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout40" />
+
+            <TextView
+                android:id="@+id/tv_mc_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="38dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textView128"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout40" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,11 +21,13 @@ import java.util.Map;
 
 public class HdActivity extends AppCompatActivity {
 
-    private int countHDBlueKisa = 0, countHDBlueUzun = 0, countHDSlimBlue = 0, countHDWhiteLine = 0, countTorosBlueKisa = 0, countTorosBlueUzun = 0, countTorosRedKisa = 0, countTorosRedUzun = 0;
+    private int countHDBlueKisa, countHDBlueUzun, countHDSlimBlue, countHDWhiteLine, countTorosBlueKisa, countTorosBlueUzun, countTorosRedKisa, countTorosRedUzun, countTotalStock, countTotalStock2;
     private EditText et_hd_kisa, et_hd_uzun, et_hd_slim, et_hd_white_line, et_toros_blue_kisa, et_toros_blue_uzun, et_toros_red_kisa, et_toros_red_uzun;
+    private TextView totalSumTextView, totalSumTextView2;
+
     FirebaseFirestore db;
     FirebaseAuth auth;
-    final static String documentNameHDBlueKisa = "HD_Blue_Kisa", documentNameHDBlueUzun = "HD_Blue_Uzun", documentNameHDSlimBlue = "HD_Slim_Blue", documentNameHDWhiteLine = "HD_White_Line", documentNameTorosBlueKisa = "HD_Toros_Blue_Kisa", documentNameTorosBlueUzun = "HD_Toros_Blue_Uzun", documentNameTorosRedKisa = "HD_Toros_Red_Kisa", documentNameTorosRedUzun = "HD_Toros_Red_Uzun";
+    final static String documentNameHDBlueKisa = "HD_Blue_Kisa", documentNameHDBlueUzun = "HD_Blue_Uzun", documentNameHDSlimBlue = "HD_Slim_Blue", documentNameHDWhiteLine = "HD_White_Line", documentNameTorosBlueKisa = "HD_Toros_Blue_Kisa", documentNameTorosBlueUzun = "HD_Toros_Blue_Uzun", documentNameTorosRedKisa = "HD_Toros_Red_Kisa", documentNameTorosRedUzun = "HD_Toros_Red_Uzun", documentTotalStocks= "Total_HD_Stocks", documentTotalStocks2= "Total_Toros_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,9 @@ public class HdActivity extends AppCompatActivity {
         Button toros_red_uzun_arttir = findViewById(R.id.toros_red_uzun_arttir);
 
         Button updateValuesButton = findViewById(R.id.hdGuncelle);
+
+        totalSumTextView = findViewById(R.id.tv_hd_total);
+        totalSumTextView2 = findViewById(R.id.tv_toros_total);
 
 
         setHdButtonClickListeners(hd_kisa_azalt, hd_kisa_arttir, documentNameHDBlueKisa);
@@ -96,6 +102,31 @@ public class HdActivity extends AppCompatActivity {
         });
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countHDBlueKisa = parseEditTextValue(et_hd_kisa);
+        countHDBlueUzun = parseEditTextValue(et_hd_uzun);
+        countHDSlimBlue = parseEditTextValue(et_hd_slim);
+        countHDWhiteLine = parseEditTextValue(et_hd_white_line);
+        countTorosBlueKisa = parseEditTextValue(et_toros_blue_kisa);
+        countTorosBlueUzun = parseEditTextValue(et_toros_blue_uzun);
+        countTorosRedKisa = parseEditTextValue(et_toros_red_kisa);
+        countTorosRedUzun = parseEditTextValue(et_toros_red_uzun);
+
+        countTotalStock = countHDBlueKisa + countHDBlueUzun+ countHDSlimBlue+ countHDWhiteLine;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+
+        countTotalStock2 = countTorosBlueKisa+ countTorosBlueUzun+ countTorosRedKisa+ countTorosRedUzun;
+        totalSumTextView2.setText(String.valueOf(countTotalStock2));
+    }
+
     private void setHdButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
         incrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +163,9 @@ public class HdActivity extends AppCompatActivity {
         updateTextView(documentNameTorosBlueUzun, countTorosBlueUzun);
         updateTextView(documentNameTorosRedKisa, countTorosRedKisa);
         updateTextView(documentNameTorosRedUzun, countTorosRedUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
+        updateTextView(documentTotalStocks2, countTotalStock2);
+
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameHDBlueKisa, countHDBlueKisa);
@@ -142,6 +176,9 @@ public class HdActivity extends AppCompatActivity {
         firestoreCount(documentNameTorosBlueUzun, countTorosBlueUzun);
         firestoreCount(documentNameTorosRedKisa, countTorosRedKisa);
         firestoreCount(documentNameTorosRedUzun, countTorosRedUzun);
+        firestoreCount(documentTotalStocks, countTotalStock);
+        firestoreCount(documentTotalStocks2, countTotalStock2);
+
     }
 
     private void updateStockDialog() {
@@ -151,6 +188,7 @@ public class HdActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -220,6 +258,7 @@ public class HdActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -243,17 +282,34 @@ public class HdActivity extends AppCompatActivity {
         countTorosBlueUzun = 0;
         countTorosRedKisa = 0;
         countTorosRedUzun = 0;
+        countTotalStock = 0;
+        countTotalStock2 = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameHDBlueKisa, countHDBlueKisa);
         updateTextView(documentNameHDBlueUzun, countHDBlueUzun);
         updateTextView(documentNameHDSlimBlue, countHDSlimBlue);
         updateTextView(documentNameHDWhiteLine, countHDWhiteLine);
-
         updateTextView(documentNameTorosBlueKisa, countTorosBlueKisa);
         updateTextView(documentNameTorosBlueUzun, countTorosBlueUzun);
         updateTextView(documentNameTorosRedKisa, countTorosRedKisa);
         updateTextView(documentNameTorosRedUzun, countTorosRedUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
+        updateTextView(documentTotalStocks2, countTotalStock2);
+
+        // Firestore'daki tüm belgelerin stock değerini sıfırla
+        firestoreCount(documentNameHDBlueKisa, 0);
+        firestoreCount(documentNameHDBlueUzun, 0);
+        firestoreCount(documentNameHDSlimBlue, 0);
+        firestoreCount(documentNameHDWhiteLine, 0);
+        firestoreCount(documentNameTorosBlueKisa, 0);
+        firestoreCount(documentNameTorosBlueUzun, 0);
+        firestoreCount(documentNameTorosRedKisa, 0);
+        firestoreCount(documentNameTorosRedUzun, 0);
+        firestoreCount(documentTotalStocks, 0);
+        firestoreCount(documentTotalStocks2, 0);
+
+
     }
 
     private void resetFirestoreCounts() {
@@ -308,6 +364,7 @@ public class HdActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -354,6 +411,7 @@ public class HdActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -379,6 +437,10 @@ public class HdActivity extends AppCompatActivity {
             et_toros_red_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTorosRedUzun)) {
             et_toros_red_uzun.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks2)) {
+            totalSumTextView2.setText(String.valueOf(count));
         }
     }
 
@@ -400,6 +462,10 @@ public class HdActivity extends AppCompatActivity {
             return countTorosRedKisa;
         } else if(documentName.equals(documentNameTorosRedUzun)) {
             return countTorosRedUzun;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
+        } else if (documentName.equals(documentTotalStocks2)) {
+            return countTotalStock2;
         }
         return 0;
     }
@@ -422,6 +488,10 @@ public class HdActivity extends AppCompatActivity {
             countTorosRedKisa = count;
         } else if (documentName.equals(documentNameTorosRedUzun)) {
             countTorosRedUzun = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
+        } else if (documentName.equals(documentTotalStocks2)) {
+            countTotalStock2 = count;
         }
     }
 }

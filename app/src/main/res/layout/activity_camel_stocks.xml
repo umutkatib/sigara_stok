@@ -553,7 +553,7 @@
                 android:layout_width="409dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout30">
 
@@ -584,7 +584,29 @@
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView126"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="73dp"
+                android:layout_marginTop="37dp"
+                android:text="Toplam Stok Sayısı: "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout30" />
+
+            <TextView
+                android:id="@+id/tv_camel_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="38dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textView126"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout30" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

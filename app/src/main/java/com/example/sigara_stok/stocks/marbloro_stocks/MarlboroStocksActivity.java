@@ -21,23 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MarlboroStocksActivity extends AppCompatActivity {
-
-    private int countMBRedKisa = 0, countMBRedUzun = 0, countMBTouch = 0;
-    private int countMBTouchGrey = 0, countMBTouchBlue = 0, countMBTouchWhite = 0, countMBEdge = 0;
-    private int countMBEdgeSky = 0, countMBEdgeBlue = 0;
-    private EditText et_mb_red_kisa, et_mb_red_uzun;
-    private TextView et_mb_touch, et_mb_touch_grey;
-    private TextView et_mb_touch_white, et_mb_touch_blue;
-    private TextView et_mb_edge, et_mb_edge_blue, et_mb_edge_sky;
+    private int countMBRedKisa, countMBRedUzun, countMBTouch, countMBTouchGrey, countMBTouchBlue, countMBTouchWhite, countMBEdge, countMBEdgeSky, countMBEdgeBlue, countTotalStock;
+    private EditText et_mb_red_kisa, et_mb_red_uzun, et_mb_touch, et_mb_touch_grey, et_mb_touch_white, et_mb_touch_blue, et_mb_edge, et_mb_edge_blue, et_mb_edge_sky;
+    private TextView totalSumTextView;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
-    final static String documentNameMBRedKisa = "PM_Marlboro_Red_Kisa", documentNameMBRedUzun = "PM_Marlboro_Red_Uzun";
-    final static String documentNameMBTouch = "PM_Marlboro_Touch", documentNameMBTouchGrey = "PM_Marlboro_Touch_Grey";
-    final static String documentNameMBTouchBlue = "PM_Marlboro_Touch_Blue", documentNameMBTouchWhite = "PM_Marlboro_Touch_White";
-    final static String documentNameMBEdge = "PM_Marlboro_Edge", documentNameMBEdgeSky = "PM_Marlboro_Edge_Sky", documentNameMBEdgeBlue = "PM_Marlboro_Edge_Blue";
-
-
+    final static String documentNameMBRedKisa = "PM_Marlboro_Red_Kisa", documentNameMBRedUzun = "PM_Marlboro_Red_Uzun", documentNameMBTouch = "PM_Marlboro_Touch", documentNameMBTouchGrey = "PM_Marlboro_Touch_Grey", documentNameMBTouchBlue = "PM_Marlboro_Touch_Blue", documentNameMBTouchWhite = "PM_Marlboro_Touch_White", documentNameMBEdge = "PM_Marlboro_Edge", documentNameMBEdgeSky = "PM_Marlboro_Edge_Sky", documentNameMBEdgeBlue = "PM_Marlboro_Edge_Blue", documentTotalStocks= "Total_Marlboro_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +66,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         setMarlboroButtonClickListeners(malb_edge_blue_azalt, malb_edge_blue_arttir, documentNameMBEdgeBlue);
         setMarlboroButtonClickListeners(malb_edge_sky_azalt, malb_edge_sky_arttir, documentNameMBEdgeSky);
 
-
+        totalSumTextView = findViewById(R.id.tv_marlboro_total);
         et_mb_red_kisa = findViewById(R.id.et_mb_red_kisa);
         et_mb_red_uzun = findViewById(R.id.et_mb_red_uzun);
         et_mb_touch = findViewById(R.id.et_mb_touch);
@@ -110,16 +99,36 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         });
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countMBRedKisa = parseEditTextValue(et_mb_red_kisa);
+        countMBRedUzun = parseEditTextValue(et_mb_red_uzun);
+        countMBTouch = parseEditTextValue(et_mb_touch);
+        countMBTouchGrey = parseEditTextValue(et_mb_touch_grey);
+        countMBTouchBlue = parseEditTextValue(et_mb_touch_blue);
+        countMBTouchWhite = parseEditTextValue(et_mb_touch_white);
+        countMBEdge = parseEditTextValue(et_mb_edge);
+        countMBEdgeBlue = parseEditTextValue(et_mb_edge_blue);
+        countMBEdgeSky = parseEditTextValue(et_mb_edge_sky);
+
+        countTotalStock = countMBRedKisa + countMBRedUzun + countMBTouch + countMBTouchGrey+ countMBTouchBlue + countMBTouchWhite + countMBEdge + countMBEdgeBlue + countMBEdgeSky;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
     private void discardStockCount() {
         et_mb_red_kisa.setText(String.valueOf(countMBRedKisa));
         et_mb_red_uzun.setText(String.valueOf(countMBRedUzun));
-
         et_mb_touch.setText(String.valueOf(countMBTouch));
         et_mb_touch_grey.setText(String.valueOf(countMBTouchGrey));
-
         et_mb_touch_blue.setText(String.valueOf(countMBTouchBlue));
         et_mb_touch_white.setText(String.valueOf(countMBTouchWhite));
-
         et_mb_edge.setText(String.valueOf(countMBEdge));
         et_mb_edge_blue.setText(String.valueOf(countMBEdgeBlue));
         et_mb_edge_sky.setText(String.valueOf(countMBEdgeSky));
@@ -130,17 +139,13 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         // EditText değerlerini al ve ilgili değişkenlere at
         countMBRedKisa = Integer.parseInt(et_mb_red_kisa.getText().toString());
         countMBRedUzun = Integer.parseInt(et_mb_red_uzun.getText().toString());
-
         countMBTouch = Integer.parseInt(et_mb_touch.getText().toString());
         countMBTouchGrey = Integer.parseInt(et_mb_touch_grey.getText().toString());
-
         countMBTouchBlue = Integer.parseInt(et_mb_touch_blue.getText().toString());
         countMBTouchWhite = Integer.parseInt(et_mb_touch_white.getText().toString());
-
         countMBEdge = Integer.parseInt(et_mb_edge.getText().toString());
         countMBEdgeBlue = Integer.parseInt(et_mb_edge_blue.getText().toString());
         countMBEdgeSky = Integer.parseInt(et_mb_edge_sky.getText().toString());
-
 
         // TextView'ları güncelle
         updateTextView(documentNameMBRedKisa, countMBRedKisa);
@@ -152,6 +157,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         updateTextView(documentNameMBEdge, countMBEdge);
         updateTextView(documentNameMBEdgeBlue, countMBEdgeBlue);
         updateTextView(documentNameMBEdgeSky, countMBEdgeSky);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameMBRedKisa, countMBRedKisa);
@@ -163,6 +169,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameMBEdge, countMBEdge);
         firestoreCount(documentNameMBEdgeBlue, countMBEdgeBlue);
         firestoreCount(documentNameMBEdgeSky, countMBEdgeSky);
+        firestoreCount(documentTotalStocks, countTotalStock);
     }
 
     private void updateStockDialog() {
@@ -172,6 +179,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -212,6 +220,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         countMBEdge = 0;
         countMBEdgeSky = 0;
         countMBEdgeBlue = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameMBRedKisa, countMBRedKisa);
@@ -223,6 +232,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         updateTextView(documentNameMBEdge, countMBEdge);
         updateTextView(documentNameMBEdgeSky, countMBEdgeSky);
         updateTextView(documentNameMBEdgeBlue, countMBEdgeBlue);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameMBRedKisa, 0);
@@ -234,6 +244,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameMBEdge, 0);
         firestoreCount(documentNameMBEdgeSky, 0);
         firestoreCount(documentNameMBEdgeBlue, 0);
+        firestoreCount(documentTotalStocks, 0);
     }
 
     private void showConfirmationDialog() {
@@ -303,6 +314,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -319,6 +331,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -365,6 +378,7 @@ public class MarlboroStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -392,6 +406,8 @@ public class MarlboroStocksActivity extends AppCompatActivity {
             et_mb_edge_sky.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMBEdgeBlue)) {
             et_mb_edge_blue.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -415,6 +431,8 @@ public class MarlboroStocksActivity extends AppCompatActivity {
             return countMBEdgeSky;
         } else if(documentName.equals(documentNameMBEdgeBlue)) {
             return countMBEdgeBlue;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -439,6 +457,8 @@ public class MarlboroStocksActivity extends AppCompatActivity {
             countMBEdgeSky = count;
         } else if (documentName.equals(documentNameMBEdgeBlue)) {
             countMBEdgeBlue = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

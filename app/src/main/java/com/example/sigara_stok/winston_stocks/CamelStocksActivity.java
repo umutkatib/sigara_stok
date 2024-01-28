@@ -20,16 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CamelStocksActivity extends AppCompatActivity {
-    private int countCamelYellowKisa, countCamelYellowUzun, countCamelYellowSoftKisa;
-    private int  countCamelWhite, countCamelBrown, countCamelBlack, countCamelDeepBlue;
-    private int countCamelSlenderBlue, countCamelSlenderGrey;
+    private int countCamelYellowKisa, countCamelYellowUzun, countCamelYellowSoftKisa, countCamelWhite, countCamelBrown, countCamelBlack, countCamelDeepBlue, countCamelSlenderBlue, countCamelSlenderGrey, countTotalStock;
     private EditText et_camel_kisa, et_camel_uzun, et_camel_soft, et_camel_white, et_camel_black, et_camel_deep_blue, et_camel_brown, et_camel_slender_blue, et_camel_slender_grey;
+    private TextView totalSumTextView;
+
     FirebaseFirestore db;
     FirebaseAuth auth;
-    final static String documentNameCamelYellowKisa = "JTI_Camel_Yellow_Kisa", documentNameCamelYellowUzun = "JTI_Camel_Yellow_Uzun";
-    final static String documentNameCamelYellowSoftKisa = "JTI_Camel_Yellow_Soft_Kisa", documentNameCamelWhite = "JTI_Camel_White";
-    final static String documentNameCamelBlack = "JTI_Camel_Black", documentNameCamelBrown = "JTI_Camel_Brown";
-    final static String documentNameCamelDeepBlue = "JTI_Camel_Deep_Blue", documentNameCamelSlenderBlue = "JTI_Camel_Slender_Blue", documentNameCamelSlenderGrey = "JTI_Camel_Slender_Grey";
+    final static String documentNameCamelYellowKisa = "JTI_Camel_Yellow_Kisa", documentNameCamelYellowUzun = "JTI_Camel_Yellow_Uzun", documentNameCamelYellowSoftKisa = "JTI_Camel_Yellow_Soft_Kisa", documentNameCamelWhite = "JTI_Camel_White", documentNameCamelBlack = "JTI_Camel_Black", documentNameCamelBrown = "JTI_Camel_Brown", documentNameCamelDeepBlue = "JTI_Camel_Deep_Blue", documentNameCamelSlenderBlue = "JTI_Camel_Slender_Blue", documentNameCamelSlenderGrey = "JTI_Camel_Slender_Grey", documentTotalStocks= "Total_Camel_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +55,9 @@ public class CamelStocksActivity extends AppCompatActivity {
         Button camel_slender_grey_arttir_btn = findViewById(R.id.camel_slender_grey_arttir_btn);
 
         Button updateValuesButton = findViewById(R.id.camelGuncelle);
+
+        totalSumTextView = findViewById(R.id.tv_camel_total);
+
 
         // Set click listeners for Camel buttons
         setCamelButtonClickListeners(camel_yellow_kisa_azalt_btn, camel_yellow_kisa_arttir_btn, documentNameCamelYellowKisa);
@@ -101,6 +101,29 @@ public class CamelStocksActivity extends AppCompatActivity {
         });
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countCamelYellowKisa = parseEditTextValue(et_camel_kisa);
+        countCamelYellowUzun = parseEditTextValue(et_camel_uzun);
+        countCamelYellowSoftKisa = parseEditTextValue(et_camel_soft);
+        countCamelWhite = parseEditTextValue(et_camel_white);
+        countCamelBlack = parseEditTextValue(et_camel_black);
+        countCamelDeepBlue = parseEditTextValue(et_camel_deep_blue);
+        countCamelBrown = parseEditTextValue(et_camel_brown);
+        countCamelSlenderBlue = parseEditTextValue(et_camel_slender_blue);
+        countCamelSlenderGrey = parseEditTextValue(et_camel_slender_grey);
+
+        countTotalStock = countCamelYellowKisa + countCamelYellowUzun+ countCamelYellowSoftKisa+ countCamelWhite+ countCamelBlack+ countCamelDeepBlue+ countCamelBrown + countCamelSlenderBlue+  countCamelSlenderGrey;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
     private void updateEditTextValues() {
         // EditText değerlerini al ve ilgili değişkenlere at
         countCamelYellowKisa = Integer.parseInt(et_camel_kisa.getText().toString());
@@ -123,6 +146,8 @@ public class CamelStocksActivity extends AppCompatActivity {
         updateTextView(documentNameCamelBrown, countCamelBrown);
         updateTextView(documentNameCamelSlenderBlue, countCamelSlenderBlue);
         updateTextView(documentNameCamelSlenderGrey, countCamelSlenderGrey);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameCamelYellowKisa, countCamelYellowKisa);
@@ -134,6 +159,8 @@ public class CamelStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameCamelBrown, countCamelBrown);
         firestoreCount(documentNameCamelSlenderBlue, countCamelSlenderBlue);
         firestoreCount(documentNameCamelSlenderGrey, countCamelSlenderGrey);
+        firestoreCount(documentTotalStocks, countTotalStock);
+
     }
 
     private void updateStockDialog() {
@@ -143,6 +170,7 @@ public class CamelStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -196,6 +224,8 @@ public class CamelStocksActivity extends AppCompatActivity {
         countCamelDeepBlue = 0;
         countCamelSlenderBlue = 0;
         countCamelSlenderGrey = 0;
+        countTotalStock = 0;
+
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameCamelYellowKisa, countCamelYellowKisa);
@@ -207,6 +237,8 @@ public class CamelStocksActivity extends AppCompatActivity {
         updateTextView(documentNameCamelDeepBlue, countCamelDeepBlue);
         updateTextView(documentNameCamelSlenderBlue, countCamelSlenderBlue);
         updateTextView(documentNameCamelSlenderGrey, countCamelSlenderGrey);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameCamelYellowKisa, 0);
@@ -218,6 +250,8 @@ public class CamelStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameCamelDeepBlue, 0);
         firestoreCount(documentNameCamelSlenderBlue, 0);
         firestoreCount(documentNameCamelSlenderGrey, 0);
+        firestoreCount(documentTotalStocks, 0);
+
     }
 
     private void firestoreCount(String documentName, int count) {
@@ -288,6 +322,7 @@ public class CamelStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -303,6 +338,7 @@ public class CamelStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -352,6 +388,8 @@ public class CamelStocksActivity extends AppCompatActivity {
 
                         // Ayrıca, yerel count değerlerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
+
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -380,6 +418,8 @@ public class CamelStocksActivity extends AppCompatActivity {
             et_camel_slender_blue.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameCamelSlenderGrey)) {
             et_camel_slender_grey.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -393,9 +433,9 @@ public class CamelStocksActivity extends AppCompatActivity {
             return countCamelYellowSoftKisa;
         } else if(documentName.equals(documentNameCamelWhite)) {
             return countCamelWhite;
-        } else if(documentName.equals(documentNameCamelBlack)) {
-            return countCamelBrown;
         } else if(documentName.equals(documentNameCamelBrown)) {
+            return countCamelBrown;
+        } else if(documentName.equals(documentNameCamelBlack)) {
             return countCamelBlack;
         } else if(documentName.equals(documentNameCamelDeepBlue)) {
             return countCamelDeepBlue;
@@ -403,6 +443,8 @@ public class CamelStocksActivity extends AppCompatActivity {
             return countCamelSlenderBlue;
         } else if(documentName.equals(documentNameCamelSlenderGrey)) {
             return countCamelSlenderGrey;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -417,9 +459,9 @@ public class CamelStocksActivity extends AppCompatActivity {
             countCamelYellowSoftKisa = count;
         } else if (documentName.equals(documentNameCamelWhite)) {
             countCamelWhite = count;
-        } else if (documentName.equals(documentNameCamelBlack)) {
-            countCamelBrown = count;
         } else if (documentName.equals(documentNameCamelBrown)) {
+            countCamelBrown = count;
+        } else if (documentName.equals(documentNameCamelBlack)) {
             countCamelBlack = count;
         } else if (documentName.equals(documentNameCamelDeepBlue)) {
             countCamelDeepBlue = count;
@@ -427,6 +469,8 @@ public class CamelStocksActivity extends AppCompatActivity {
             countCamelSlenderBlue = count;
         } else if (documentName.equals(documentNameCamelSlenderGrey)) {
             countCamelSlenderGrey = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

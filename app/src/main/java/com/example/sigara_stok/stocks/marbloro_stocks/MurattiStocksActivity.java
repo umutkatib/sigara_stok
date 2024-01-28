@@ -22,11 +22,12 @@ import java.util.Map;
 
 public class MurattiStocksActivity extends AppCompatActivity {
 
-    private int countMuratti = 0, countMurattiBlue = 0;
+    private int countMuratti, countMurattiBlue, countTotalStock;
     private EditText et_rosso, et_blue_line;
+    private TextView totalSumTextView;
     FirebaseFirestore db;
     FirebaseAuth auth;
-    final static String documentNameMurattiRosso = "PM_Muratti_Rosso", documentNameMurattiBlu = "PM_Muratti_Blu_Line";
+    final static String documentNameMurattiRosso = "PM_Muratti_Rosso", documentNameMurattiBlu = "PM_Muratti_Blu_Line", documentTotalStocks= "Total_Muratti_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class MurattiStocksActivity extends AppCompatActivity {
         setMurattiButtonClickListeners(blue_line_azalt, blue_line_arttir, documentNameMurattiBlu);
 
 
+        totalSumTextView = findViewById(R.id.tv_muratti_total);
         et_rosso = findViewById(R.id.et_rosso);
         et_blue_line = findViewById(R.id.et_blue_line);
         db = FirebaseFirestore.getInstance();
@@ -71,6 +73,22 @@ public class MurattiStocksActivity extends AppCompatActivity {
         });
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countMuratti = parseEditTextValue(et_rosso);
+        countMurattiBlue = parseEditTextValue(et_blue_line);
+
+        countTotalStock = countMuratti + countMurattiBlue;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
     private void discardStockCount() {
         et_rosso.setText(String.valueOf(countMuratti));
         et_blue_line.setText(String.valueOf(countMurattiBlue));
@@ -85,10 +103,12 @@ public class MurattiStocksActivity extends AppCompatActivity {
         // TextView'ları güncelle
         updateTextView(documentNameMurattiRosso, countMuratti);
         updateTextView(documentNameMurattiBlu, countMurattiBlue);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameMurattiRosso, countMuratti);
         firestoreCount(documentNameMurattiBlu, countMurattiBlue);
+        firestoreCount(documentTotalStocks, countTotalStock);
     }
 
     private void updateStockDialog() {
@@ -98,6 +118,7 @@ public class MurattiStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -132,14 +153,18 @@ public class MurattiStocksActivity extends AppCompatActivity {
     private void resetCounts() {
         countMuratti = 0;
         countMurattiBlue = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameMurattiRosso, countMuratti);
         updateTextView(documentNameMurattiBlu, countMurattiBlue);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameMurattiRosso, 0);
         firestoreCount(documentNameMurattiBlu, 0);
+        firestoreCount(documentTotalStocks, 0);
     }
 
     private void showConfirmationDialog() {
@@ -209,6 +234,7 @@ public class MurattiStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -225,6 +251,7 @@ public class MurattiStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -264,6 +291,7 @@ public class MurattiStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -277,6 +305,8 @@ public class MurattiStocksActivity extends AppCompatActivity {
             et_rosso.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMurattiBlu)) {
             et_blue_line.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -286,6 +316,8 @@ public class MurattiStocksActivity extends AppCompatActivity {
             return countMuratti;
         } else if (documentName.equals(documentNameMurattiBlu)) {
             return countMurattiBlue;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -296,6 +328,8 @@ public class MurattiStocksActivity extends AppCompatActivity {
             countMuratti = count;
         } else if (documentName.equals(documentNameMurattiBlu)) {
             countMurattiBlue = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

@@ -378,7 +378,7 @@
                 android:layout_width="409dp"
                 android:layout_height="221dp"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout50">
 
@@ -409,6 +409,27 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView136"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="53dp"
+                android:text="Toplam Stok Sayısı: "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout50" />
+
+            <TextView
+                android:id="@+id/tv_parliament_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="53dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textView136"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout50" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -20,15 +20,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LDStocksActivity extends AppCompatActivity {
-    private int countLdMaviKisa = 0, countLdMaviUzun = 0, countLdRedKisa = 0;
-    private int countLdRedUzun = 0, countLdSlim = 0;
+    private int countLdMaviKisa, countLdMaviUzun, countLdRedKisa, countLdRedUzun, countLdSlim, countTotalStock;
     private EditText et_blue_kisa, et_blue_uzun, et_red_kisa, et_red_uzun, et_ld_slim;
+    private TextView totalSumTextView;
+
     FirebaseFirestore db;
     FirebaseAuth auth;
 
-    final static String documentNameLdBlueKisa = "JTI_Ld_Blue_Kisa", documentNameLdBlueUzun = "JTI_Ld_Blue_Uzun";
-    final static String documentNameLdRedKisa = "JTI_Ld_Red_Kisa", documentNameLdRedUzun = "JTI_Ld_Red_Uzun";
-    final static String documentNameLdSlim = "JTI_Ld_Slim";
+    final static String documentNameLdBlueKisa = "JTI_Ld_Blue_Kisa", documentNameLdBlueUzun = "JTI_Ld_Blue_Uzun", documentNameLdRedKisa = "JTI_Ld_Red_Kisa", documentNameLdRedUzun = "JTI_Ld_Red_Uzun", documentNameLdSlim = "JTI_Ld_Slim", documentTotalStocks= "Total_LD_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +48,8 @@ public class LDStocksActivity extends AppCompatActivity {
         Button ld_slim_arttir = findViewById(R.id.ld_slim_arttir);
 
         Button updateValuesButton = findViewById(R.id.ldGuncelle);
+
+        totalSumTextView = findViewById(R.id.tv_ld_total);
 
 
         setLdButtonClickListeners(ld_blue_kisa_azalt, ld_blue_kisa_arttir, documentNameLdBlueKisa);
@@ -84,6 +85,25 @@ public class LDStocksActivity extends AppCompatActivity {
         });
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countLdMaviKisa = parseEditTextValue(et_blue_kisa);
+        countLdMaviUzun = parseEditTextValue(et_blue_uzun);
+        countLdRedKisa = parseEditTextValue(et_red_kisa);
+        countLdRedUzun = parseEditTextValue(et_red_uzun);
+        countLdSlim = parseEditTextValue(et_ld_slim);
+
+        countTotalStock = countLdMaviKisa + countLdMaviUzun+ countLdRedKisa+ countLdRedUzun+ countLdSlim;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
     private void updateEditTextValues() {
         // EditText değerlerini al ve ilgili değişkenlere at
         countLdMaviKisa = Integer.parseInt(et_blue_kisa.getText().toString());
@@ -98,6 +118,8 @@ public class LDStocksActivity extends AppCompatActivity {
         updateTextView(documentNameLdRedKisa, countLdRedKisa);
         updateTextView(documentNameLdRedUzun, countLdRedUzun);
         updateTextView(documentNameLdSlim, countLdSlim);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameLdBlueKisa, countLdMaviKisa);
@@ -105,6 +127,8 @@ public class LDStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameLdRedKisa, countLdRedKisa);
         firestoreCount(documentNameLdRedUzun, countLdRedUzun);
         firestoreCount(documentNameLdSlim, countLdSlim);
+        firestoreCount(documentTotalStocks, countTotalStock);
+
     }
 
     private void updateStockDialog() {
@@ -114,6 +138,7 @@ public class LDStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -158,6 +183,8 @@ public class LDStocksActivity extends AppCompatActivity {
         countLdRedKisa = 0;
         countLdRedUzun = 0;
         countLdSlim = 0;
+        countTotalStock = 0;
+
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameLdBlueKisa, countLdMaviKisa);
@@ -165,6 +192,8 @@ public class LDStocksActivity extends AppCompatActivity {
         updateTextView(documentNameLdRedKisa, countLdRedKisa);
         updateTextView(documentNameLdRedUzun, countLdRedUzun);
         updateTextView(documentNameLdSlim, countLdSlim);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameLdBlueKisa, 0);
@@ -172,6 +201,8 @@ public class LDStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameLdRedKisa, 0);
         firestoreCount(documentNameLdRedUzun, 0);
         firestoreCount(documentNameLdSlim, 0);
+        firestoreCount(documentTotalStocks, 0);
+
     }
 
     private void showConfirmationDialog() {
@@ -242,6 +273,7 @@ public class LDStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -258,6 +290,7 @@ public class LDStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -305,6 +338,7 @@ public class LDStocksActivity extends AppCompatActivity {
 
                         // Ayrıca, yerel count değerlerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -324,6 +358,8 @@ public class LDStocksActivity extends AppCompatActivity {
             et_red_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameLdSlim)) {
             et_ld_slim.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -339,6 +375,8 @@ public class LDStocksActivity extends AppCompatActivity {
             return countLdRedUzun;
         } else if(documentName.equals(documentNameLdSlim)) {
             return countLdSlim;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -355,6 +393,8 @@ public class LDStocksActivity extends AppCompatActivity {
             countLdRedUzun = count;
         } else if (documentName.equals(documentNameLdSlim)) {
             countLdSlim = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

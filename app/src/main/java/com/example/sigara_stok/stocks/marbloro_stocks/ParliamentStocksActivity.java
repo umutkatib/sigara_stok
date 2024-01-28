@@ -21,11 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParliamentStocksActivity extends AppCompatActivity {
-    private int countParliamentKisa = 0, countParliamentUzun = 0, countParliamentMidnight = 0, countParliamentReserve = 0, countParliamentSlims = 0, countParliamentAquaBlue = 0;
+    private int countParliamentKisa, countParliamentUzun, countParliamentMidnight, countParliamentReserve, countParliamentSlims, countParliamentAquaBlue, countTotalStock;
     private EditText et_parliament_kisa, et_parliament_uzun, et_parliament_midnight, et_parliament_reserve, et_parliament_slims, et_parliament_aqua_blue;
+    private TextView totalSumTextView;
     FirebaseFirestore db;
     FirebaseAuth auth;
-    final static String documentNameParliamentKisa = "PM_Parliament_Kisa", documentNameParliamentUzun = "PM_Parliament_Uzun", documentNameParliamentMidnight = "PM_Parliament_Midnight_Blue", documentNameParliamentReserve = "PM_Parliament_Reserve", documentNameParliamentSlims = "PM_Parliament_Slims", documentNameParliamentAquaBlue = "PM_Parliament_Aqua_Blue";
+    final static String documentNameParliamentKisa = "PM_Parliament_Kisa", documentNameParliamentUzun = "PM_Parliament_Uzun", documentNameParliamentMidnight = "PM_Parliament_Midnight_Blue", documentNameParliamentReserve = "PM_Parliament_Reserve", documentNameParliamentSlims = "PM_Parliament_Slims", documentNameParliamentAquaBlue = "PM_Parliament_Aqua_Blue", documentTotalStocks= "Total_Parliament_Stocks";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +56,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         setParliamentButtonClickListeners(parliament_aqua_azalt, parliament_aqua_arttir, documentNameParliamentAquaBlue);
 
 
+        totalSumTextView = findViewById(R.id.tv_parliament_total);
         et_parliament_kisa = findViewById(R.id.et_parliament_kisa);
         et_parliament_uzun = findViewById(R.id.et_parliament_uzun);
         et_parliament_midnight = findViewById(R.id.et_parliament_midnight);
@@ -81,6 +83,26 @@ public class ParliamentStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countParliamentKisa = parseEditTextValue(et_parliament_kisa);
+        countParliamentUzun = parseEditTextValue(et_parliament_uzun);
+        countParliamentMidnight = parseEditTextValue(et_parliament_midnight);
+        countParliamentReserve = parseEditTextValue(et_parliament_reserve);
+        countParliamentSlims = parseEditTextValue(et_parliament_slims);
+        countParliamentAquaBlue = parseEditTextValue(et_parliament_aqua_blue);
+
+        countTotalStock = countParliamentKisa + countParliamentUzun + countParliamentMidnight + countParliamentReserve+ countParliamentSlims + countParliamentAquaBlue;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
     }
 
     private void setParliamentButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -115,10 +137,8 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         // EditText değerlerini al ve ilgili değişkenlere at
         countParliamentKisa = Integer.parseInt(et_parliament_kisa.getText().toString());
         countParliamentUzun = Integer.parseInt(et_parliament_uzun.getText().toString());
-
         countParliamentMidnight = Integer.parseInt(et_parliament_midnight.getText().toString());
         countParliamentReserve = Integer.parseInt(et_parliament_reserve.getText().toString());
-
         countParliamentSlims = Integer.parseInt(et_parliament_slims.getText().toString());
         countParliamentAquaBlue = Integer.parseInt(et_parliament_aqua_blue.getText().toString());
 
@@ -126,22 +146,20 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         // TextView'ları güncelle
         updateTextView(documentNameParliamentKisa, countParliamentKisa);
         updateTextView(documentNameParliamentUzun, countParliamentUzun);
-
         updateTextView(documentNameParliamentMidnight, countParliamentMidnight);
         updateTextView(documentNameParliamentReserve, countParliamentReserve);
-
         updateTextView(documentNameParliamentSlims, countParliamentSlims);
         updateTextView(documentNameParliamentAquaBlue, countParliamentAquaBlue);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameParliamentKisa, countParliamentKisa);
         firestoreCount(documentNameParliamentUzun, countParliamentUzun);
-
         firestoreCount(documentNameParliamentMidnight, countParliamentMidnight);
         firestoreCount(documentNameParliamentReserve, countParliamentReserve);
-
         firestoreCount(documentNameParliamentSlims, countParliamentSlims);
         firestoreCount(documentNameParliamentAquaBlue, countParliamentAquaBlue);
+        firestoreCount(documentTotalStocks, countTotalStock);
     }
 
     private void updateStockDialog() {
@@ -151,6 +169,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -172,6 +191,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         countParliamentReserve = 0;
         countParliamentSlims = 0;
         countParliamentAquaBlue = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameParliamentKisa, countParliamentKisa);
@@ -180,6 +200,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         updateTextView(documentNameParliamentReserve, countParliamentReserve);
         updateTextView(documentNameParliamentSlims, countParliamentSlims);
         updateTextView(documentNameParliamentAquaBlue, countParliamentAquaBlue);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameParliamentKisa, 0);
@@ -188,6 +209,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameParliamentReserve, 0);
         firestoreCount(documentNameParliamentSlims, 0);
         firestoreCount(documentNameParliamentAquaBlue, 0);
+        firestoreCount(documentTotalStocks, 0);
     }
 
     private void showConfirmationDialog() {
@@ -257,6 +279,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -273,6 +296,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -318,6 +342,7 @@ public class ParliamentStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -339,6 +364,8 @@ public class ParliamentStocksActivity extends AppCompatActivity {
             et_parliament_slims.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameParliamentAquaBlue)) {
             et_parliament_aqua_blue.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -356,6 +383,8 @@ public class ParliamentStocksActivity extends AppCompatActivity {
             return countParliamentSlims;
         } else if(documentName.equals(documentNameParliamentAquaBlue)) {
             return countParliamentAquaBlue;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -374,6 +403,8 @@ public class ParliamentStocksActivity extends AppCompatActivity {
             countParliamentSlims = count;
         } else if (documentName.equals(documentNameParliamentAquaBlue)) {
             countParliamentAquaBlue = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

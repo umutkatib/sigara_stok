@@ -21,13 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LarkStocksActivity extends AppCompatActivity {
-    private int countLarkKisa = 0, countLarkUzun = 0;
+    private int countLarkKisa, countLarkUzun, countTotalStock;
     private EditText et_lark_kisa, et_lark_uzun;
-
+    private TextView totalSumTextView;
     FirebaseFirestore db;
     FirebaseAuth auth;
 
-    final static String documentNameLarkKisa = "PM_Lark_Kisa", documentNameLarkUzun = "PM_Lark_Uzun";
+    final static String documentNameLarkKisa = "PM_Lark_Kisa", documentNameLarkUzun = "PM_Lark_Uzun", documentTotalStocks= "Total_Lark_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class LarkStocksActivity extends AppCompatActivity {
         setLarkButtonClickListeners(lark_kisa_azalt, lark_kisa_arttir, documentNameLarkKisa);
         setLarkButtonClickListeners(lark_uzun_azalt, lark_uzun_arttir, documentNameLarkUzun);
 
+        totalSumTextView = findViewById(R.id.tv_lark_total);
         et_lark_kisa = findViewById(R.id.et_lark_kisa);
         et_lark_uzun = findViewById(R.id.et_lark_uzun);
 
@@ -70,6 +71,22 @@ public class LarkStocksActivity extends AppCompatActivity {
         });
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countLarkKisa = parseEditTextValue(et_lark_kisa);
+        countLarkUzun = parseEditTextValue(et_lark_uzun);
+
+        countTotalStock = countLarkKisa + countLarkUzun;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
     private void discardStockCount() {
         et_lark_kisa.setText(String.valueOf(countLarkKisa));
         et_lark_uzun.setText(String.valueOf(countLarkUzun));
@@ -84,10 +101,13 @@ public class LarkStocksActivity extends AppCompatActivity {
         // TextView'ları güncelle
         updateTextView(documentNameLarkKisa, countLarkKisa);
         updateTextView(documentNameLarkUzun, countLarkUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameLarkKisa, countLarkKisa);
         firestoreCount(documentNameLarkUzun, countLarkUzun);
+        firestoreCount(documentTotalStocks, countTotalStock);
     }
 
     private void updateStockDialog() {
@@ -97,6 +117,7 @@ public class LarkStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -131,14 +152,18 @@ public class LarkStocksActivity extends AppCompatActivity {
     private void resetCounts() {
         countLarkKisa = 0;
         countLarkUzun = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameLarkKisa, countLarkKisa);
         updateTextView(documentNameLarkUzun, countLarkUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameLarkKisa, 0);
         firestoreCount(documentNameLarkUzun, 0);
+        firestoreCount(documentTotalStocks, 0);
     }
 
     private void showConfirmationDialog() {
@@ -208,6 +233,7 @@ public class LarkStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -224,6 +250,7 @@ public class LarkStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -263,6 +290,7 @@ public class LarkStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -276,6 +304,8 @@ public class LarkStocksActivity extends AppCompatActivity {
             et_lark_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameLarkUzun)) {
             et_lark_uzun.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -285,6 +315,8 @@ public class LarkStocksActivity extends AppCompatActivity {
             return countLarkKisa;
         } else if (documentName.equals(documentNameLarkUzun)) {
             return countLarkUzun;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -295,6 +327,8 @@ public class LarkStocksActivity extends AppCompatActivity {
             countLarkKisa = count;
         } else if (documentName.equals(documentNameLarkUzun)) {
             countLarkUzun = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

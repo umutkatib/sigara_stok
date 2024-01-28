@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,11 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WinstonStocksActivity extends AppCompatActivity {
-    private int countSlenderKisa = 0, countSlenderUzun = 0, countBlueKisa = 0, countBlueUzun = 0, countRedKisa = 0, countRedUzun = 0, countSlimBlue = 0, countSlimGrey = 0, countSlenderGrey = 0, countGrey = 0, countDarkBlueKisa = 0, countDarkBlueUzun = 0;
+    private int countSlenderKisa, countSlenderUzun, countBlueKisa, countBlueUzun, countRedKisa, countRedUzun, countSlimBlue, countSlimGrey, countSlenderGrey, countGrey, countDarkBlueKisa, countDarkBlueUzun, countTotalStock;
     private EditText et_slender_blue_kisa, et_slender_blue_uzun, et_winston_blue_kisa, et_winston_blue_uzun, et_winston_red_kisa, et_winston_red_uzun, et_winston_dark_uzun, et_winston_dark_kisa, et_winston_slim_blue, et_winston_slim_grey, et_slender_grey_kisa, et_winston_grey;
+    private TextView totalSumTextView;
+
     FirebaseFirestore db;
     FirebaseAuth auth;
-    final static String documentNameSlenderKisa = "JTI_Slender_Blue_Kisa", documentNameSlenderUzun = "JTI_Slender_Blue_Uzun", getDocumentNameBlueKisa = "JTI_Blue_Kisa", getDocumentNameBlueUzun = "JTI_Blue_Uzun", getDocumentNameRedKisa = "JTI_Red_Kisa", getDocumentNameRedUzun = "JTI_Red_Uzun", getDocumentNameSlimBlue = "JTI_Slims_Blue", getDocumentNameSlimGrey = "JTI_Slims_Grey", getDocumentNameSlenderGreyKisa = "JTI_Slender_Grey", getDocumentNameWinsonGrey= "JTI_Winston_Grey", getDocumentNameDarkBlueKisa = "JTI_Winston_Dark_Blue_Kisa", getDocumentNameDarkBlueUzun= "JTI_Winston_Dark_Blue_Uzun";
+    final static String documentNameSlenderKisa = "JTI_Slender_Blue_Kisa", documentNameSlenderUzun = "JTI_Slender_Blue_Uzun", getDocumentNameBlueKisa = "JTI_Blue_Kisa", getDocumentNameBlueUzun = "JTI_Blue_Uzun", getDocumentNameRedKisa = "JTI_Red_Kisa", getDocumentNameRedUzun = "JTI_Red_Uzun", getDocumentNameSlimBlue = "JTI_Slims_Blue", getDocumentNameSlimGrey = "JTI_Slims_Grey", getDocumentNameSlenderGreyKisa = "JTI_Slender_Grey", getDocumentNameWinsonGrey= "JTI_Winston_Grey", getDocumentNameDarkBlueKisa = "JTI_Winston_Dark_Blue_Kisa", getDocumentNameDarkBlueUzun= "JTI_Winston_Dark_Blue_Uzun", documentTotalStocks= "Total_Winston_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,9 @@ public class WinstonStocksActivity extends AppCompatActivity {
         Button dark_blue_uzun_arttir_btn = findViewById(R.id.dark_blue_uzun_arttir_btn);
 
         Button updateValuesButton = findViewById(R.id.winstonGuncelle);
+
+        totalSumTextView = findViewById(R.id.tv_winston_total);
+
 
 
         setCamelButtonClickListeners(slender_kisa_azalt_btn, slender_kisa_arttir_btn, documentNameSlenderKisa);
@@ -110,6 +116,32 @@ public class WinstonStocksActivity extends AppCompatActivity {
 
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countSlenderKisa = parseEditTextValue(et_slender_blue_kisa);
+        countSlenderUzun = parseEditTextValue(et_slender_blue_uzun);
+        countSlenderGrey = parseEditTextValue(et_slender_grey_kisa);
+        countBlueKisa = parseEditTextValue(et_winston_blue_kisa);
+        countBlueUzun = parseEditTextValue(et_winston_blue_uzun);
+        countGrey = parseEditTextValue(et_winston_grey);
+        countDarkBlueKisa = parseEditTextValue(et_winston_dark_kisa);
+        countDarkBlueUzun = parseEditTextValue(et_winston_dark_uzun);
+        countRedKisa = parseEditTextValue(et_winston_red_kisa);
+        countRedUzun = parseEditTextValue(et_winston_red_uzun);
+        countSlimBlue = parseEditTextValue(et_winston_slim_blue);
+        countSlimGrey = parseEditTextValue(et_winston_slim_grey);
+
+        countTotalStock = countSlenderKisa + countSlenderUzun+ countSlenderGrey+ countBlueKisa+ countBlueUzun+ countGrey+ countDarkBlueKisa+ countDarkBlueUzun+ countRedKisa+ countRedUzun+ countSlimBlue+ countSlimGrey;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
     private void updateEditTextValues() {
         // EditText değerlerini al ve ilgili değişkenlere at
         countSlenderKisa = Integer.parseInt(et_slender_blue_kisa.getText().toString());
@@ -139,6 +171,8 @@ public class WinstonStocksActivity extends AppCompatActivity {
         updateTextView(getDocumentNameWinsonGrey, countGrey);
         updateTextView(getDocumentNameDarkBlueKisa, countDarkBlueKisa);
         updateTextView(getDocumentNameDarkBlueUzun, countDarkBlueUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameSlenderKisa, countSlenderKisa);
@@ -153,6 +187,8 @@ public class WinstonStocksActivity extends AppCompatActivity {
         firestoreCount(getDocumentNameWinsonGrey, countGrey);
         firestoreCount(getDocumentNameDarkBlueKisa, countDarkBlueKisa);
         firestoreCount(getDocumentNameDarkBlueUzun, countDarkBlueUzun);
+        firestoreCount(documentTotalStocks, countTotalStock);
+
     }
 
     private void updateStockDialog() {
@@ -162,6 +198,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -218,6 +255,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
         countGrey = 0;
         countDarkBlueKisa = 0;
         countDarkBlueUzun = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameSlenderKisa, countSlenderKisa);
@@ -232,6 +270,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
         updateTextView(getDocumentNameWinsonGrey, countGrey);
         updateTextView(getDocumentNameDarkBlueKisa, countDarkBlueKisa);
         updateTextView(getDocumentNameDarkBlueUzun, countDarkBlueUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameSlenderKisa, 0);
@@ -246,6 +285,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
         firestoreCount(getDocumentNameWinsonGrey, 0);
         firestoreCount(getDocumentNameDarkBlueKisa, 0);
         firestoreCount(getDocumentNameDarkBlueUzun, 0);
+        firestoreCount(documentTotalStocks, 0);
     }
 
 
@@ -320,6 +360,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -336,6 +377,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -387,6 +429,7 @@ public class WinstonStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -421,6 +464,8 @@ public class WinstonStocksActivity extends AppCompatActivity {
             et_winston_dark_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(getDocumentNameDarkBlueUzun)) {
             et_winston_dark_uzun.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
 
     }
@@ -452,6 +497,8 @@ public class WinstonStocksActivity extends AppCompatActivity {
             return countDarkBlueKisa;
         } else if(documentName.equals(getDocumentNameDarkBlueUzun)) {
             return countDarkBlueUzun;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -483,6 +530,8 @@ public class WinstonStocksActivity extends AppCompatActivity {
             countDarkBlueKisa = count;
         } else if (documentName.equals(getDocumentNameDarkBlueUzun)) {
             countDarkBlueUzun = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

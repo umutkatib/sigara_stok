@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
@@ -20,18 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RothmansStocksActivity extends AppCompatActivity {
-    private int countRothmansBlueKisa = 0, countRothmansBlueUzun = 0;
-    private int countRothmansDrangeBlackKisa = 0, countRothmansDrangeBlackUzun = 0;
-    private int countRothmansDrangeBlueKisa = 0, countRothmansDrangeBlueUzun = 0;
-    private TextView et_rothmans_kisa, et_rothmans_uzun;
-    private TextView et_rothmans_drange__black_kisa, et_rothmans_drange__black_uzun;
-    TextView et_rothmans_drange__blue_kisa, et_rothmans_drange__blue_uzun;
+    private int countRothmansBlueKisa, countRothmansBlueUzun, countRothmansDrangeBlackKisa, countRothmansDrangeBlackUzun, countRothmansDrangeBlueKisa, countRothmansDrangeBlueUzun, countTotalStock;
+    private EditText et_rothmans_kisa, et_rothmans_uzun, et_rothmans_drange__black_kisa, et_rothmans_drange__black_uzun, et_rothmans_drange__blue_kisa, et_rothmans_drange__blue_uzun;
+    private TextView totalSumTextView;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
-    final static String documentNameRothamnsBlueKisa = "BAT_Rothmans_Kisa_Blue", documentNameRothamnsBlueUzun = "BAT_Rothmans_Uzun_Blue";
-    final static String documentNameRothmansDrangeBlackKisa = "BAT_Rothmans_Drange_Kisa_Black", documentNameRothmansDrangeBlackUzun = "BAT_Rothmans_Drange_Uzun_Black";
-    final static String documentNameRothmansDrangeBlueKisa = "BAT_Rothmans_Drange_Kisa_Blue", documentNameRothmansDrangeBlueUzun = "BAT_Rothmans_Drange_Uzun_Blue";
+    final static String documentNameRothamnsBlueKisa = "BAT_Rothmans_Kisa_Blue", documentNameRothamnsBlueUzun = "BAT_Rothmans_Uzun_Blue", documentNameRothmansDrangeBlackKisa = "BAT_Rothmans_Drange_Kisa_Black", documentNameRothmansDrangeBlackUzun = "BAT_Rothmans_Drange_Uzun_Black", documentNameRothmansDrangeBlueKisa = "BAT_Rothmans_Drange_Kisa_Blue", documentNameRothmansDrangeBlueUzun = "BAT_Rothmans_Drange_Uzun_Blue", documentTotalStocks= "Total_Rothmans_Stocks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +57,10 @@ public class RothmansStocksActivity extends AppCompatActivity {
         setRothmansButtonClickListeners(rothmans_drange_blue_kisa_azalt_btn, rothmans_drange_black_kisa_arttir_btn, documentNameRothmansDrangeBlueKisa);
         setRothmansButtonClickListeners(rothmans_drange_blue_uzun_azalt_btn, rothmans_drange_blue_uzun_arttir_btn, documentNameRothmansDrangeBlueUzun);
 
+
+        totalSumTextView = findViewById(R.id.tv_rothmans_total);
+
+
         et_rothmans_kisa = findViewById(R.id.et_rothmans_kisa);
         et_rothmans_uzun = findViewById(R.id.et_rothmans_uzun);
         et_rothmans_drange__black_kisa = findViewById(R.id.et_rothmans_drange__black_kisa);
@@ -90,6 +89,26 @@ public class RothmansStocksActivity extends AppCompatActivity {
         });
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countRothmansBlueKisa = parseEditTextValue(et_rothmans_kisa);
+        countRothmansBlueUzun = parseEditTextValue(et_rothmans_uzun);
+        countRothmansDrangeBlackKisa = parseEditTextValue(et_rothmans_drange__black_kisa);
+        countRothmansDrangeBlackUzun = parseEditTextValue(et_rothmans_drange__black_uzun);
+        countRothmansDrangeBlueKisa = parseEditTextValue(et_rothmans_drange__blue_kisa);
+        countRothmansDrangeBlueUzun = parseEditTextValue(et_rothmans_drange__blue_uzun);
+
+        countTotalStock = countRothmansBlueKisa + countRothmansBlueUzun+ countRothmansDrangeBlackKisa+ countRothmansDrangeBlackUzun+ countRothmansDrangeBlueKisa+ countRothmansDrangeBlueUzun;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
     private void discardStockCount() {
         et_rothmans_kisa.setText(String.valueOf(countRothmansBlueKisa));
         et_rothmans_uzun.setText(String.valueOf(countRothmansBlueUzun));
@@ -106,32 +125,28 @@ public class RothmansStocksActivity extends AppCompatActivity {
         // EditText değerlerini al ve ilgili değişkenlere at
         countRothmansBlueKisa = Integer.parseInt(et_rothmans_kisa.getText().toString());
         countRothmansBlueUzun = Integer.parseInt(et_rothmans_uzun.getText().toString());
-
         countRothmansDrangeBlackKisa = Integer.parseInt(et_rothmans_drange__black_kisa.getText().toString());
         countRothmansDrangeBlackUzun = Integer.parseInt(et_rothmans_drange__black_uzun.getText().toString());
-
         countRothmansDrangeBlueKisa = Integer.parseInt(et_rothmans_drange__blue_kisa.getText().toString());
         countRothmansDrangeBlueUzun = Integer.parseInt(et_rothmans_drange__blue_uzun.getText().toString());
 
         // TextView'ları güncelle
         updateTextView(documentNameRothamnsBlueKisa, countRothmansBlueKisa);
         updateTextView(documentNameRothamnsBlueUzun, countRothmansBlueUzun);
-
         updateTextView(documentNameRothmansDrangeBlackKisa, countRothmansDrangeBlackKisa);
         updateTextView(documentNameRothmansDrangeBlackUzun, countRothmansDrangeBlackUzun);
-
         updateTextView(documentNameRothmansDrangeBlueKisa, countRothmansDrangeBlueKisa);
         updateTextView(documentNameRothmansDrangeBlueUzun, countRothmansDrangeBlueUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameRothamnsBlueKisa, countRothmansBlueKisa);
         firestoreCount(documentNameRothamnsBlueUzun, countRothmansBlueUzun);
-
         firestoreCount(documentNameRothmansDrangeBlackKisa, countRothmansDrangeBlackKisa);
         firestoreCount(documentNameRothmansDrangeBlackUzun, countRothmansDrangeBlackUzun);
-
         firestoreCount(documentNameRothmansDrangeBlueKisa, countRothmansDrangeBlueKisa);
         firestoreCount(documentNameRothmansDrangeBlueUzun, countRothmansDrangeBlueUzun);
+        firestoreCount(documentTotalStocks, countTotalStock);
     }
 
     private void updateStockDialog() {
@@ -141,6 +156,7 @@ public class RothmansStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -178,6 +194,8 @@ public class RothmansStocksActivity extends AppCompatActivity {
         countRothmansDrangeBlackUzun = 0;
         countRothmansDrangeBlueKisa = 0;
         countRothmansDrangeBlueUzun = 0;
+        countTotalStock = 0;
+
 
 
         // Tüm TextView'ları sıfırla
@@ -187,6 +205,8 @@ public class RothmansStocksActivity extends AppCompatActivity {
         updateTextView(documentNameRothmansDrangeBlackUzun, countRothmansDrangeBlackUzun);
         updateTextView(documentNameRothmansDrangeBlueKisa, countRothmansDrangeBlueKisa);
         updateTextView(documentNameRothmansDrangeBlueUzun, countRothmansDrangeBlueUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameRothamnsBlueKisa, 0);
@@ -195,6 +215,8 @@ public class RothmansStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameRothmansDrangeBlackUzun, 0);
         firestoreCount(documentNameRothmansDrangeBlueKisa, 0);
         firestoreCount(documentNameRothmansDrangeBlueUzun, 0);
+        firestoreCount(documentTotalStocks, 0);
+
     }
 
     private void showConfirmationDialog() {
@@ -265,6 +287,7 @@ public class RothmansStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -281,6 +304,7 @@ public class RothmansStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -332,6 +356,7 @@ public class RothmansStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 });
     }
@@ -351,6 +376,8 @@ public class RothmansStocksActivity extends AppCompatActivity {
             et_rothmans_drange__blue_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameRothmansDrangeBlueUzun)) {
             et_rothmans_drange__blue_uzun.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -368,6 +395,8 @@ public class RothmansStocksActivity extends AppCompatActivity {
             return countRothmansDrangeBlueKisa;
         } else if(documentName.equals(documentNameRothmansDrangeBlueUzun)) {
             return countRothmansDrangeBlueUzun;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -386,6 +415,8 @@ public class RothmansStocksActivity extends AppCompatActivity {
             countRothmansDrangeBlueKisa = count;
         } else if (documentName.equals(documentNameRothmansDrangeBlueUzun)) {
             countRothmansDrangeBlueUzun = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

@@ -699,7 +699,7 @@
                 android:layout_width="409dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout12">
 
@@ -844,6 +844,27 @@
                     app:layout_constraintTop_toBottomOf="@+id/et_winston_dark_kisa" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView129"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="58dp"
+                android:layout_marginTop="30dp"
+                android:text="Toplam Stok Sayısı: "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout12" />
+
+            <TextView
+                android:id="@+id/tv_winston_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="28dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textView129"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout12" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

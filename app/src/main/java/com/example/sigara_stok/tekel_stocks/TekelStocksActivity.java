@@ -29,10 +29,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TekelStocksActivity extends AppCompatActivity {
-    private int countTekel2000MaviKisa = 0, countTekel2000MaviUzun = 0, countTekel2000KirmiziKisa = 0, countTekel2000KirmiziUzun = 0, countTekel2001MaviKisa = 0, countTekel2001MaviUzun = 0, countTekel2001KirmiziKisa = 0, countTekel2001KirmiziUzun = 0;
+    private int countTekel2000MaviKisa = 0, countTekel2000MaviUzun = 0, countTekel2000KirmiziKisa = 0, countTekel2000KirmiziUzun = 0, countTekel2001MaviKisa = 0, countTekel2001MaviUzun = 0, countTekel2001KirmiziKisa = 0, countTekel2001KirmiziUzun = 0, countTotalStock;
     private EditText et_2000_mavi_kisa, et_2000_mavi_uzun, et_2000_kirmizi_kisa, et_2000_kirmizi_uzun, et_2001_mavi_kisa, et_2001_mavi_uzun, et_2001_kirmizi_kisa, et_2001_kirmizi_uzun;
+    private TextView totalSumTextView;
+
     FirebaseFirestore db;
-    final static String documentNameTekel2000MaviKisa = "BAT_Tekel_2000_Mavi_Kisa", documentNameTekel2000MaviUzun = "BAT_Tekel_2000_Mavi_Uzun", documentNameTekel2000KirmiziKisa = "BAT_Tekel_2000_kirmizi_Kisa", documentNameTekel2000KirmiziUzun = "BAT_Tekel_2000_kirmizi_Uzun", documentNameTekel2001MaviKisa = "BAT_Tekel_2001_Mavi_Kisa", documentNameTekel2001MaviUzun = "BAT_Tekel_2001_Mavi_Uzun", documentNameTekel2001KirmiziKisa = "BAT_Tekel_2001_kirmizi_Kisa", documentNameTekel2001KirmiziUzun = "BAT_Tekel_2001_kirmizi_Uzun";
+    final static String documentNameTekel2000MaviKisa = "BAT_Tekel_2000_Mavi_Kisa", documentNameTekel2000MaviUzun = "BAT_Tekel_2000_Mavi_Uzun", documentNameTekel2000KirmiziKisa = "BAT_Tekel_2000_kirmizi_Kisa", documentNameTekel2000KirmiziUzun = "BAT_Tekel_2000_kirmizi_Uzun", documentNameTekel2001MaviKisa = "BAT_Tekel_2001_Mavi_Kisa", documentNameTekel2001MaviUzun = "BAT_Tekel_2001_Mavi_Uzun", documentNameTekel2001KirmiziKisa = "BAT_Tekel_2001_kirmizi_Kisa", documentNameTekel2001KirmiziUzun = "BAT_Tekel_2001_kirmizi_Uzun", documentTotalStocks= "Total_Tekel_Stocks";
     FirebaseAuth auth;
 
     @Override
@@ -61,6 +63,7 @@ public class TekelStocksActivity extends AppCompatActivity {
 
         Button updateValuesButton = findViewById(R.id.tekelGuncelle);
 
+
         setTekelButtonClickListeners(mavi_2000_kisa_azalt_btn, mavi_2000_kisa_arttir_btn, documentNameTekel2000MaviKisa);
         setTekelButtonClickListeners(mavi_2000_uzun_azalt_btn, mavi_2000_uzun_arttir_btn, documentNameTekel2000MaviUzun);
         setTekelButtonClickListeners(kirmizi_2000_kisa_azalt_btn, kirmizi_2000_kisa_arttir_btn, documentNameTekel2000KirmiziKisa);
@@ -69,6 +72,8 @@ public class TekelStocksActivity extends AppCompatActivity {
         setTekelButtonClickListeners(mavi_2001_uzun_azalt_btn, mavi_2001_uzun_arttir_btn, documentNameTekel2001MaviUzun);
         setTekelButtonClickListeners(kirmizi_2001_kisa_azalt_btn, kirmizi_2001_kisa_arttir_btn, documentNameTekel2001KirmiziKisa);
         setTekelButtonClickListeners(kirmizi_2001_uzun_azalt_btn, kirmizi_2001_uzun_arttir_btn, documentNameTekel2001KirmiziUzun);
+
+        totalSumTextView = findViewById(R.id.tv_tekel_total);
 
 
         et_2000_mavi_kisa = findViewById(R.id.et_2000_mavi_kisa);
@@ -100,6 +105,28 @@ public class TekelStocksActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+    }
+
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countTekel2000MaviKisa = parseEditTextValue(et_2000_mavi_kisa);
+        countTekel2000MaviUzun = parseEditTextValue(et_2000_mavi_uzun);
+        countTekel2000KirmiziKisa = parseEditTextValue(et_2000_kirmizi_kisa);
+        countTekel2000KirmiziUzun = parseEditTextValue(et_2000_kirmizi_uzun);
+        countTekel2001MaviKisa = parseEditTextValue(et_2001_mavi_kisa);
+        countTekel2001MaviUzun = parseEditTextValue(et_2001_mavi_uzun);
+        countTekel2001KirmiziKisa = parseEditTextValue(et_2001_kirmizi_kisa);
+        countTekel2001KirmiziUzun = parseEditTextValue(et_2001_kirmizi_uzun);
+
+        countTotalStock = countTekel2000MaviKisa + countTekel2000MaviUzun+ countTekel2000MaviKisa+ countTekel2000KirmiziUzun+ countTekel2001MaviKisa+ countTekel2001MaviUzun+ countTekel2001KirmiziKisa + countTekel2001KirmiziUzun;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
     }
 
     private void discardStockCount() {
@@ -135,28 +162,24 @@ public class TekelStocksActivity extends AppCompatActivity {
         // TextView'ları güncelle
         updateTextView(documentNameTekel2000MaviKisa, countTekel2000MaviKisa);
         updateTextView(documentNameTekel2000MaviUzun, countTekel2000MaviUzun);
-
         updateTextView(documentNameTekel2000KirmiziKisa, countTekel2000KirmiziKisa);
         updateTextView(documentNameTekel2000KirmiziUzun, countTekel2000KirmiziUzun);
-
         updateTextView(documentNameTekel2001MaviKisa, countTekel2001MaviKisa);
         updateTextView(documentNameTekel2001MaviUzun, countTekel2001MaviUzun);
-
         updateTextView(documentNameTekel2001KirmiziKisa, countTekel2001KirmiziKisa);
         updateTextView(documentNameTekel2001KirmiziUzun, countTekel2001KirmiziUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameTekel2000MaviKisa, countTekel2000MaviKisa);
         firestoreCount(documentNameTekel2000MaviUzun, countTekel2000MaviUzun);
-
         firestoreCount(documentNameTekel2000KirmiziKisa, countTekel2000KirmiziKisa);
         firestoreCount(documentNameTekel2000KirmiziUzun, countTekel2000KirmiziUzun);
-
         firestoreCount(documentNameTekel2001MaviKisa, countTekel2001MaviKisa);
         firestoreCount(documentNameTekel2001MaviUzun, countTekel2001MaviUzun);
-
         firestoreCount(documentNameTekel2001KirmiziKisa, countTekel2001KirmiziKisa);
         firestoreCount(documentNameTekel2001KirmiziUzun, countTekel2001KirmiziUzun);
+        firestoreCount(documentTotalStocks, countTotalStock);
     }
 
     private void updateStockDialog() {
@@ -166,6 +189,7 @@ public class TekelStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -206,6 +230,7 @@ public class TekelStocksActivity extends AppCompatActivity {
         countTekel2001MaviUzun = 0;
         countTekel2001KirmiziKisa = 0;
         countTekel2001KirmiziUzun = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameTekel2000MaviKisa, countTekel2000MaviKisa);
@@ -216,6 +241,7 @@ public class TekelStocksActivity extends AppCompatActivity {
         updateTextView(documentNameTekel2001MaviUzun, countTekel2001MaviUzun);
         updateTextView(documentNameTekel2001KirmiziKisa, countTekel2001KirmiziKisa);
         updateTextView(documentNameTekel2001KirmiziUzun, countTekel2001KirmiziUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameTekel2000MaviKisa, 0);
@@ -226,6 +252,8 @@ public class TekelStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameTekel2001MaviUzun, 0);
         firestoreCount(documentNameTekel2001KirmiziKisa, 0);
         firestoreCount(documentNameTekel2001KirmiziUzun, 0);
+        firestoreCount(documentTotalStocks, 0);
+
     }
 
     private void showConfirmationDialog() {
@@ -295,6 +323,7 @@ public class TekelStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -311,6 +340,7 @@ public class TekelStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -331,13 +361,10 @@ public class TekelStocksActivity extends AppCompatActivity {
         // Her iki belgeyi de oku
         readFirestoreForDocument(documentNameTekel2000MaviKisa);
         readFirestoreForDocument(documentNameTekel2000MaviUzun);
-
         readFirestoreForDocument(documentNameTekel2000KirmiziKisa);
         readFirestoreForDocument(documentNameTekel2000KirmiziUzun);
-
         readFirestoreForDocument(documentNameTekel2001MaviKisa);
         readFirestoreForDocument(documentNameTekel2001MaviUzun);
-
         readFirestoreForDocument(documentNameTekel2001KirmiziKisa);
         readFirestoreForDocument(documentNameTekel2001KirmiziUzun);
     }
@@ -359,6 +386,7 @@ public class TekelStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -384,6 +412,8 @@ public class TekelStocksActivity extends AppCompatActivity {
             et_2001_kirmizi_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameTekel2001KirmiziUzun)) {
             et_2001_kirmizi_uzun.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
 
     }
@@ -406,6 +436,8 @@ public class TekelStocksActivity extends AppCompatActivity {
             return countTekel2001KirmiziKisa;
         } else if(documentName.equals(documentNameTekel2001KirmiziUzun)) {
             return countTekel2001KirmiziUzun;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -428,6 +460,8 @@ public class TekelStocksActivity extends AppCompatActivity {
             countTekel2001KirmiziKisa = count;
         } else if (documentName.equals(documentNameTekel2001KirmiziUzun)) {
             countTekel2001KirmiziUzun = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

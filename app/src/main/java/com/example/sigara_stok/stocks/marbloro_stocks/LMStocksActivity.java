@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sigara_stok.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,12 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LMStocksActivity extends AppCompatActivity {
-    private int countLmKisa = 0, countLmUzun = 0;
+    private int countLmKisa, countLmUzun, countTotalStock;
     private EditText et_lm_kisa, et_lm_uzun;
+    private TextView totalSumTextView;
     FirebaseFirestore db;
     FirebaseAuth auth;
 
-    final static String documentNameLmKisa = "PM_LM_Kisa", documentNameLmUzun = "PM_LM_Uzun";
+    final static String documentNameLmKisa = "PM_LM_Kisa", documentNameLmUzun = "PM_LM_Uzun", documentTotalStocks= "Total_LM_Stocks";
 
 
     @Override
@@ -45,6 +47,7 @@ public class LMStocksActivity extends AppCompatActivity {
         setLmButtonClickListeners(lm_uzun_azalt, lm_uzun_arttir, documentNameLmUzun);
 
 
+        totalSumTextView = findViewById(R.id.tv_lm_total);
         et_lm_kisa = findViewById(R.id.et_lm_kisa);
         et_lm_uzun = findViewById(R.id.et_lm_uzun);
 
@@ -70,6 +73,22 @@ public class LMStocksActivity extends AppCompatActivity {
         });
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countLmKisa = parseEditTextValue(et_lm_kisa);
+        countLmUzun = parseEditTextValue(et_lm_uzun);
+
+        countTotalStock = countLmKisa + countLmUzun;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
     private void discardStockCount() {
         et_lm_kisa.setText(String.valueOf(countLmKisa));
         et_lm_uzun.setText(String.valueOf(countLmUzun));
@@ -84,10 +103,12 @@ public class LMStocksActivity extends AppCompatActivity {
         // TextView'ları güncelle
         updateTextView(documentNameLmKisa, countLmKisa);
         updateTextView(documentNameLmUzun, countLmUzun);
+        updateTextView(documentTotalStocks, countTotalStock);
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameLmKisa, countLmKisa);
         firestoreCount(documentNameLmUzun, countLmUzun);
+        firestoreCount(documentTotalStocks, countTotalStock);
     }
 
     private void updateStockDialog() {
@@ -97,6 +118,7 @@ public class LMStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -128,25 +150,19 @@ public class LMStocksActivity extends AppCompatActivity {
     }
 
 
-    private void resetAllCounts() {
-        // Tüm yerel ve Firestore count değerlerini sıfırla
-        resetLocalCounts();
-        resetFirestoreCounts();
-    }
-
-    private void resetLocalCounts() {
+    private void resetCounts() {
         countLmKisa = 0;
         countLmUzun = 0;
+        countTotalStock = 0;
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameLmKisa, countLmKisa);
         updateTextView(documentNameLmUzun, countLmUzun);
-    }
-
-    private void resetFirestoreCounts() {
+        updateTextView(documentTotalStocks, countTotalStock);
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameLmKisa, 0);
         firestoreCount(documentNameLmUzun, 0);
+        firestoreCount(documentTotalStocks, 0);
     }
 
     private void showConfirmationDialog() {
@@ -157,7 +173,7 @@ public class LMStocksActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Kullanıcı evet derse tüm verileri sıfırla
-                resetAllCounts();
+                resetCounts();
                 Toast.makeText(getApplicationContext(), "Tüm stok verisi sıfırlandı.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -216,6 +232,7 @@ public class LMStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -231,6 +248,7 @@ public class LMStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -270,6 +288,7 @@ public class LMStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -283,6 +302,8 @@ public class LMStocksActivity extends AppCompatActivity {
             et_lm_kisa.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameLmUzun)) {
             et_lm_uzun.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -292,6 +313,8 @@ public class LMStocksActivity extends AppCompatActivity {
             return countLmKisa;
         } else if (documentName.equals(documentNameLmUzun)) {
             return countLmUzun;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -302,6 +325,8 @@ public class LMStocksActivity extends AppCompatActivity {
             countLmKisa = count;
         } else if (documentName.equals(documentNameLmUzun)) {
             countLmUzun = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

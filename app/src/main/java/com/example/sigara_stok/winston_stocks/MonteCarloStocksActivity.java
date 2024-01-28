@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sigara_stok.R;
@@ -22,9 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MonteCarloStocksActivity extends AppCompatActivity {
-    private int countMCDarkBlueKisa = 0, countMCDarkBlueUzun = 0, countMCDarkRedKisa = 0, countMCDarkRedUzun = 0, countMCSlenderDarkBlue = 0;
+    private int countMCDarkBlueKisa, countMCDarkBlueUzun, countMCDarkRedKisa, countMCDarkRedUzun, countMCSlenderDarkBlue, countTotalStock;
     private EditText et_mc_dark_kisa, et_mc_dark_uzun, et_mc_red_kisa, et_mc_red_uzun, et_mc_slender_dark;
-    final static String documentNameMCDarkBlueKisa = "JTI_MC_Dark_Blue_Kisa", documentNameMCDarkBlueUzun = "JTI_MC_Dark_Blue_Uzun", documentNameMCDarkRedKisa = "JTI_MC_Dark_Red_Kisa", documentNameMCDarkRedUzun = "JTI_MC_Dark_Red_Uzun", documentNameMCSlenderDarkBlue = "JTI_MC_Slender_Dark";
+    private TextView totalSumTextView;
+    final static String documentNameMCDarkBlueKisa = "JTI_MC_Dark_Blue_Kisa", documentNameMCDarkBlueUzun = "JTI_MC_Dark_Blue_Uzun", documentNameMCDarkRedKisa = "JTI_MC_Dark_Red_Kisa", documentNameMCDarkRedUzun = "JTI_MC_Dark_Red_Uzun", documentNameMCSlenderDarkBlue = "JTI_MC_Slender_Dark", documentTotalStocks= "Total_MonteCarlo_Stocks";
     FirebaseFirestore db;
     FirebaseAuth auth;
 
@@ -47,6 +49,9 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         Button mc_slender_blue_arttir = findViewById(R.id.mc_slender_blue_arttir);
 
         Button updateValuesButton = findViewById(R.id.montecarloGuncelle);
+
+        totalSumTextView = findViewById(R.id.tv_mc_total);
+
 
         setMonteCarloButtonClickListeners(mc_dark_blue_kisa_azalt, mc_dark_blue_kisa_arttir, documentNameMCDarkBlueKisa);
         setMonteCarloButtonClickListeners(mc_dark_blue_uzun_azalt, mc_dark_blue_uzun_arttir, documentNameMCDarkBlueUzun);
@@ -81,6 +86,25 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         });
     }
 
+    private int parseEditTextValue(EditText editText) {
+        try {
+            return Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;  // Set a default value or handle the error as needed
+        }
+    }
+
+    private void updateTotalSum() {
+        countMCDarkBlueKisa = parseEditTextValue(et_mc_dark_kisa);
+        countMCDarkBlueUzun = parseEditTextValue(et_mc_dark_uzun);
+        countMCDarkRedKisa = parseEditTextValue(et_mc_red_kisa);
+        countMCDarkRedUzun = parseEditTextValue(et_mc_red_uzun);
+        countMCSlenderDarkBlue = parseEditTextValue(et_mc_slender_dark);
+
+        countTotalStock = countMCDarkBlueKisa + countMCDarkBlueUzun+ countMCDarkRedKisa+ countMCDarkRedUzun+ countMCSlenderDarkBlue;
+        totalSumTextView.setText(String.valueOf(countTotalStock));
+    }
+
 
     private void updateEditTextValues() {
         // EditText değerlerini al ve ilgili değişkenlere at
@@ -96,6 +120,8 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         updateTextView(documentNameMCDarkRedKisa, countMCDarkRedKisa);
         updateTextView(documentNameMCDarkRedUzun, countMCDarkRedUzun);
         updateTextView(documentNameMCSlenderDarkBlue, countMCSlenderDarkBlue);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki belgeleri güncelle
         firestoreCount(documentNameMCDarkBlueKisa, countMCDarkBlueKisa);
@@ -103,6 +129,8 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameMCDarkRedKisa, countMCDarkRedKisa);
         firestoreCount(documentNameMCDarkRedUzun, countMCDarkRedUzun);
         firestoreCount(documentNameMCSlenderDarkBlue, countMCSlenderDarkBlue);
+        firestoreCount(documentTotalStocks, countTotalStock);
+
     }
 
     private void setMonteCarloButtonClickListeners(Button decrementButton, Button incrementButton, String documentName) {
@@ -127,6 +155,8 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         countMCDarkRedKisa = 0;
         countMCDarkRedUzun = 0;
         countMCSlenderDarkBlue = 0;
+        countTotalStock = 0;
+
 
         // Tüm TextView'ları sıfırla
         updateTextView(documentNameMCDarkBlueKisa, countMCDarkBlueKisa);
@@ -134,6 +164,8 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         updateTextView(documentNameMCDarkRedKisa, countMCDarkRedKisa);
         updateTextView(documentNameMCDarkRedUzun, countMCDarkRedUzun);
         updateTextView(documentNameMCSlenderDarkBlue, countMCSlenderDarkBlue);
+        updateTextView(documentTotalStocks, countTotalStock);
+
 
         // Firestore'daki tüm belgelerin stock değerini sıfırla
         firestoreCount(documentNameMCDarkBlueKisa, 0);
@@ -141,6 +173,8 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         firestoreCount(documentNameMCDarkRedKisa, 0);
         firestoreCount(documentNameMCDarkRedUzun, 0);
         firestoreCount(documentNameMCSlenderDarkBlue, 0);
+        firestoreCount(documentTotalStocks, 0);
+
     }
 
     private void showConfirmationDialog() {
@@ -172,6 +206,7 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
         builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateTotalSum();
                 updateEditTextValues();
                 Toast.makeText(getApplicationContext(), "Stok Başarıyla Güncellendi", Toast.LENGTH_SHORT).show();
             }
@@ -240,6 +275,7 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully updated.");
                 })
                 .addOnFailureListener(e -> {
@@ -256,6 +292,7 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     setCount(documentReference.getId(), count);
                     updateTextView(documentReference.getId(), count);
+                    updateTotalSum();
                     Log.d("TAG333", documentReference.getId() + " document successfully created.");
                 })
                 .addOnFailureListener(e -> {
@@ -300,6 +337,7 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
                         updateTextView(documentName, stockValue);
                         // Ayrıca, yerel count değerini güncelle
                         setCount(documentName, stockValue);
+                        updateTotalSum();
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -319,6 +357,8 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
             et_mc_red_uzun.setText(String.valueOf(count));
         } else if (documentName.equals(documentNameMCSlenderDarkBlue)) {
             et_mc_slender_dark.setText(String.valueOf(count));
+        } else if (documentName.equals(documentTotalStocks)) {
+            totalSumTextView.setText(String.valueOf(count));
         }
     }
 
@@ -334,6 +374,8 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
             return countMCDarkRedUzun;
         } else if(documentName.equals(documentNameMCSlenderDarkBlue)) {
             return countMCSlenderDarkBlue;
+        } else if (documentName.equals(documentTotalStocks)) {
+            return countTotalStock;
         }
         return 0;
     }
@@ -350,6 +392,8 @@ public class MonteCarloStocksActivity extends AppCompatActivity {
             countMCDarkRedUzun = count;
         } else if (documentName.equals(documentNameMCSlenderDarkBlue)) {
             countMCSlenderDarkBlue = count;
+        } else if (documentName.equals(documentTotalStocks)) {
+            countTotalStock = count;
         }
     }
 }

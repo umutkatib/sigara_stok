@@ -156,7 +156,7 @@
                 android:layout_width="409dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout17">
 
@@ -423,123 +423,144 @@
             app:layout_constraintEnd_toStartOf="@+id/mavi_2001_uzun_arttir_btn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout17"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout16">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout17"
+                android:layout_width="409dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout16">
 
-        <TextView
-            android:id="@+id/textView29"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
-            android:text="2001 Kırmızı Kısa"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:text="2001 Kırmızı Kısa"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="65dp"
-            android:text="2001 Kırmızı Uzun"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView29" />
+                <TextView
+                    android:id="@+id/textView30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="65dp"
+                    android:text="2001 Kırmızı Uzun"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
-        <Button
-            android:id="@+id/kirmizi_2001_kisa_azalt_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:height="50sp"
-            android:backgroundTint="#ff6b6b"
-            android:minWidth="70dip"
-            android:text="-"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/et_2001_kirmizi_kisa"
-            app:layout_constraintTop_toTopOf="parent" />
+                <Button
+                    android:id="@+id/kirmizi_2001_kisa_azalt_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:height="50sp"
+                    android:backgroundTint="#ff6b6b"
+                    android:minWidth="70dip"
+                    android:text="-"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toStartOf="@+id/et_2001_kirmizi_kisa"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/kirmizi_2001_uzun_azalt_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:height="50sp"
-            android:backgroundTint="#ff6b6b"
-            android:minWidth="70dip"
-            android:text="-"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/et_2001_kirmizi_uzun"
-            app:layout_constraintTop_toBottomOf="@+id/kirmizi_2001_kisa_azalt_btn" />
+                <Button
+                    android:id="@+id/kirmizi_2001_uzun_azalt_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:height="50sp"
+                    android:backgroundTint="#ff6b6b"
+                    android:minWidth="70dip"
+                    android:text="-"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toStartOf="@+id/et_2001_kirmizi_uzun"
+                    app:layout_constraintTop_toBottomOf="@+id/kirmizi_2001_kisa_azalt_btn" />
 
-        <Button
-            android:id="@+id/kirmizi_2001_kisa_arttir_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:height="50sp"
-            android:backgroundTint="#ff6b6b"
-            android:minWidth="70dip"
-            android:text="+"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <Button
+                    android:id="@+id/kirmizi_2001_kisa_arttir_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:height="50sp"
+                    android:backgroundTint="#ff6b6b"
+                    android:minWidth="70dip"
+                    android:text="+"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/kirmizi_2001_uzun_arttir_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="8dp"
-            android:height="50sp"
-            android:backgroundTint="#ff6b6b"
-            android:minWidth="70dip"
-            android:text="+"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kirmizi_2001_kisa_arttir_btn" />
+                <Button
+                    android:id="@+id/kirmizi_2001_uzun_arttir_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:height="50sp"
+                    android:backgroundTint="#ff6b6b"
+                    android:minWidth="70dip"
+                    android:text="+"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/kirmizi_2001_kisa_arttir_btn" />
 
-        <EditText
-            android:id="@+id/et_2001_kirmizi_kisa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:width="45sp"
-            android:height="50sp"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="number"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_kisa_arttir_btn"
-            app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/et_2001_kirmizi_kisa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:height="50sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_kisa_arttir_btn"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/et_2001_kirmizi_uzun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:width="45sp"
-            android:height="50sp"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="number"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_uzun_arttir_btn" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <EditText
+                    android:id="@+id/et_2001_kirmizi_uzun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:width="45sp"
+                    android:height="50sp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/kirmizi_2001_uzun_arttir_btn" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView124"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="30dp"
+                android:text="Toplam Stok Sayısı: "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout17" />
+
+            <TextView
+                android:id="@+id/tv_tekel_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textView124"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout17" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
